@@ -835,6 +835,33 @@ span.user {
 	background: #fffbf0;
 }
 
+/* Orange variant */
+.orangeBox {
+	background: #fdfdfd;
+	border: 1px solid #a2a9b1;
+	clear: both;
+	font-size: 88%;
+	text-align: center;
+	padding: 3px;
+	line-height: 1.7em;
+	margin: 1em auto 0;
+}
+
+.orangeBox .header {
+	background: #ffe0b3;
+	padding: 0.25em 1em;
+	line-height: 1.5em;
+	text-align: center;
+	font-weight: bold;
+	color: #cc6600;
+	font-size: 115%;
+	margin-bottom: 3px;
+}
+
+.orangeBox .subtitle {
+	background: #fff2e6;
+}
+
 .linklist a:after {
 	content: " · ";
 	font-weight: bold;
