@@ -12,6 +12,12 @@
     <!-- Place favicon.ico in the root directory -->
     <link rel="stylesheet" href="style.css">
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 </head>
 
 <body>
@@ -63,17 +69,54 @@
             </div>
             <div class="article">
                 <h1>Schedule</h1>
-                <!-- <p class="siteSub">From Wikipedia, the free encyclopedia</p> -->
-                <!-- <p class="roleNote">This article is about the writing implement. For other uses, see Pencil (disambiguation).</p> -->
+                <div class="container-fluid">
+                    <main class="row">
+                        <div class="col">
+                            <div id="table-container"></div>
+                        </div>
+                    </main>
+                    <footer class="row">
+                        <div class="col">
+                            <hr>
+                            <p class="text-right"><a href="https://github.com/derekeder/csv-to-html-table">CSV to HTML
+                                    Table</a> by
+                                <a href="http://derekeder.com">Derek
+                                    Eder</a>
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                <script
+                    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+                <script src="js/jquery.csv.min.js"></script>
+                <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+                <script src="js/csv_to_html_table.js"></script>
 
-                <!-- <div class="articleRight">
-                    <div class="articleRightInner">
-                        <img src="img/flann.webp" alt="flann"
-                            style="width: 250px; height: auto; display: block; margin: 0 auto;" />
-                    </div>
-                    FLaNN Seminars logo
-                </div> -->
+                <script>
+                    function format_link(link) {
+                        if (link)
+                            return "<a href='" + link + "' target='_blank'>" + link + "</a>";
+                        else return "";
+                    }
 
+                    CsvToHtmlTable.init({
+                        csv_path: "data/schedule.csv",
+                        element: "table-container",
+                        allow_download: true,
+                        csv_options: {
+                            separator: ",",
+                            delimiter: '"'
+                        },
+                        datatables_options: {
+                            paging: false
+                        },
+                        custom_formatting: [
+                            [4, format_link]
+                        ]
+                    });
+                </script>
             </div>
             <div class="pagefooter">
                 This page was last edited on 29.07.2017 | Template by <a href="http://html5-templates.com/"
@@ -89,7 +132,7 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script> -->
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
     <script src="script.js"></script>
 
