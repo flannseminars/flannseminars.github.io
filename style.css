@@ -454,7 +454,7 @@ a:hover {
 }
 
 .wrapAll {
-	width: 100%.
+	width: 100%
 }
 
 .sidebar {
@@ -701,6 +701,8 @@ span.user {
 	text-align: left;
 }
 
+/* Lavender variant */
+
 .lavenderBox {
 	background: #fdfdfd;
 	border: 1px solid #a2a9b1;
@@ -725,6 +727,33 @@ span.user {
 
 .lavenderBox .subtitle {
 	background: #ddddff;
+}
+
+/* Gray variant */
+.grayBox {
+	background: #fdfdfd;
+	border: 1px solid #a2a9b1;
+	clear: both;
+	font-size: 88%;
+	text-align: center;
+	padding: 3px;
+	line-height: 1.7em;
+	margin: 1em auto 0;
+}
+
+.grayBox .header {
+	background: #e6e6e6;
+	padding: 0.25em 1em;
+	line-height: 1.5em;
+	text-align: center;
+	font-weight: bold;
+	color: #4d4d4d;
+	font-size: 115%;
+	margin-bottom: 3px;
+}
+
+.grayBox .subtitle {
+	background: #f2f2f2;
 }
 
 /* Blue variant */
