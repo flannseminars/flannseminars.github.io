@@ -939,14 +939,11 @@ span.user {
 
 	#table-container table {
 		table-layout: auto;
-		/* Allow natural column sizing on mobile */
 		min-width: 600px;
-		/* Set minimum width to prevent excessive shrinking */
 	}
 
-	/* Optional: Make table text smaller on mobile for better fit */
 	#table-container table {
-		font-size: 0.85em;
+		font-size: 0.6em;
 	}
 }
 
