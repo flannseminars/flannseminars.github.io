@@ -29,6 +29,17 @@ summary {
 	display: block;
 }
 
+/* Option 3: Constrain the entire wrapper but allow sidebar to stay fixed */
+.wrapAll {
+	max-width: 1400px;
+	/* Total width including sidebar */
+	margin: 0 auto;
+	/* This constrains everything while maintaining the sidebar layout */
+	position: relative;
+	/* background-color: #f6f6f6; */
+}
+
+
 audio,
 canvas,
 progress,
@@ -425,7 +436,7 @@ p.siteSub {
 }
 
 body {
-	background: url(img/body-top.png) repeat-x top left #f6f6f6;
+	/* background: url(img/body-top.png) repeat-x top left #f6f6f6; */
 }
 
 ul {
