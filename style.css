@@ -865,6 +865,11 @@ span.user {
 	word-wrap: break-word;
 }
 
+
+.dataTables_wrapper {
+	position: relative;
+}
+
 @media screen and (max-width: 768px) {
 	#table-container {
 		overflow-x: auto;

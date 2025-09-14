@@ -65,9 +65,7 @@
                 </div>
                 <div class="container-fluid">
                     <main class="row">
-                        <div class="col">
-                            <div id="table-container"></div>
-                        </div>
+                        <div id="table-container" style="width:100%; overflow-x:auto;"></div>
                     </main>
                     <footer class="row">
                         <div class="col">
@@ -99,6 +97,7 @@
                         csv_path: "data/schedule.csv",
                         element: "table-container",
                         allow_download: true,
+                        scrollX: true,
                         csv_options: {
                             separator: ",",
                             delimiter: '"'
