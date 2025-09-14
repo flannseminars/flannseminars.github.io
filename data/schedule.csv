@@ -1,233 +1,229 @@
-Date,Status,Presenter,Topic,URL,Recording,Tags
-"October 27, 2025","Filled","Awni Altabaa","CoT Information: Improved Sample Complexity under Chain-of-Thought Supervision","https://arxiv.org/abs/2505.15927","","Paper"
-"October 20, 2025","Filled","Grigoris Velegkas","(Im)possibility of Automated Hallucination Detection in Large Language Models","https://arxiv.org/abs/2504.17004","","Paper"
-"October 13, 2025","Filled","Aditya Varre","Learning In-context n-grams with Transformers: Sub-n-grams Are Near-stationary Points","https://arxiv.org/abs/2508.12837","","Paper"
-"October 6, 2025","Filled","Kaiyue Wen","Transformers are uninterpretable with myopic methods: a case study with bounded
+Date,Presenter,Topic,URL,Recording,Tags
+"October 27, 2025","Awni Altabaa","CoT Information: Improved Sample Complexity under Chain-of-Thought Supervision","https://arxiv.org/abs/2505.15927","","Paper"
+"October 20, 2025","Grigoris Velegkas","(Im)possibility of Automated Hallucination Detection in Large Language Models","https://arxiv.org/abs/2504.17004","","Paper"
+"October 13, 2025","Aditya Varre","Learning In-context n-grams with Transformers: Sub-n-grams Are Near-stationary Points","https://arxiv.org/abs/2508.12837","","Paper"
+"October 6, 2025","Kaiyue Wen","Transformers are uninterpretable with myopic methods: a case study with bounded
 Dyck grammars","https://arxiv.org/abs/2312.01429","","Paper"
-"October 2, 2025","Filled (Alternative Date)","Andrew Gordon WIlson","Deep Learning is Not So Mysterious or
+"October 2, 2025","Andrew Gordon WIlson","Deep Learning is Not So Mysterious or
 Different","https://arxiv.org/abs/2503.02113","","Paper"
-"September 29, 2025","Filled","Andy J Yang","A C-RASP tutorial","","","Tutorial,Papers"
-"September 22, 2025","Filled","Ekdeep Lubana","In-context Learning of Formal Languages","https://arxiv.org/abs/2501.00070","","Papers"
-"September 15, 2025","Filled","Michael Goodale","Meta-Learning Neural Mechanisms rather than Bayesian
+"September 29, 2025","Andy J Yang","A C-RASP tutorial","","","Tutorial,Papers"
+"September 22, 2025","Ekdeep Lubana","In-context Learning of Formal Languages","https://arxiv.org/abs/2501.00070","","Papers"
+"September 15, 2025","Michael Goodale","Meta-Learning Neural Mechanisms rather than Bayesian
 Priors","https://arxiv.org/abs/2503.16048","","Paper"
-"September 8, 2025","Filled","Eshaan Nichani","Learning Compositional Functions with Transformers from Easy-to-Hard
+"September 8, 2025","Eshaan Nichani","Learning Compositional Functions with Transformers from Easy-to-Hard
 Data","https://arxiv.org/abs/2505.23683","","Paper"
-"September 1, 2025","Filled","Ashok Vardhan","Attention with Markov: A Curious Case of Single-layer
+"September 1, 2025","Ashok Vardhan","Attention with Markov: A Curious Case of Single-layer
 Transformers","https://openreview.net/forum?id=xi6lie0SUr","","Paper"
-"August 25, 2025","Filled","Deqing Fu","Algorithmic Perspectives on Understanding
-Transformers","","","Tutorial,
+"August 25, 2025","Deqing Fu","Algorithmic Perspectives on Understanding
+Transformers","https://arxiv.org/abs/2310.17086 https://arxiv.org/abs/2406.03445 https://arxiv.org/abs/2502.09741
+","https://www.youtube.com/watch?v=QhU0svaLVTw","Tutorial,
 Papers"
-"August 18, 2025","Filled","Ying Fan","Looped Transformers for Length
+"August 18, 2025","Ying Fan","Looped Transformers for Length
 Generalization","https://arxiv.org/abs/2409.15647","","Paper"
-"August 11, 2025","Past","Jie Fu","Finite State Automata Inside Transformers with Chain-of-Thought: A Mechanistic Study
+"August 11, 2025","Jie Fu","Finite State Automata Inside Transformers with Chain-of-Thought: A Mechanistic Study
 on State Tracking","https://arxiv.org/abs/2502.20129","","Paper"
-"August 4, 2025","Past","Thomas Chen","Non-Asymptotic Length
+"August 4, 2025","Thomas Chen","Non-Asymptotic Length
 Generalization","https://arxiv.org/abs/2506.03085","","Paper"
-"July 28, 2025","Past","Chris Köcher","NoPE: The Counting Power of Transformers with No Positional
-Encodings","https://arxiv.org/abs/2505.11199","","Paper"
-"July 21, 2025","Past","Nirmit Joshi","A Theory of Learning with Autoregressive Chain of
-Thought","https://arxiv.org/pdf/2503.07932","","Paper"
-"July 14, 2025","No Talk!","","","","",""
-"July 7, 2025","No Talk!","","","","",""
-"June 30, 2025","Past","Ruiquan Huang","How Transformers Learn Regular Language Recognition: A Theoretical Study on
-Training Dynamics and Implicit Bias","https://arxiv.org/abs/2505.00926","","Paper"
-"June 23, 2025","Canceled","Jie Fu","Finite State Automata Inside Transformers with Chain-of-Thought: A Mechanistic
+"July 28, 2025","Chris Köcher","NoPE: The Counting Power of Transformers with No Positional
+Encodings","https://arxiv.org/abs/2505.11199","https://www.youtube.com/watch?v=MflEgYjuzYY","Paper"
+"July 21, 2025","Nirmit Joshi","A Theory of Learning with Autoregressive Chain of
+Thought","https://arxiv.org/pdf/2503.07932","https://www.youtube.com/watch?v=ybOyoPOQsFU","Paper"
+"June 30, 2025","Ruiquan Huang","How Transformers Learn Regular Language Recognition: A Theoretical Study on
+Training Dynamics and Implicit Bias","https://arxiv.org/abs/2505.00926","https://www.youtube.com/watch?v=qH9YXk2NfsA","Paper"
+"June 23, 2025","Jie Fu","Finite State Automata Inside Transformers with Chain-of-Thought: A Mechanistic
 Study on State Tracking","https://arxiv.org/abs/2502.20129","","Paper"
-"June 16, 2025","Past","Juno Kim","Transformers Provably Solve Parity Efficiently with Chain of
-Thought","https://arxiv.org/abs/2410.08633","","Paper"
-"June 9, 2025","Past","Bhavya Vasudeva","Transformers Learn Low Sensitivity Functions: Investigations and
+"June 16, 2025","Juno Kim","Transformers Provably Solve Parity Efficiently with Chain of
+Thought","https://arxiv.org/abs/2410.08633","https://www.youtube.com/watch?v=mHBiAKPzCNA","Paper"
+"June 9, 2025","Bhavya Vasudeva","Transformers Learn Low Sensitivity Functions: Investigations and
 Implications","https://arxiv.org/abs/2403.06925","","Paper"
-"June 2, 2025","No Talk!","","","","",""
-"May 26, 2025","Past","Chenxiao Yang","PENCIL: Long Thoughts with Short
-Memory","https://arxiv.org/abs/2503.14337","","Paper"
-"May 19, 2025","Past","Alexandra Butoi","Training Neural Networks as Recognizers of Formal
-Languages","https://arxiv.org/pdf/2411.07107","","Paper"
-"May 12, 2025","Past","Wenyue Hua","InductionBench: LLMs Fail in the Simplest
-Complexity","https://arxiv.org/abs/2502.15823","","Paper"
-"May 5, 2025","Past","Jiaoda Li","Characterizing the Expressivity of Softmax Transformer Language Models","","","Paper"
-"April 28, 2025","Past","Xinting Huang","A Formal Framework for Understanding Length Generalization in
-Transformers","https://arxiv.org/abs/2410.02140","","Paper"
-"April 21, 2025","Past","Andy Yang","Semigroups, Transductions, and Sequence-to-sequence Modeling","","","Discussion"
-"April 14, 2025","Past","Binghui Peng","Theoretical limitations of multi-layer
-Transformer","https://arxiv.org/pdf/2412.02975","","Paper"
-"April 7, 2025","Past","William Merrill","A Little Depth Goes a Long Way: The Expressive Power of Log-Depth
+"May 26, 2025","Chenxiao Yang","PENCIL: Long Thoughts with Short
+Memory","https://arxiv.org/abs/2503.14337","https://www.youtube.com/watch?v=8tKGYxf9C04","Paper"
+"May 19, 2025","Alexandra Butoi","Training Neural Networks as Recognizers of Formal
+Languages","https://arxiv.org/pdf/2411.07107","https://www.youtube.com/watch?v=E5i5UPY0RiM","Paper"
+"May 12, 2025","Wenyue Hua","InductionBench: LLMs Fail in the Simplest
+Complexity","https://arxiv.org/abs/2502.15823","https://www.youtube.com/watch?v=I0ZglW-jFA0","Paper"
+"May 5, 2025","Jiaoda Li","Characterizing the Expressivity of Softmax Transformer Language Models","https://arxiv.org/abs/2505.23623","https://www.youtube.com/watch?v=A87BWVMzSA0","Paper"
+"April 28, 2025","Xinting Huang","A Formal Framework for Understanding Length Generalization in
+Transformers","https://arxiv.org/abs/2410.02140","https://www.youtube.com/watch?v=3G_4VYGhgvQ","Paper"
+"April 21, 2025","Andy Yang","Semigroups, Transductions, and Sequence-to-sequence Modeling","","","Discussion"
+"April 14, 2025","Binghui Peng","Theoretical limitations of multi-layer
+Transformer","https://arxiv.org/pdf/2412.02975","https://www.youtube.com/watch?v=2sY0RDsNaJg&t=1834s","Paper"
+"April 7, 2025","William Merrill","A Little Depth Goes a Long Way: The Expressive Power of Log-Depth
 Transformers","https://arxiv.org/abs/2503.03961","","Paper"
-"March 31, 2025","Past","Kyle Richardson","Understanding the Logic of Direct Preference Alignment through
+"March 31, 2025","Kyle Richardson","Understanding the Logic of Direct Preference Alignment through
 Logic","https://arxiv.org/abs/2412.17696","https://www.youtube.com/watch?v=hroBkYFinPs","Paper"
-"March 24, 2025","Past","Alexander Kozachinskiy","A completely uniform transformer for
+"March 24, 2025","Alexander Kozachinskiy","A completely uniform transformer for
 parity","https://arxiv.org/pdf/2501.02535","","Paper"
-"March 17, 2025","Past","Ruizhong Qiu","Ask, and it shall be given: On the Turing completeness of
+"March 17, 2025","Ruizhong Qiu","Ask, and it shall be given: On the Turing completeness of
 prompting","https://arxiv.org/abs/2411.01992","https://www.youtube.com/watch?v=pDn0LNlLxw0","Paper"
-"March 10, 2025","Past","Tian Qin","Sometimes I am a Tree: Data Drives Unstable Hierarchical
+"March 10, 2025","Tian Qin","Sometimes I am a Tree: Data Drives Unstable Hierarchical
 Generalization","https://arxiv.org/abs/2412.04619","https://www.youtube.com/watch?v=gPLtHe7KI8E","Paper"
-"February 24, 2025","Past","Nayoung Lee","Self-Improving Transformers Overcome Easy-to-Hard and Length Generalization
+"February 24, 2025","Nayoung Lee","Self-Improving Transformers Overcome Easy-to-Hard and Length Generalization
 Challenges","https://arxiv.org/abs/2502.01612","In progress!","Paper"
-"February 17, 2025","Past","Michael Hu","Between Circuits and Chomsky: Pretraining on Formal Languages Imparts
+"February 17, 2025","Michael Hu","Between Circuits and Chomsky: Pretraining on Formal Languages Imparts
 Linguistic Biases","https://arxiv.org/abs/2502.19249","https://youtu.be/xNwNseICqo8","Paper"
-"January 20, 2025","Past","Riccardo Grazzi","Unlocking State-Tracking in Linear RNNs Through Negative
+"January 20, 2025","Riccardo Grazzi","Unlocking State-Tracking in Linear RNNs Through Negative
 Eigenvalues","https://arxiv.org/abs/2411.12537","https://youtu.be/mGtt4bJ4RiE","Paper"
-"January 13, 2025","Past","Olga Golovneva","Contextual Position Encoding: Learning to Count What's
+"January 13, 2025","Olga Golovneva","Contextual Position Encoding: Learning to Count What's
 Important","https://arxiv.org/abs/2405.18719","https://youtu.be/eKOwqay73pA","Paper"
-"December 16, 2024","Past","Kartik Ahuja","On Provable Length and Compositional
+"December 16, 2024","Kartik Ahuja","On Provable Length and Compositional
 Generalization","https://arxiv.org/abs/2402.04875","https://youtu.be/qa4Pbjq_kh0","Paper"
-"December 9, 2024","Past","Amit Ben Artzy","Attend First, Consolidate Later: On the Importance of Attention in Different
+"December 9, 2024","Amit Ben Artzy","Attend First, Consolidate Later: On the Importance of Attention in Different
 LLM Layers","https://arxiv.org/abs/2409.03621","No recording","Paper"
-"December 2, 2024","Past","Tomasz Steifer","Ehrenfeucht-Haussler rank and chain of
-thought","","https://youtu.be/RhV-BY6H6hk","Paper"
-"November 25, 2024","Past","Robert Csordas","Recurrent Neural Networks Learn to Store and Generate Sequences using
+"December 2, 2024","Tomasz Steifer","Ehrenfeucht-Haussler rank and chain of
+thought","https://arxiv.org/abs/2501.12997","https://youtu.be/RhV-BY6H6hk","Paper"
+"November 25, 2024","Robert Csordas","Recurrent Neural Networks Learn to Store and Generate Sequences using
 Non-Linear Representations","https://www.arxiv.org/abs/2408.10920","https://youtu.be/e_kruO1PVpc","Paper"
-"November 18, 2024","Past","Lekai Chen","LLMs as Probabilistic Minimally Adequate Teachers for DFA
+"November 18, 2024","Lekai Chen","LLMs as Probabilistic Minimally Adequate Teachers for DFA
 Learning","https://arxiv.org/abs/2408.02999","https://youtu.be/eqfviOmpdaE","Paper"
-"November 11, 2024","Past","Eran Malach","Universal Length Generalization with Turing
+"November 11, 2024","Eran Malach","Universal Length Generalization with Turing
 Programs","https://arxiv.org/abs/2407.03310","https://youtu.be/fyvZmAUuvnM","Paper"
-"November 4, 2024","Moved","Robert Csordas","Recurrent Neural Networks Learn to Store and Generate Sequences using
+"November 4, 2024","Robert Csordas","Recurrent Neural Networks Learn to Store and Generate Sequences using
 Non-Linear Representations","https://www.arxiv.org/abs/2408.10920","","Paper"
-"October 28, 2024","Past","Dan Friedman","Representing Rule-based Chatbots with
+"October 28, 2024","Dan Friedman","Representing Rule-based Chatbots with
 Transformers","https://arxiv.org/abs/2407.10949","https://youtu.be/7BlVW78IUs0","Paper"
-"October 21, 2024","Moved","Lekai Chen","LLMs as Probabilistic Minimally Adequate Teachers for DFA
-Learning","https://arxiv.org/abs/2408.02999","","Paper"
-"October 14, 2024","Past","Keyon Vafa","Evaluating the World Model Implicit in a Generative
+"October 14, 2024","Keyon Vafa","Evaluating the World Model Implicit in a Generative
 Model","https://arxiv.org/abs/2406.03689","https://youtu.be/Vt0CVb-H8tw","Paper"
-"September 30, 2024","Past","Chris Köcher","The Power of Hard Attention Transformers on Data Sequences: A Formal
+"September 30, 2024","Chris Köcher","The Power of Hard Attention Transformers on Data Sequences: A Formal
 Language Theoretic Perspective","https://arxiv.org/abs/2405.16166","https://youtu.be/EDhD4cGl4dY","Paper"
-"September 23, 2024","Past","Anej Svete","Transformers Can Represent n-gram Language
+"September 23, 2024","Anej Svete","Transformers Can Represent n-gram Language
 Models","https://arxiv.org/abs/2404.14994","https://youtu.be/J8PsFe4Z6ro","Paper"
-"September 16, 2024","Canceled","Slavish Golkar","Contextual Counting: A Mechanistic Study of Transformers on a
+"September 16, 2024","Slavish Golkar","Contextual Counting: A Mechanistic Study of Transformers on a
 Quantitative Task","https://arxiv.org/abs/2406.02585","","Paper"
-"September 9, 2024","Past","Yash Sarrof","The Expressive Capacity of State Space Models: A Formal Language
+"September 9, 2024","Yash Sarrof","The Expressive Capacity of State Space Models: A Formal Language
 Perspective","https://arxiv.org/abs/2405.17394v1","https://youtu.be/-CBUWqvmVVU","Paper"
-"August 19, 2024","Past","Zhiyuan Li","Chain Of Thought Empowers Transformers To Solve Inherently Serial
+"August 19, 2024","Zhiyuan Li","Chain Of Thought Empowers Transformers To Solve Inherently Serial
 Problems","https://arxiv.org/abs/2402.12875","https://youtu.be/_tmzV4ZRwVs","Paper"
-"August 12, 2024","Past","Anton Xue","Logicbreaks: A Framework for Understanding Subversion of Rule-based
+"August 12, 2024","Anton Xue","Logicbreaks: A Framework for Understanding Subversion of Rule-based
 Inference","https://arxiv.org/abs/2407.00075","https://youtu.be/H8CVM1uKZkE","Paper"
-"July 15, 2024","Past","Yingshan Chang","Language Models Need Inductive Biases to Count
+"July 15, 2024","Yingshan Chang","Language Models Need Inductive Biases to Count
 Inductively","https://arxiv.org/abs/2405.20131","https://youtu.be/tTcUX2LgZDo","Paper"
-"June 24, 2024","Past","Alessandro Ronca","On the Expressivity of Recurrent Neural
+"June 24, 2024","Alessandro Ronca","On the Expressivity of Recurrent Neural
 Cascades","https://ojs.aaai.org/index.php/AAAI/article/view/28929","https://youtu.be/o20fB9WjKiU","Paper"
-"June 17, 2024","Past","Martin Berger","Fast grammar inference on
+"June 17, 2024","Martin Berger","Fast grammar inference on
 GPUs","https://dl.acm.org/doi/10.1145/3591274","https://youtu.be/UtMg-3wuVxI","Papers"
-"June 10, 2024","Past","William Merrill","The Expressive Power of Transformers with Chain of
+"June 10, 2024","William Merrill","The Expressive Power of Transformers with Chain of
 Though","https://arxiv.org/abs/2310.07923","https://youtu.be/30MhUdapqc8","Paper"
-"May 27, 2024","Past","Daniel Hsu","Transformers, parallel computation and logarithmic
+"May 27, 2024","Daniel Hsu","Transformers, parallel computation and logarithmic
 depth","https://arxiv.org/abs/2402.09268","https://youtu.be/JVubZLCBLSU","Paper"
-"May 13, 2024","Past","Michaël Rizvi-Martel","Simulating Weighted Automata over Sequences and Trees with
+"May 13, 2024","Michaël Rizvi-Martel","Simulating Weighted Automata over Sequences and Trees with
 Transformers","https://arxiv.org/abs/2403.09728","https://youtu.be/YD5lptT3tZQ","Paper"
-"April 29, 2024","Past","Mark Rofin","Why are Sensitive Functions Hard for
+"April 29, 2024","Mark Rofin","Why are Sensitive Functions Hard for
 Transformers?","https://arxiv.org/abs/2402.09963","https://youtu.be/2BC-nHHgdp8","Paper"
-"April 22, 2024","Past","Brian DuSell","Stack Attention: Improving the Ability of Transformers to Model Hierarchical
+"April 22, 2024","Brian DuSell","Stack Attention: Improving the Ability of Transformers to Model Hierarchical
 Patterns","https://arxiv.org/abs/2310.01749","https://youtu.be/NrKLnGfEeeg","Paper"
-"April 15, 2024","Past","Shangtong Gui","Non-autoregressive Machine Translation with Probabilistic Context-free
+"April 15, 2024","Shangtong Gui","Non-autoregressive Machine Translation with Probabilistic Context-free
 Grammar","https://arxiv.org/abs/2311.07941","","Paper"
-"April 1, 2024","Past","William Merrill","The Illusion of State in State-Space
-Models","","https://youtu.be/4-VXe1yPDjk","Paper"
-"March 25, 2024","Past","Nur Lan","Bridging the Empirical-Theoretical Gap in Neural Network Formal Language Learning
+"April 1, 2024","William Merrill","The Illusion of State in State-Space
+Models","https://arxiv.org/abs/2404.08819","https://youtu.be/4-VXe1yPDjk","Paper"
+"March 25, 2024","Nur Lan","Bridging the Empirical-Theoretical Gap in Neural Network Formal Language Learning
 Using Minimum Description Length","https://arxiv.org/abs/2402.10013","https://youtu.be/oZX-1QybZEQ","Paper"
-"March 11, 2024","Past","Dylan Zhang","Transformer-Based Models Are Not Yet Perfect At Learning to Emulate Structural
+"March 11, 2024","Dylan Zhang","Transformer-Based Models Are Not Yet Perfect At Learning to Emulate Structural
 Recursion","https://arxiv.org/abs/2401.12947","https://youtu.be/1ujgBhgbm0Y","Paper"
-"March 4, 2024","Past","Giuseppe De Giacomo","Linear Temporal Logic and Linear Dynamic Logic on Finite
+"March 4, 2024","Giuseppe De Giacomo","Linear Temporal Logic and Linear Dynamic Logic on Finite
 Traces","https://www.cs.rice.edu/~vardi/papers/ijcai13.pdf","https://youtu.be/_a8SvP9ceBU","Paper"
-"February 12, 2024","Past","Alexander Kozachinskiy","Logical Languages Accepted by Transformer Encoders with Hard
+"February 12, 2024","Alexander Kozachinskiy","Logical Languages Accepted by Transformer Encoders with Hard
 Attention","https://arxiv.org/abs/2310.03817","https://youtu.be/h1bgvUHc4-c","Paper"
-"January 29, 2024 5:00 PM (GMT+1)","Past","Hattie Zhou","What Algorithms can Transformers Learn? A Study in Length
+"January 29, 2024 5:00 PM (GMT+1)","Hattie Zhou","What Algorithms can Transformers Learn? A Study in Length
 Generalization","https://arxiv.org/pdf/2310.16028.pdf","https://youtu.be/koo5Bo0k9Wc","Paper"
-"December 18, 2023","Past","Sophie Hao","Verb Conjugation in Transformers Is Determined by Linear Encodings of Subject
+"December 18, 2023","Sophie Hao","Verb Conjugation in Transformers Is Determined by Linear Encodings of Subject
 Number","https://arxiv.org/abs/2310.15151","No Recording","Paper"
-"December 11, 2023","Past","Andy Yang","Masked Hard-Attention Transformers and Boolean RASP Recognize Exactly the
+"December 11, 2023","Andy Yang","Masked Hard-Attention Transformers and Boolean RASP Recognize Exactly the
 Star-Free Languages","https://arxiv.org/abs/2310.13897","https://youtu.be/gKzyfqrZvkI","Paper"
-"November 27, 2023","Past","Satwik Bhattamishra","Simplicity Bias in Transformers and their Ability to Learn Sparse
+"November 27, 2023","Satwik Bhattamishra","Simplicity Bias in Transformers and their Ability to Learn Sparse
 Boolean Functions","https://arxiv.org/pdf/2211.12316.pdf","https://youtu.be/7xMVKlghF7U","Paper"
-"November 20, 2023","Past","Bohang Zhang","Towards Revealing the Mystery behind Chain of Thought: A Theoretical
+"November 20, 2023","Bohang Zhang","Towards Revealing the Mystery behind Chain of Thought: A Theoretical
 Perspective","https://arxiv.org/pdf/2305.15408.pdf","https://youtu.be/Bk5BQl4vxUw","Paper"
-"November 6, 2023","Past","Clayton Sanford","Representational Strengths and Limitations of
+"November 6, 2023","Clayton Sanford","Representational Strengths and Limitations of
 Transformers","https://arxiv.org/pdf/2306.02896.pdf","https://www.youtube.com/watch?v=7hYIN7Q-YRQ&t=46s","Paper"
-"September 11, 2023 4:00 PM (GMT+2)","Past","Nouha Dziri","Faith and Fate: Limits of Transformers on
-Compositionality","https://arxiv.org/abs/2305.18654","","Paper"
-"August 14, 2023","Past","Jenny Kunz","Where Does Linguistic Information Emerge in Neural Language
+"September 11, 2023 4:00 PM (GMT+2)","Nouha Dziri","Faith and Fate: Limits of Transformers on
+Compositionality","https://arxiv.org/abs/2305.18654","https://www.youtube.com/watch?v=I_JrRMqL8zk&t=7s","Paper"
+"August 14, 2023","Jenny Kunz","Where Does Linguistic Information Emerge in Neural Language
 Models?","https://aclanthology.org/2022.coling-1.413/","https://youtu.be/oGedLrbEtww","Paper"
-"August 7, 2023","Past","Dana Angluin","Learning of Regular Languages by Recurrent Neural Networks? (Mainly
+"August 7, 2023","Dana Angluin","Learning of Regular Languages by Recurrent Neural Networks? (Mainly
 Questions)","","https://www.youtube.com/watch?v=fbnlc8BjqgI","Lecture"
-"July 24, 2023","Past","Alexandra Butoi","Convergence and Diversity in the Control
+"July 24, 2023","Alexandra Butoi","Convergence and Diversity in the Control
 Hierarchy","https://arxiv.org/abs/2306.03628","https://youtu.be/ckLx8rdUAgc","Paper"
-"July 17, 2023","Past","Dan Friedman","Learning Transformer
+"July 17, 2023","Dan Friedman","Learning Transformer
 Programs","https://arxiv.org/abs/2306.01128","https://youtu.be/obJp0KYjagQ","Paper"
-"June 12, 2023","Past","David Chiang","Tighter Bounds on the Expressivity of Transformer
+"June 12, 2023","David Chiang","Tighter Bounds on the Expressivity of Transformer
 Encoders","https://arxiv.org/abs/2301.10743","https://youtu.be/a6B81wB3Xmo","Paper"
-"June 5, 2023","Past","Martin Grohe","The Descriptive Complexity of Graph Neural
+"June 5, 2023","Martin Grohe","The Descriptive Complexity of Graph Neural
 Networks","https://arxiv.org/abs/2303.04613","https://youtu.be/1VHIMszFGnk","Paper"
-"May 22, 2023","Past","Justin DeBenedetto","Representing Unordered Data Using Complex-Weighted Multiset
+"May 22, 2023","Justin DeBenedetto","Representing Unordered Data Using Complex-Weighted Multiset
 Automata","https://arxiv.org/abs/2001.00610","https://youtu.be/bLHKjkXn7o0","Paper"
-"May 15, 2023","Past","Frank Drewes","Graph Extension Grammars","","https://youtu.be/-2F6AnuHnKw","Papers"
-"April 17, 2023","Past","Ryan Cotterell","Optimally encoding PFSAs as
+"May 15, 2023","Frank Drewes","Graph Extension Grammars","","https://youtu.be/-2F6AnuHnKw","Papers"
+"April 17, 2023","Ryan Cotterell","Optimally encoding PFSAs as
 RNNs","https://drive.google.com/file/d/1IYgjs0Vf8TPmVW6w4S125j3G5Asatn4f/view","https://youtu.be/YxuXn5xtVAg","Discussion"
-"February 27, 2023","Past","David Lindner","Tracr: Compiled Transformers as a Laboratory for
+"February 27, 2023","David Lindner","Tracr: Compiled Transformers as a Laboratory for
 Interpretability","https://arxiv.org/abs/2301.05062","","Paper"
-"February 6, 2023","Past","Clemente Pasti","On the Intersection of Context-Free and Regular
+"February 6, 2023","Clemente Pasti","On the Intersection of Context-Free and Regular
 Languages","https://arxiv.org/abs/2209.06809","https://youtu.be/S9H7WCCi4t8","Paper"
-"January 30, 2023","Past","Jon Rawski","Regular and Polyregular Functions and
+"January 30, 2023","Jon Rawski","Regular and Polyregular Functions and
 Transformers","https://www.jrawski.info/publication/ndrp-scil-2020-neural/","","Discussion"
-"January 9, 2023","Past","Josef Valvoda","Benchmarking Compositionality with Formal
+"January 9, 2023","Josef Valvoda","Benchmarking Compositionality with Formal
 Languages","https://arxiv.org/abs/2208.08195","https://www.youtube.com/watch?v=5eLIlDFOYDE","Paper"
-"December 19, 2022","Past","Bingbin Liu","Transformers Learn Shortcuts to
+"December 19, 2022","Bingbin Liu","Transformers Learn Shortcuts to
 Automata","https://arxiv.org/abs/2210.10749","https://www.youtube.com/watch?v=ni9jCjhRUyY","Paper"
-"December 5, 2022","Past","Clara Lacroce","The approximate minimization problem of WFAs and applications to language
-modeling: an approach based on AAK theory","","https://www.youtube.com/watch?v=jU2qqvODH0o","Papers"
-"November 28, 2022","Past","Rémi Eyraud","TASSIL: An Upcoming Competition on the Extraction of Simple Models from
+"December 5, 2022","Clara Lacroce","The approximate minimization problem of WFAs and applications to language
+modeling: an approach based on AAK theory","https://arxiv.org/abs/2102.06860 https://arxiv.org/abs/2106.02965 https://arxiv.org/abs/2206.00172","https://www.youtube.com/watch?v=jU2qqvODH0o","Papers"
+"November 28, 2022","Rémi Eyraud","TASSIL: An Upcoming Competition on the Extraction of Simple Models from
 Already Trained RNNs and Transformers","","https://www.youtube.com/watch?v=LY36ek4EcwA","Discussion"
-"November 21, 2022","Past","Ankur Mali","A provably stable neural network Turing
+"November 21, 2022","Ankur Mali","A provably stable neural network Turing
 machin","https://arxiv.org/pdf/2006.03651.pdf","https://www.youtube.com/watch?v=TiIplWSJNgs","Paper"
-"November 14, 2022 2:00 PM (GMT)","Past","Najoung Kim","Compositional Linguistic Generalization in Artificial Neural
+"November 14, 2022 2:00 PM (GMT)","Najoung Kim","Compositional Linguistic Generalization in Artificial Neural
 Networks: Taking Stock","https://~forthcoming~","","Paper"
-"November 7, 2022","Past","Matt Finlayson","Neural networks' ability to follow instructions posed as regular
+"November 7, 2022","Matt Finlayson","Neural networks' ability to follow instructions posed as regular
 expressions","https://arxiv.org/abs/2204.09148","https://www.youtube.com/watch?v=MhlzxbfIys4","Paper"
-"October 17, 2022","Past","Brian DuSell","Nondeterministic differentiable
+"October 17, 2022","Brian DuSell","Nondeterministic differentiable
 stacks","","https://www.youtube.com/watch?v=tkj6E9_n82U","Papers"
-"October 3, 2022","Past","Naomi Saphra","Linear Connectivity Reveals Generalization
+"October 3, 2022","Naomi Saphra","Linear Connectivity Reveals Generalization
 Strategies","https://arxiv.org/abs/2205.12411","https://www.youtube.com/watch?v=zxtD9rW_3Bo","Paper"
-"September 26, 2022","Past","Pablo Barcelo","Turing-completeness of
+"September 26, 2022","Pablo Barcelo","Turing-completeness of
 transformers","https://www.jmlr.org/papers/volume22/20-302/20-302.pdf","https://www.youtube.com/watch?v=_tnA70tUkJc","Paper"
-"September 19, 2022","Past","Ard Louis","Deep learning generalizes because the parameter-function map is biased towards
+"September 19, 2022","Ard Louis","Deep learning generalizes because the parameter-function map is biased towards
 simple functions","https://arxiv.org/abs/1805.08522","https://youtu.be/tYxc7oX8YFk","Papers"
-"September 12, 2022","Past","Eran Malach","Learning Parities with Neural
+"September 12, 2022","Eran Malach","Learning Parities with Neural
 Networks","https://arxiv.org/abs/2002.07400","https://youtu.be/vNxfI2TaNWQ","Papers"
-"August 8, 2022","Past","Volodimir Mitarchuk","On the Limit of Gradient Descent for Simple Recurrent Neural Networks
+"August 8, 2022","Volodimir Mitarchuk","On the Limit of Gradient Descent for Simple Recurrent Neural Networks
 with Finite
 Precision","https://perso.univ-st-etienne.fr/er101405/documents/LearnAut_2022_Eyraud-Mitarchuk.pdf","https://youtu.be/FoC1Dqnttyw","Papers"
-"July 25, 2022","Past","Jeffrey Heinz","A Benchmark for the Machine Learning of Regular
+"July 25, 2022","Jeffrey Heinz","A Benchmark for the Machine Learning of Regular
 Languages","","https://www.youtube.com/watch?v=Ti6qVfhhqB8","Discussion"
-"July 18, 2022","Past","Chu-Cheng Lin","Limitations of Autoregressive Models and Their
+"July 18, 2022","Chu-Cheng Lin","Limitations of Autoregressive Models and Their
 Alternatives","https://arxiv.org/abs/2010.11939","https://www.youtube.com/watch?v=wWS87cmVocQ","Paper"
-"July 11, 2022","Past","David Chiang","Overcoming a Theoretical Limitation of
+"July 11, 2022","David Chiang","Overcoming a Theoretical Limitation of
 Self-Attention","https://arxiv.org/abs/2202.12172","https://www.youtube.com/watch?v=AyAGtLzHrNg","Paper"
-"June 27, 2022","Past","Jason Kim","A Neural Programming Language for the Reservoir
+"June 27, 2022","Jason Kim","A Neural Programming Language for the Reservoir
 Computer","https://arxiv.org/abs/2203.05032","https://www.youtube.com/watch?v=aVjswy7HtNA","Paper"
-"June 20, 2022","Past","Róbert Csordás","Principles of Compositionality Improve Systematic Generalization of Neural
+"June 20, 2022","Róbert Csordás","Principles of Compositionality Improve Systematic Generalization of Neural
 Networks","","https://www.youtube.com/watch?v=NWhANkBMJCo","Papers"
-"June 13, 2022","Past","William Merrill","Saturated Transformers are Constant-Depth Threshold
+"June 13, 2022","William Merrill","Saturated Transformers are Constant-Depth Threshold
 Circuits","https://arxiv.org/abs/2106.16213","https://www.youtube.com/watch?v=WU9RSiTw4R8","Paper"
-"June 6, 2022","Past","Sophie Hao","Formal Language Recognition by Hard Attention Transformers: Perspectives from
+"June 6, 2022","Sophie Hao","Formal Language Recognition by Hard Attention Transformers: Perspectives from
 Circuit Complexity","https://arxiv.org/abs/2204.06618","","Paper"
-"May 30, 2022","Past","Alexander Clark","Strong Learning on
+"May 30, 2022","Alexander Clark","Strong Learning on
 Grammars","https://transacl.org/index.php/tacl/article/view/1936, https://scholarworks.umass.edu/scil/vol4/iss1/48/,
 https://alexc17.github.io/static/pdfs/MOL2021.pdf","https://www.youtube.com/watch?v=4SROab5EhhY","Papers"
-"May 23, 2022","Past","Sean Papay","Constraining Linear-Chain CRFs to Regular
+"May 23, 2022","Sean Papay","Constraining Linear-Chain CRFs to Regular
 Languages","https://openreview.net/pdf?id=jbrgwbv8nD","https://www.youtube.com/watch?v=iVH5-cHWaiE","Paper"
-"May 16, 2022","Past","Uri Alon","RetoMaton: Neuro-Symbolic Language Modeling with Automaton-augmented
+"May 16, 2022","Uri Alon","RetoMaton: Neuro-Symbolic Language Modeling with Automaton-augmented
 Retrieval","https://arxiv.org/abs/2201.12431","https://www.youtube.com/watch?v=-Au42BuWTEc","Paper"
-"May 9, 2022","Past","Mor Geva","Transformer Feed Forward Layers are Key-Value
+"May 9, 2022","Mor Geva","Transformer Feed Forward Layers are Key-Value
 Memories","https://aclanthology.org/2021.emnlp-main.446/","https://youtu.be/4JKuyfejWTU","Paper"
-"April 17, 2022","Past","Naomi Saphra","LSTMS Compose—and
+"April 17, 2022","Naomi Saphra","LSTMS Compose—and
 Learn—Bottom-Up","https://aclanthology.org/2020.findings-emnlp.252/","","Paper"
-"March 3, 2022","Past","Dakotah Lambert","Constructing and Analyzing Languages in
+"March 3, 2022","Dakotah Lambert","Constructing and Analyzing Languages in
 Plebby","https://github.com/vvulpes0/Language-Toolkit-2","https://www.youtube.com/watch?v=jx2BcbAd7xM","Tutorial"
-"February 24, 2022","Past","Gail Weiss","Thinking Like
+"February 24, 2022","Gail Weiss","Thinking Like
 Transformers","https://arxiv.org/abs/2106.06981","https://www.youtube.com/watch?v=t5LjgczaS80","Paper"
-"February 17, 2022","Past","Joe Brucker","Pregroup Grammars and Chomsky's Earliest
+"February 17, 2022","Joe Brucker","Pregroup Grammars and Chomsky's Earliest
 Examples","https://www.math.mcgill.ca/barr/lambek/pdffiles/Pregrammars.pdf","","Paper"
-"February 10, 2022","Past","Darcey Riley","Pregroup Grammars and Chomsky's Earliest
+"February 10, 2022","Darcey Riley","Pregroup Grammars and Chomsky's Earliest
 Examples","","https://www.youtube.com/watch?v=gtKpkrSCVh0","Lecture"
-"February 3, 2022","Past","Satwik Bhattamishra","On the Ability and Limitations of Transformers to Recognize Formal
+"February 3, 2022","Satwik Bhattamishra","On the Ability and Limitations of Transformers to Recognize Formal
 Languages","https://arxiv.org/abs/2009.11264","","Paper"
-"January 27, 2022","Past","David Chiang","Efficiently Modeling Long Sequences with Structured State
+"January 27, 2022","David Chiang","Efficiently Modeling Long Sequences with Structured State
 Spaces","https://arxiv.org/abs/2111.00396","","Paper"
-"January 20, 2022","Past","Ryan Cotterell","Parsing Graphs with Hyperedge Replacement
+"January 20, 2022","Ryan Cotterell","Parsing Graphs with Hyperedge Replacement
 Grammars","https://aclanthology.org/P13-1091/","","Paper"

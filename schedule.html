@@ -107,8 +107,18 @@
                             paging: false
                         },
                         custom_formatting: [
-                            [4, format_link],
-                            [5, format_link]
+                            [4, function (links) {
+                                if (!links) return "";
+                                return links.split(" ").map(function (link) {
+                                    return "<a href='" + link + "' target='_blank'>" + link + "</a>";
+                                }).join(" ");
+                            }],
+                            [3, function (links) {
+                                if (!links) return "";
+                                return links.split(" ").map(function (link) {
+                                    return "<a href='" + link + "' target='_blank'>" + link + "</a>";
+                                }).join(" ");
+                            }]
                         ]
                     });
                 </script>
