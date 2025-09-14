@@ -721,24 +721,11 @@ span.user {
 
 .lavenderBox {
 	background: #fdfdfd;
-	border: 1px solid #a2a9b1;
-	clear: both;
-	font-size: 88%;
-	text-align: center;
-	padding: 3px;
-	line-height: 1.7em;
-	margin: 1em auto 0;
 }
 
 .lavenderBox .header {
 	background: #ccccff;
-	padding: 0.25em 1em;
-	line-height: 1.5em;
-	text-align: center;
-	font-weight: bold;
 	color: #5406ad;
-	font-size: 115%;
-	margin-bottom: 3px;
 }
 
 .lavenderBox .subtitle {
@@ -748,24 +735,11 @@ span.user {
 /* Gray variant */
 .grayBox {
 	background: #fdfdfd;
-	border: 1px solid #a2a9b1;
-	clear: both;
-	font-size: 88%;
-	text-align: center;
-	padding: 3px;
-	line-height: 1.7em;
-	margin: 1em auto 0;
 }
 
 .grayBox .header {
 	background: #e6e6e6;
-	padding: 0.25em 1em;
-	line-height: 1.5em;
-	text-align: center;
-	font-weight: bold;
 	color: #4d4d4d;
-	font-size: 115%;
-	margin-bottom: 3px;
 }
 
 .grayBox .subtitle {
@@ -776,23 +750,11 @@ span.user {
 .blueBox {
 	background: #fdfdfd;
 	border: 1px solid #a2a9b1;
-	clear: both;
-	font-size: 88%;
-	text-align: center;
-	padding: 3px;
-	line-height: 1.7em;
-	margin: 1em auto 0;
 }
 
 .blueBox .header {
 	background: #cce7ff;
-	padding: 0.25em 1em;
-	line-height: 1.5em;
-	text-align: center;
-	font-weight: bold;
 	color: #0645ad;
-	font-size: 115%;
-	margin-bottom: 3px;
 }
 
 .blueBox .subtitle {
@@ -803,23 +765,11 @@ span.user {
 .greenBox {
 	background: #fdfdfd;
 	border: 1px solid #a2a9b1;
-	clear: both;
-	font-size: 88%;
-	text-align: center;
-	padding: 3px;
-	line-height: 1.7em;
-	margin: 1em auto 0;
 }
 
 .greenBox .header {
 	background: #ccffcc;
-	padding: 0.25em 1em;
-	line-height: 1.5em;
-	text-align: center;
-	font-weight: bold;
 	color: #0b7a0b;
-	font-size: 115%;
-	margin-bottom: 3px;
 }
 
 .greenBox .subtitle {
@@ -830,23 +780,11 @@ span.user {
 .redBox {
 	background: #fdfdfd;
 	border: 1px solid #a2a9b1;
-	clear: both;
-	font-size: 88%;
-	text-align: center;
-	padding: 3px;
-	line-height: 1.7em;
-	margin: 1em auto 0;
 }
 
 .redBox .header {
 	background: #ffcccc;
-	padding: 0.25em 1em;
-	line-height: 1.5em;
-	text-align: center;
-	font-weight: bold;
 	color: #a55;
-	font-size: 115%;
-	margin-bottom: 3px;
 }
 
 .redBox .subtitle {
@@ -857,23 +795,11 @@ span.user {
 .yellowBox {
 	background: #fdfdfd;
 	border: 1px solid #a2a9b1;
-	clear: both;
-	font-size: 88%;
-	text-align: center;
-	padding: 3px;
-	line-height: 1.7em;
-	margin: 1em auto 0;
 }
 
 .yellowBox .header {
 	background: #fff3cd;
-	padding: 0.25em 1em;
-	line-height: 1.5em;
-	text-align: center;
-	font-weight: bold;
 	color: #856404;
-	font-size: 115%;
-	margin-bottom: 3px;
 }
 
 .yellowBox .subtitle {
@@ -883,24 +809,11 @@ span.user {
 /* Orange variant */
 .orangeBox {
 	background: #fdfdfd;
-	border: 1px solid #a2a9b1;
-	clear: both;
-	font-size: 88%;
-	text-align: center;
-	padding: 3px;
-	line-height: 1.7em;
-	margin: 1em auto 0;
 }
 
 .orangeBox .header {
 	background: #ffe0b3;
-	padding: 0.25em 1em;
-	line-height: 1.5em;
-	text-align: center;
-	font-weight: bold;
 	color: #cc6600;
-	font-size: 115%;
-	margin-bottom: 3px;
 }
 
 .orangeBox .subtitle {
@@ -918,6 +831,13 @@ span.user {
 	border-radius: 5px;
 	border: none;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	/* border: 1px solid #a2a9b1; */
+	clear: both;
+	font-size: 88%;
+	text-align: center;
+	padding: 3px;
+	line-height: 1.7em;
+	margin: 1em auto 0;
 }
 
 .lavenderBox .header,
@@ -931,6 +851,12 @@ span.user {
 	border-radius: 5px;
 	border: none;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	padding: 0.25em 1em;
+	line-height: 1.5em;
+	text-align: center;
+	font-weight: bold;
+	font-size: 115%;
+	margin-bottom: 3px;
 }
 
 #table-container table {
