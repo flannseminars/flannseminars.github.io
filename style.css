@@ -915,7 +915,20 @@ span.user {
 .grayBox,
 .orangeBox {
 	font-family: var(--main-font);
-	border-radius: 0px;
+	border-radius: 5px;
+	border: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lavenderBox .header,
+.blueBox .header,
+.yellowBox .header,
+.redBox .header,
+.greenBox .header,
+.grayBox .header,
+.orangeBox .header {
+	font-family: var(--heading-font);
+	border-radius: 5px;
 	border: none;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
