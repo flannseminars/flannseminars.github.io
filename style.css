@@ -1,12 +1,17 @@
-@font-face {
-	font-family: "Linux Libertine";
-	src: url("fonts/LinLibertine_RZ.woff") format('woff');
-}
-
 :root {
 	--main-font: 'DM Sans', 'Inter', sans-serif;
 	--heading-font: 'Space Grotesk', 'Poppins', sans-serif;
 	--code-font: 'JetBrains Mono', monospace;
+	--last-edited-date: "08.14.2025";
+}
+
+.last-edited::before {
+	content: "This page was last edited on " var(--last-edited-date) " | ";
+}
+
+@font-face {
+	font-family: "Linux Libertine";
+	src: url("fonts/LinLibertine_RZ.woff") format('woff');
 }
 
 html {
@@ -39,16 +44,6 @@ summary {
 .header {
 	font-family: var(--heading-font);
 }
-
-/* Option 3: Constrain the entire wrapper but allow sidebar to stay fixed */
-.wrapAll {
-	max-width: 1400px;
-	margin: 0 auto;
-	position: relative;
-	font-family: var(--main-font);
-	/* background-color: #f6f6f6; */
-}
-
 
 audio,
 canvas,

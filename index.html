@@ -21,10 +21,6 @@
 </head>
 
 <body>
-	<!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
 	<div class="wrapAll clearfix">
 		<div class="sidebar">
 			<div class="logo">
@@ -37,26 +33,11 @@
 					<li><a href="team.html">Team</a></li>
 					<li><a href="resources.html">Resources</a></li>
 				</ul>
-				<!-- <h3>Interaction</h3>
-				<ul>
-					<li><a href="#">Help</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="#">Portal</a></li>
-				</ul>
-				<h3>Interaction</h3>
-				<ul>
-					<li><a href="#">Help</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="#">Portal</a></li>
-				</ul> -->
 			</div>
 
 
 		</div>
 		<div class="mainsection">
-			<!-- <div class="headerLinks">
-					<span class="user">Not logged in</span> <a href="#">Talk</a> <a href="#">Contributions</a> <a href="#">Create account</a> <a href="#">Log in</a>
-				</div> -->
 			<div class="tabs clearfix">
 				<div class="tabsLeft">
 					<ul>
@@ -69,9 +50,6 @@
 			</div>
 			<div class="article">
 				<h1>FLaNN Seminars</h1>
-				<!-- <p class="siteSub">From Wikipedia, the free encyclopedia</p> -->
-				<!-- <p class="roleNote">This article is about the writing implement. For other uses, see Pencil (disambiguation).</p> -->
-
 				<div class="articleRight">
 					<div class="articleRightInner">
 						<img src="img/flann.webp" alt="flann"
@@ -83,6 +61,28 @@
 					Processing, Machine Learning and Computational Linguistics in an informal setting.</p>
 				<p>Everyone is welcome to present their own works, preliminary ideas, or hot takes. </p>
 
+
+				<div class="grayBox">
+					<div class="header">Upcoming Talks</div>
+					<div class="container-fluid">
+						<main class="row">
+							<div class="col">
+								<div id="table-container"></div>
+							</div>
+						</main>
+						<footer class="row">
+							<div class="col">
+								<hr>
+								<p class="text-right"><a href="https://github.com/derekeder/csv-to-html-table">CSV to
+										HTML
+										Table</a> by
+									<a href="http://derekeder.com">Derek
+										Eder</a>
+								</p>
+							</div>
+						</footer>
+					</div>
+				</div>
 
 				<div class="lavenderBox">
 					<div class="header">Discord</div>
@@ -112,38 +112,124 @@
 					We are writing a cookbook!
 				</div> -->
 
+				<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+				<script
+					src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+				<script src="js/jquery.csv.min.js"></script>
+				<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+				<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+				<script src="js/csv_to_html_table.js"></script>
 
+				<style>
+					#table-container .table-striped tbody tr:nth-of-type(odd),
+					#table-container .table-striped tbody tr:nth-of-type(even) {
+						background-color: transparent !important;
+					}
 
-				<!-- <div class="lavenderBox">
-					<div class="header">Panel title</div>
-					<div class="subtitle linklist"><a href="#">Lorem</a> <a href="#">Ipsum</a> <a
-							href="#">Dolorestitas</a> </div>
-					<div class="linklist">
-						<a href="#">Percipit </a> <a href="#">Mnesarchum </a> <a href="#">Molestie </a> <a
-							href="#">Phaedrum </a> <a href="#">Luptatum constituam </a> <a href="#">Habeo adipisci </a>
-						<a href="#">Inani zril </a> <a href="#">Forensibus sea </a> <a href="#">Habeo adipisci </a> <a
-							href="#">Minimum corrumpit </a> <a href="#">Regione suscipit </a> <a href="#">Has et partem
-						</a><a href="#">Percipit </a> <a href="#">Mnesarchum </a> <a href="#">Molestie </a> <a
-							href="#">Phaedrum </a> <a href="#">Luptatum constituam </a> <a href="#">Habeo adipisci </a>
-						<a href="#">Inani zril </a> <a href="#">Vel nisl albucius </a> <a href="#">Habeo adipisci </a>
-						<a href="#">Minimum corrumpit </a> <a href="#">Regione suscipit </a> <a href="#">Percipit
-							maiestatis </a> <a href="#">Regione suscipit </a> <a href="#">Percipit maiestatis </a>
-					</div>
+					#table-container table {
+						font-size: 16px;
+					}
+				</style>
 
-					<div class="subtitle">Subtitle</div>
-				</div> -->
+				<script>
+					function format_link(link) {
+						if (link)
+							return "<a href='" + link + "' target='_blank'>" + link + "</a>";
+						else return "";
+					}
+					// Function to parse dates in "Month Day, Year" format
+					function parseDate(dateStr) {
+						if (!dateStr) return null;
 
-				<!-- <div class="categories">
-					<a href="#">Minimum corrumpit </a> <a href="#">Regione suscipit </a> <a href="#">Has et partem </a>
-				</div> -->
+						// Clean up the string
+						dateStr = dateStr.trim();
 
+						// Month name mapping
+						const monthNames = {
+							'january': 0, 'jan': 0,
+							'february': 1, 'feb': 1,
+							'march': 2, 'mar': 2,
+							'april': 3, 'apr': 3,
+							'may': 4,
+							'june': 5, 'jun': 5,
+							'july': 6, 'jul': 6,
+							'august': 7, 'aug': 7,
+							'september': 8, 'sep': 8, 'sept': 8,
+							'october': 9, 'oct': 9,
+							'november': 10, 'nov': 10,
+							'december': 11, 'dec': 11
+						};
+
+						// Regular expression to match "Month Day, Year" format
+						const monthDayYearRegex = /^([a-zA-Z]+)\s+(\d{1,2}),?\s+(\d{4})$/;
+						const match = dateStr.match(monthDayYearRegex);
+
+						if (match) {
+							const monthName = match[1].toLowerCase();
+							const day = parseInt(match[2], 10);
+							const year = parseInt(match[3], 10);
+
+							const monthIndex = monthNames[monthName];
+
+							if (monthIndex !== undefined) {
+								const date = new Date(year, monthIndex, day);
+								return isNaN(date.getTime()) ? null : date;
+							}
+						}
+
+						// Fallback: try JavaScript's native parsing
+						const fallbackDate = new Date(dateStr);
+						return isNaN(fallbackDate.getTime()) ? null : fallbackDate;
+					}
+
+					CsvToHtmlTable.init({
+						csv_path: "data/schedule.csv",
+						element: "table-container",
+						allow_download: false,
+						csv_options: {
+							separator: ",",
+							delimiter: '"'
+						},
+						datatables_options: {
+							paging: false,
+							searching: false,
+							info: false,
+							ordering: false,
+							lengthChange: false,
+							columnDefs: [
+								{
+									targets: [1, 4, 5, 6],
+									visible: false
+								}
+							],
+							rowCallback: function (row, data, index) {
+								date = parseDate(data[0]);
+								if (date && date < new Date()) {
+									$(row).hide();
+								}
+								if (!data[2] || data[2].trim() === "") {
+									$(row).hide();
+								}
+							}
+						},
+						custom_formatting: [
+							[4, format_link],
+							[5, format_link]
+						]
+					});
+				</script>
 			</div>
-			<div class="pagefooter">
-				This page was last edited on 08.09.2025 | Template by <a href="http://html5-templates.com/"
-					target="_blank" rel="nofollow">HTML5 Templates</a> <!-- Please leave this link unchanged -->
-				<!-- <div class="footerlinks">
-					<a href="#">Privacy policy</a> <a href="#">About</a> <a href="#">Terms and conditions</a> <a
-						href="#">Cookie statement</a> <a href="#">Developers</a>
+
+			<div class="pagefooter method1">
+				<span class="last-edited"></span>
+				Template by <a href="http://html5-templates.com/" target="_blank" rel="nofollow">HTML5 Templates</a>
+				<!--
+				<div class="footerlinks">
+					<a href="#">Privacy policy</a>
+					<a href="#">About</a>
+					<a href="#">Terms and conditions</a>
+					<a href="#">Cookie statement</a>
+					<a href="#">Developers</a>
 				</div> -->
 			</div>
 
