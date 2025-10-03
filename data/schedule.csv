@@ -5,15 +5,15 @@ Date,Presenter,Topic,URL,Recording,Tags
 "October 6, 2025","Kaiyue Wen","Transformers are uninterpretable with myopic methods: a case study with bounded
 Dyck grammars","https://arxiv.org/abs/2312.01429","","Paper"
 "October 2, 2025","Andrew Gordon WIlson","Deep Learning is Not So Mysterious or
-Different","https://arxiv.org/abs/2503.02113","","Paper"
-"September 29, 2025","Andy J Yang","A C-RASP tutorial","","","Tutorial,Papers"
-"September 22, 2025","Ekdeep Lubana","In-context Learning of Formal Languages","https://arxiv.org/abs/2501.00070","","Papers"
+Different","https://arxiv.org/abs/2503.02113","https://www.youtube.com/watch?v=i97GDhAiD6o","Paper"
+"September 29, 2025","Andy J Yang","A C-RASP tutorial","https://arxiv.org/abs/2404.04393","","Tutorial,Papers"
+"September 22, 2025","Ekdeep Lubana","In-context Learning of Formal Languages","https://arxiv.org/abs/2501.00070 https://arxiv.org/abs/2506.17859","https://www.youtube.com/watch?v=AkPIUoGDJpE","Papers"
 "September 15, 2025","Michael Goodale","Meta-Learning Neural Mechanisms rather than Bayesian
-Priors","https://arxiv.org/abs/2503.16048","","Paper"
+Priors","https://arxiv.org/abs/2503.16048","https://www.youtube.com/watch?v=b8P13Vt9Qxs","Paper"
 "September 8, 2025","Eshaan Nichani","Learning Compositional Functions with Transformers from Easy-to-Hard
-Data","https://arxiv.org/abs/2505.23683","","Paper"
+Data","https://arxiv.org/abs/2505.23683","https://www.youtube.com/watch?v=afXcOLD8u6U&pp=0gcJCfsJAYcqIYzv","Paper"
 "September 1, 2025","Ashok Vardhan","Attention with Markov: A Curious Case of Single-layer
-Transformers","https://openreview.net/forum?id=xi6lie0SUr","","Paper"
+Transformers","https://openreview.net/forum?id=xi6lie0SUr","https://www.youtube.com/watch?v=xblJR76Wxic","Paper"
 "August 25, 2025","Deqing Fu","Algorithmic Perspectives on Understanding
 Transformers","https://arxiv.org/abs/2310.17086 https://arxiv.org/abs/2406.03445 https://arxiv.org/abs/2502.09741
 ","https://www.youtube.com/watch?v=QhU0svaLVTw","Tutorial,
@@ -59,7 +59,7 @@ prompting","https://arxiv.org/abs/2411.01992","https://www.youtube.com/watch?v=p
 "March 10, 2025","Tian Qin","Sometimes I am a Tree: Data Drives Unstable Hierarchical
 Generalization","https://arxiv.org/abs/2412.04619","https://www.youtube.com/watch?v=gPLtHe7KI8E","Paper"
 "February 24, 2025","Nayoung Lee","Self-Improving Transformers Overcome Easy-to-Hard and Length Generalization
-Challenges","https://arxiv.org/abs/2502.01612","In progress!","Paper"
+Challenges","https://arxiv.org/abs/2502.01612","","Paper"
 "February 17, 2025","Michael Hu","Between Circuits and Chomsky: Pretraining on Formal Languages Imparts
 Linguistic Biases","https://arxiv.org/abs/2502.19249","https://youtu.be/xNwNseICqo8","Paper"
 "January 20, 2025","Riccardo Grazzi","Unlocking State-Tracking in Linear RNNs Through Negative
@@ -69,7 +69,7 @@ Important","https://arxiv.org/abs/2405.18719","https://youtu.be/eKOwqay73pA","Pa
 "December 16, 2024","Kartik Ahuja","On Provable Length and Compositional
 Generalization","https://arxiv.org/abs/2402.04875","https://youtu.be/qa4Pbjq_kh0","Paper"
 "December 9, 2024","Amit Ben Artzy","Attend First, Consolidate Later: On the Importance of Attention in Different
-LLM Layers","https://arxiv.org/abs/2409.03621","No recording","Paper"
+LLM Layers","https://arxiv.org/abs/2409.03621","","Paper"
 "December 2, 2024","Tomasz Steifer","Ehrenfeucht-Haussler rank and chain of
 thought","https://arxiv.org/abs/2501.12997","https://youtu.be/RhV-BY6H6hk","Paper"
 "November 25, 2024","Robert Csordas","Recurrent Neural Networks Learn to Store and Generate Sequences using
@@ -127,7 +127,7 @@ Attention","https://arxiv.org/abs/2310.03817","https://youtu.be/h1bgvUHc4-c","Pa
 "January 29, 2024 5:00 PM (GMT+1)","Hattie Zhou","What Algorithms can Transformers Learn? A Study in Length
 Generalization","https://arxiv.org/pdf/2310.16028.pdf","https://youtu.be/koo5Bo0k9Wc","Paper"
 "December 18, 2023","Sophie Hao","Verb Conjugation in Transformers Is Determined by Linear Encodings of Subject
-Number","https://arxiv.org/abs/2310.15151","No Recording","Paper"
+Number","https://arxiv.org/abs/2310.15151","","Paper"
 "December 11, 2023","Andy Yang","Masked Hard-Attention Transformers and Boolean RASP Recognize Exactly the
 Star-Free Languages","https://arxiv.org/abs/2310.13897","https://youtu.be/gKzyfqrZvkI","Paper"
 "November 27, 2023","Satwik Bhattamishra","Simplicity Bias in Transformers and their Ability to Learn Sparse
