@@ -193,8 +193,11 @@
 								}
 							],
 							rowCallback: function (row, data, index) {
+								today = new Date();
+								tomorrow = new Date();
+								tomorrow.setDate(today.getDate() - 1);
 								date = parseDate(data[0]);
-								if (date && date < new Date()) {
+								if (date && date < tomorrow) {
 									$(row).hide();
 								}
 								if (!data[2] || data[2].trim() === "") {
