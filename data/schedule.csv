@@ -1,4 +1,12 @@
 Date,Presenter,Topic,URL,Recording,Tags
+"April 20, 2026","","","","",""
+"April 13, 2026","","","","",""
+"April 6, 2026","","","","",""
+"March 30, 2026","","","","",""
+"March 23, 2026","","","","",""
+"March 16, 2026","","","","",""
+"March 9, 2026","","","","",""
+"March 2, 2026","","","","",""
 "February 23, 2026","Peter Shaw","Bridging Kolmogorov Complexity and Deep Learning: Asymptotically Optimal Description Length Objectives for Transformers","https://arxiv.org/abs/2509.22445","","Paper"
 "February 16, 2026","","","","",""
 "February 9, 2026","Idan Attias","On the Hardness of Learning Regular Expressions","https://arxiv.org/abs/2510.04834","","Paper"
@@ -44,8 +52,6 @@ Encodings","https://arxiv.org/abs/2505.11199","https://www.youtube.com/watch?v=P
 Thought","https://arxiv.org/pdf/2503.07932","https://www.youtube.com/watch?v=ybOyoPOQsFU","Paper"
 "June 30, 2025","Ruiquan Huang","How Transformers Learn Regular Language Recognition: A Theoretical Study on
 Training Dynamics and Implicit Bias","https://arxiv.org/abs/2505.00926","https://www.youtube.com/watch?v=qH9YXk2NfsA","Paper"
-"June 23, 2025","Jie Fu","Finite State Automata Inside Transformers with Chain-of-Thought: A Mechanistic
-Study on State Tracking","https://arxiv.org/abs/2502.20129","","Paper"
 "June 16, 2025","Juno Kim","Transformers Provably Solve Parity Efficiently with Chain of
 Thought","https://arxiv.org/abs/2410.08633","https://www.youtube.com/watch?v=mHBiAKPzCNA","Paper"
 "June 9, 2025","Bhavya Vasudeva","Transformers Learn Low Sensitivity Functions: Investigations and
