@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Tasting Menu · FLaNN Seminars</title>
-  <meta name="description" content="A small serving of research, recommended in public by the FLaNN community. Three editions a year, up to five papers at a time.">
+  <meta name="description" content="A small serving of research, recommended in public by the FLaNN community. Three editions a year, shaped by open community recommendations.">
   <link rel="icon" type="image/webp" href="img/flann.webp">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="tasting-menu.css">
@@ -19,7 +19,7 @@
         <li><a href="index.html">Home</a></li><li><a href="schedule.html">Schedule</a></li>
         <li><a href="team.html">Team</a></li><li><a href="resources.html">Resources</a></li>
         <li><a href="workshop.html">Workshop</a></li><li><a href="tasting-menu.html" aria-current="page">Tasting Menu</a></li>
-      </ul></nav>
+      </ul></nav><a class="tm-rail-archive" href="tasting-menu/archive.html">All editions →</a>
     </aside>
     <div class="mainsection">
       <div class="tabs clearfix"><nav class="tabsLeft" aria-label="Page navigation"><ul>
@@ -28,64 +28,52 @@
         <li><a href="workshop.html">Workshop</a></li><li><a class="active" href="tasting-menu.html" aria-current="page">Tasting Menu</a></li>
       </ul></nav></div>
       <main class="article" id="main"><div class="tm-wrap">
-        <div class="tm-preview" id="preview-notice"><strong>Design preview</strong><span>A proposal for FLaNN. Example highlights below; nominations have not opened.</span></div>
+        <div class="tm-preview" id="preview-notice"><strong>Design preview</strong><span>Sample menus, comments, names, and scores are marked throughout. No real votes or author contributions.</span></div>
         <header class="tm-hero">
           <div><div class="tm-kicker">The FLaNN Tasting Menu</div>
             <h1>A few papers.<br>Worth your time.</h1>
             <p class="tm-intro">There is more research than any of us can read. This is a small serving of papers that people in our community have read, loved, and want to put on your radar.</p>
-            <div class="tm-actions"><a class="tm-button" href="#nominate">Suggest a paper <span aria-hidden="true">↗</span></a><a href="#how-it-works">How we choose →</a></div>
+            <div class="tm-actions"><a class="tm-button" href="#nominate">Suggest a paper <span aria-hidden="true">↗</span></a><a href="#how-it-works">How it works →</a></div>
           </div>
           <aside class="tm-hero-aside" aria-label="The format"><div class="tm-kicker">Small portions, thoughtfully chosen</div>
-            <p><b>3 editions</b>throughout the year</p><p><b>Up to 5 papers</b>in each serving</p><p><b>Open by design</b>names, reasons &amp; discussion</p>
+            <p><b>3 editions</b>throughout the year</p><p><b><span id="threshold-value">20</span> points</b>to qualify for a highlight</p><p><b>Open by design</b>public votes &amp; named comments</p>
           </aside>
         </header>
-        <nav class="tm-subnav" aria-label="On this page"><a href="#on-the-menu">On the menu</a><a href="#community">Community table</a><a href="#how-it-works">How it works</a><a href="#nominate">Nominate a paper</a></nav>
+        <nav class="tm-subnav" aria-label="On this page"><a href="#on-the-menu">On the menu</a><a href="#community">Community table</a><a href="#how-it-works">How it works</a><a href="#nominate">Recommend a paper</a><a href="tasting-menu/archive.html">All editions ↗</a></nav>
         <section id="on-the-menu" class="tm-section">
-          <div class="tm-heading"><h2>On the menu</h2><span id="edition-label">A taste of the format · example edition</span></div>
+          <div class="tm-heading"><h2>A serving from the community</h2><span id="edition-label">Sample edition 01</span></div><div class="tm-edition-switch"><span>Currently serving</span><a href="#on-the-menu" aria-current="page">This menu</a><a href="tasting-menu/archive.html">Browse all editions →</a></div>
           <!-- highlights:start -->
-<p class="tm-note">These papers illustrate the format. They are not nominations for a current cycle, and no community votes or quotes are attached.</p><div class="tm-papers"><article class="tm-paper"><div class="tm-number" aria-hidden="true">01</div><div>
-<div class="tm-kicker">Constructions &amp; algorithms · 2025</div>
-<h3><a href="tasting-menu/papers/transformer-cookbook.html">The Transformer Cookbook</a></h3><p class="tm-authors">Andy Yang et al.</p>
-<p class="tm-summary">A collection of recipes for turning algorithms into transformer weights.</p><a href="tasting-menu/papers/transformer-cookbook.html" class="tm-text-link">Read the highlight →</a></div>
-<aside class="tm-serving"><div class="tm-kicker">A good read for…</div><p>For the moment when you want to build a transformer construction, and need a place to start.</p><small>Example reading note · not an endorsement</small></aside></article>
-<article class="tm-paper"><div class="tm-number" aria-hidden="true">02</div><div>
-<div class="tm-kicker">Expressivity &amp; formal languages · 2024</div>
-<h3><a href="tasting-menu/papers/formal-languages-survey.html">What Formal Languages Can Transformers Express? A Survey</a></h3><p class="tm-authors">Lena Strobl, William Merrill, Gail Weiss, David Chiang, and Dana Angluin</p>
-<p class="tm-summary">A map of expressivity results—and the assumptions that make them fit together.</p><a href="tasting-menu/papers/formal-languages-survey.html" class="tm-text-link">Read the highlight →</a></div>
-<aside class="tm-serving"><div class="tm-kicker">A good read for…</div><p>For reading two apparently contradictory results and figuring out which assumptions changed.</p><small>Example reading note · not an endorsement</small></aside></article>
-<article class="tm-paper"><div class="tm-number" aria-hidden="true">03</div><div>
-<div class="tm-kicker">Programming &amp; interpretation · 2021</div>
-<h3><a href="tasting-menu/papers/thinking-like-transformers.html">Thinking Like Transformers</a></h3><p class="tm-authors">Gail Weiss, Yoav Goldberg, and Eran Yahav</p>
-<p class="tm-summary">A programming language for reasoning about transformer computation.</p><a href="tasting-menu/papers/thinking-like-transformers.html" class="tm-text-link">Read the highlight →</a></div>
-<aside class="tm-serving"><div class="tm-kicker">A good read for…</div><p>For thinking through a transformer algorithm as a program you can inspect, one step at a time.</p><small>Example reading note · not an endorsement</small></aside></article></div>
-          <!-- highlights:end -->
-          <div class="tm-invite"><div><strong>What paper stayed with you?</strong><p>A clever construction. A result that changed your mind. Something more people should read.</p></div><a href="#nominate" class="tm-text-link">Bring it to the table →</a></div>
+<div class="tm-menu-sheet"><header class="tm-menu-masthead"><div class="tm-kicker">FLaNN Seminars · Sample edition 01</div><h2>The tasting menu</h2><p>The first serving</p><span class="tm-sample-label">Sample menu · all scores and quotes are illustrative</span></header><div class="tm-menu-entries"><article class="tm-menu-entry"><div class="tm-course-number">01</div><div class="tm-menu-body"><div class="tm-kicker">Constructions &amp; algorithms</div><div class="tm-dish-line"><h3><a href="tasting-menu/papers/transformer-cookbook.html">The Transformer Cookbook</a></h3><span class="tm-dot-leader" aria-hidden="true"></span><div class="tm-menu-score">24<small>example pts</small></div></div><p class="tm-menu-authors">Andy Yang et al. · 2025</p><p class="tm-menu-excerpt">“What excites me is the possibility of making constructive arguments much easier to share.”</p><div class="tm-menu-bottom"><span>Example reader A · illustrative quote</span><a href="tasting-menu/papers/transformer-cookbook.html">Read the conversation →</a></div></div></article><article class="tm-menu-entry"><div class="tm-course-number">02</div><div class="tm-menu-body"><div class="tm-kicker">Expressivity &amp; formal languages</div><div class="tm-dish-line"><h3><a href="tasting-menu/papers/formal-languages-survey.html">What Formal Languages Can Transformers Express? A Survey</a></h3><span class="tm-dot-leader" aria-hidden="true"></span><div class="tm-menu-score">20<small>example pts</small></div></div><p class="tm-menu-authors">Lena Strobl, William Merrill, Gail Weiss, David Chiang, and Dana Angluin · 2024</p><p class="tm-menu-excerpt">“The implication I care about is a more productive conversation across results.”</p><div class="tm-menu-bottom"><span>Example reader A · illustrative quote</span><a href="tasting-menu/papers/formal-languages-survey.html">Read the conversation →</a></div></div></article><article class="tm-menu-entry"><div class="tm-course-number">03</div><div class="tm-menu-body"><div class="tm-kicker">Programming &amp; interpretation</div><div class="tm-dish-line"><h3><a href="tasting-menu/papers/thinking-like-transformers.html">Thinking Like Transformers</a></h3><span class="tm-dot-leader" aria-hidden="true"></span><div class="tm-menu-score">22<small>example pts</small></div></div><p class="tm-menu-authors">Gail Weiss, Yoav Goldberg, and Eran Yahav · 2021</p><p class="tm-menu-excerpt">“This changes the kind of questions I want to ask about a model.”</p><div class="tm-menu-bottom"><span>Example reader A · illustrative quote</span><a href="tasting-menu/papers/thinking-like-transformers.html">Read the conversation →</a></div></div></article></div><footer class="tm-menu-colophon"><span>Recommended by readers. Shared with everyone.</span><span>20 points to qualify</span></footer></div>
+<!-- highlights:end -->
+          <div class="tm-invite"><div><strong>What paper stayed with you?</strong><p>Tell us why you believe it is good, and what it could make possible.</p></div><a href="#nominate" class="tm-text-link">Bring it to the table →</a></div>
         </section>
         <section id="community" class="tm-section">
           <div class="tm-heading"><h2>The community table</h2><span id="snapshot-date">Pilot round · not open yet</span></div>
-          <p class="tm-note">Every nomination and recommendation is public. Read the reasons, add your own, or help a paper find its readers. Counts reflect the last published snapshot.</p>
-          <div class="tm-tools" id="nomination-tools" hidden><label class="visuallyhidden" for="paper-search">Search nominations</label><input id="paper-search" type="search" placeholder="Search titles, authors, or topics…"><label class="visuallyhidden" for="paper-filter">Filter nominations</label><select id="paper-filter"><option value="all">All nominations</option><option value="eligible">Ready for editorial review</option><option value="needs">Still gathering support</option></select></div>
-          <div id="nominations" aria-live="polite"><div class="tm-empty"><strong>The first table is still being set.</strong><p>No community nominations have been collected for this preview.</p><a href="#nominate" class="tm-text-link">Try the nomination draft →</a></div></div>
+          <p class="tm-note">The votes and comments live openly on GitHub. +1 for a recommendation, +5 for an enthusiastic endorsement; every contribution needs at least a line. Counts reflect the latest published snapshot and remain provisional until hosts check the results.</p>
+          <div class="tm-tools" id="nomination-tools" hidden><label class="visuallyhidden" for="paper-search">Search nominations</label><input id="paper-search" type="search" placeholder="Search titles, authors, or topics…"><label class="visuallyhidden" for="paper-filter">Filter nominations</label><select id="paper-filter"><option value="all">All nominations</option><option value="eligible">Threshold reached</option><option value="needs">Gathering support</option></select></div>
+          <div id="nominations" aria-live="polite"><div class="tm-empty"><strong>The public table is still being set.</strong><p>No real nominations have been collected. The sample scores above are only a layout demonstration.</p><a href="#nominate" class="tm-text-link">Try a nomination draft →</a></div></div>
           <noscript><p>The nomination board needs JavaScript. <a href="https://github.com/flannseminars/flannseminars.github.io/issues?q=is%3Aissue+label%3Atasting-menu">Read public nominations on GitHub</a>. Highlights and the rules below work without JavaScript.</p></noscript>
         </section>
         <section id="how-it-works" class="tm-section">
           <div class="tm-heading"><h2>Good taste is better shared.</h2><span>The proposed pilot process</span></div>
+          <div class="tm-score-rule"><strong>+<span data-score="recommendation">1</span> <span>“I recommend this.”</span></strong><strong>+<span data-score="endorsement">5</span> <span>“I’m really excited about this.”</span></strong><div><b><span data-score="threshold">20</span> points to qualify</b><p id="score-examples">20 recommendations · 4 enthusiastic endorsements · or a mix</p></div></div>
           <div class="tm-process">
-            <div class="tm-step"><span class="tm-step-num">01 / BRING A PAPER</span><h3>Read it. Recommend it.</h3><p>Nominate a paper from the previous cycle. Tell us what caught your attention and who should read it. Self-nominations are welcome and clearly marked.</p></div>
-            <div class="tm-step"><span class="tm-step-num">02 / MAKE THE CASE</span><h3>Put your name behind it.</h3><p>Recommend a paper for +1. Add a specific, detailed endorsement for +2: why it matters, what you checked, and a useful caveat.</p></div>
-            <div class="tm-step"><span class="tm-step-num">03 / SERVE A SMALL MENU</span><h3>Make time to read.</h3><p>After the window closes, editors choose up to five qualifying papers. Each gets a short guide, a video when available, and attributed community recommendations.</p></div>
+            <div class="tm-step"><span class="tm-step-num">01 / RECOMMEND IN PUBLIC</span><h3>Put your enthusiasm into words.</h3><p>Write freely about why you believe a paper is good. What could it change or make possible? Even a +1 needs at least a line. Self-nominations are welcome and clearly marked.</p></div>
+            <div class="tm-step"><span class="tm-step-num">02 / LET THE COMMUNITY DECIDE</span><h3>Reach the public threshold.</h3><p>A score of at least <span data-score="threshold">20</span> qualifies. Everyone can see the names, comments, and votes on GitHub. The whole announced window counts.</p></div>
+            <div class="tm-step"><span class="tm-step-num">03 / CHECK, INVITE &amp; SHARE</span><h3>Bring the comments together.</h3><p>Hosts check the final results for duplicates, conflicts, and foul play, then invite authors to contribute a guide or video if interested. The readers’ comments can carry the highlight on their own.</p></div>
           </div>
           <div class="tm-rules">
-            <details open><summary>What makes a strong recommendation?</summary><p>Specificity. Explain an idea, result, or use that convinced you (at least 120 characters), what you read or checked (60), and a limitation or boundary (40). These are completeness checks; editors still read the substance. Extra adjectives do not earn extra weight. An ordinary +1 only needs a reason.</p></details>
-            <details><summary>How do votes and self-nominations work?</summary><p>One recommendation per person per paper; your latest valid recommendation replaces the earlier one. A strong independent recommendation counts as two points in total. Authors, coauthors, and other declared conflicts can contribute at most one point and cannot satisfy the independent-support requirement. GitHub reactions are not counted. Names and relationships are public; organizers review suspicious activity and undisclosed conflicts.</p></details>
-            <details><summary>Which papers make the menu?</summary><p>A paper needs at least two independent readers, including one strong endorsement, to qualify for consideration. Editors consider the reasons, relevance, and variety across the whole window, then publish their choices and short selection notes. Scores inform the decision; they do not automatically decide it. We may publish fewer than five. Unselected nominations remain visible, and absence from a menu is not a judgment of quality.</p></details>
-            <details><summary>When do we do this?</summary><p>Proposed rhythm: January, May, and September, each looking back at the preceding four months. Two weeks for nominations and recommendations, followed by a week for editing. Exact pilot dates and the eligible paper window will be announced before opening.</p></details>
-            <details><summary>What will be public?</summary><p>Your GitHub name, paper, relationship, and recommendation are public. By contributing through this form, you agree that FLaNN may quote your recommendation with attribution and a link to the original. Corrections and substantive caveats are welcome in the public thread. Moderators may remove spam, abuse, and private information; selection decisions remain explainable.</p></details>
+            <details open><summary>What should I write?</summary><p>Why do you believe this is a good paper? Write in your own voice. Its implications, the doors it could open, or why it matters to you are all welcome. There is no required summary, technical explanation, checklist, or caveat. Both levels need at least a line (<span data-score="minCommentLength">20</span> characters); an enthusiastic +<span data-score="endorsement">5</span> is an invitation to say more.</p></details>
+            <details><summary>How do recommendations and self-nominations count?</summary><p>One counted position per person per paper; your latest valid contribution replaces an earlier one. A recommendation is +<span data-score="recommendation">1</span>, an enthusiastic endorsement +<span data-score="endorsement">5</span> in total. Authors, coauthors, and other declared conflicts can contribute at most +1. GitHub reactions do not count. Names, relationships, and comments are public.</p></details>
+            <details><summary>What happens at the cutoff?</summary><p>Every paper with at least <span data-score="threshold">20</span> points after the hosts’ checks qualifies. There is no additional editorial ranking. We aim for a small menu, roughly five papers, and can change the threshold for a future announced edition if necessary. The current edition’s rules stay fixed.</p></details>
+            <details><summary>What do the hosts do after voting?</summary><p>Freeze the public results, check duplicate identities and nominations, review declared relationships and reports of foul play, and explain any corrections. Then contact the authors of qualifying papers to offer an optional written or video guide. An author’s participation is not a condition for being highlighted.</p></details>
+            <details><summary>When do we do this?</summary><p>Proposed rhythm: January, May, and September, each looking back at the preceding four months. Two weeks for public nominations and recommendations, then host checks and author invitations. Exact pilot dates and the eligible paper window will be announced before opening.</p></details>
+            <details><summary>How are comments attributed?</summary><p>A highlight shows the recommender’s name or GitHub handle, their relationship to the paper, their recommendation level, and a link to the original public comment. By contributing through this form, you agree that FLaNN may quote your comment with attribution. Hosts preserve its meaning and relevant context. Earlier editions keep their own comments and final results in the archive.</p></details>
           </div>
         </section>
         <section id="nominate" class="tm-section tm-form-area">
-          <div class="tm-heading"><h2>Bring something to the table.</h2><span id="form-mode">Try the nomination draft</span></div>
-          <p class="tm-note" id="form-explanation">Preview the submission flow below. This creates a draft on your device; nothing is sent or counted. When the round opens, contributors will review and post it on GitHub.</p>
+          <div class="tm-heading"><h2>Bring something to the table.</h2><span id="form-mode">Try a recommendation draft</span></div>
+          <p class="tm-note" id="form-explanation">Preview only. This form prepares a draft on your device. Nothing is sent or counted; public posting will be enabled when the pilot opens.</p>
           <form class="tm-form" id="nomination-form">
             <div class="tm-fields">
               <div class="tm-field full"><label for="paper-title">Paper title *</label><input id="paper-title" name="title" required maxlength="250" autocomplete="off"></div>
@@ -94,10 +82,8 @@
               <div class="tm-field"><label for="paper-published">Publication or preprint date *</label><input id="paper-published" name="published" type="date" required></div>
               <div class="tm-field"><label for="paper-topic">Topic *</label><select id="paper-topic" name="topic"><option>Transformers &amp; expressivity</option><option>Formal languages</option><option>Learning &amp; generalization</option><option>Interpretability</option><option>Other FLaNN-adjacent research</option></select></div>
               <div class="tm-field"><label for="relationship">Your relationship *</label><select id="relationship" name="relationship"><option>Independent reader</option><option>Author / coauthor</option><option>Other conflict of interest</option></select></div>
-              <div class="tm-field full"><label for="recommendation">Your recommendation *</label><select id="recommendation" name="recommendation"><option value="Recommend (+1)">Recommend (+1) — worth reading</option><option value="Strongly recommend (+2)">Strongly recommend (+2) — I can make a detailed case</option></select><small id="weight-note">A strong recommendation is two points total and needs all three notes below.</small></div>
-              <div class="tm-field full"><label for="reason">Why should someone read this? *</label><textarea id="reason" name="reason" required maxlength="3000" placeholder="What is the idea or result, and why did it stay with you?"></textarea></div>
-              <div class="tm-field full"><label for="checked">What have you read or checked?</label><textarea id="checked" name="checked" maxlength="2000" placeholder="Which sections, proofs, experiments, or code did you engage with?"></textarea><small>For +2: at least 60 characters; say what your endorsement is based on.</small></div>
-              <div class="tm-field full"><label for="caveat">A useful caveat or boundary</label><textarea id="caveat" name="caveat" maxlength="1500" placeholder="What assumption, limitation, or prerequisite should a reader know?"></textarea><small>For +2: at least 40 characters. Enthusiasm and precision belong together.</small></div>
+              <div class="tm-field full"><label for="recommendation">Your recommendation *</label><select id="recommendation" name="recommendation"><option value="Recommend (+1)">Recommend (+1) — worth reading</option><option value="Strongly recommend (+5)">Enthusiastic endorsement (+5) — I feel strongly about this</option></select><small id="weight-note">Both levels need at least a line. Write freely about why you believe this paper is good.</small></div>
+              <div class="tm-field full"><label for="reason">Why do you believe this is a good paper? *</label><textarea id="reason" name="reason" required minlength="20" maxlength="5000" placeholder="What excites you about it? What could it change, enable, or help people see differently? Write in your own voice."></textarea><small>At least a line for either level. No abstract or technical review required.</small></div>
             </div>
             <label class="tm-consent"><input id="public-consent" type="checkbox" required><span>I understand that a posted nomination is public and may be quoted by FLaNN with attribution.</span></label>
             <button type="submit" class="tm-button" id="draft-button" disabled>Preview nomination →</button>
@@ -106,7 +92,9 @@
           </form>
           <noscript><p>Enable JavaScript to prepare a draft, or read the <a href="docs/TASTING_MENU.md">organizer guide</a> for the public submission format.</p></noscript>
         </section>
-        <section id="archive" class="tm-section tm-archive"><div class="tm-heading"><h2>Previous servings</h2><span>An archive worth coming back to</span></div><div id="edition-archive"><p class="tm-note">The first edition is still ahead of us. Each published menu will stay here with its papers, selection notes, and original discussions.</p></div></section>
+        <section id="archive" class="tm-section tm-archive"><div class="tm-heading"><h2>Previous servings</h2><a href="tasting-menu/archive.html">Browse every edition →</a></div><p class="tm-note">Each edition keeps a permanent page with its original rules, comments, and final public results. Sample editions below are explicitly illustrative.</p><!-- archive:start -->
+<div class="tm-edition-grid"><a class="tm-edition-card" href="tasting-menu/editions/preview-previous.html"><span class="tm-kicker">Sample previous edition</span><strong>From the reading shelf</strong><span>1 paper · Illustrative archive</span><b>Open the menu →</b></a></div>
+<!-- archive:end --></section>
         <footer class="tm-footer"><span>FLaNN Seminars · Formal languages, neural networks, and good company.</span><a href="docs/TASTING_MENU.md">Organizer’s guide ↗</a></footer>
       </div></main>
     </div>

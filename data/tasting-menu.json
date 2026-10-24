@@ -9,5 +9,11 @@
     "closes": null,
     "paperWindow": "Previous research cycle"
   },
-  "maxPapers": 5
+  "targetPapers": 5,
+  "scoring": {
+    "recommendation": 1,
+    "endorsement": 5,
+    "threshold": 20,
+    "minCommentLength": 20
+  }
 }

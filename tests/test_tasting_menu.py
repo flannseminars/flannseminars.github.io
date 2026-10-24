@@ -17,7 +17,8 @@ SPEC.loader.exec_module(tm)
 
 NOW = datetime(2026, 10, 24, 12, tzinfo=timezone.utc)
 CONFIG = {
-    "repository": "flannseminars/flannseminars.github.io", "preview": True, "maxPapers": 5,
+    "repository": "flannseminars/flannseminars.github.io", "preview": True, "targetPapers": 5,
+    "scoring": {"recommendation": 1, "endorsement": 5, "threshold": 20, "minCommentLength": 20},
     "edition": {"id": "pilot", "title": "Pilot edition", "status": "planning",
                 "opens": None, "closes": None, "paperWindow": "Previous research cycle"},
 }
@@ -27,9 +28,7 @@ def review_fields(strong=False, relationship="Independent reader"):
     return {
         "Relationship": relationship,
         "Recommendation": tm.STRONG if strong else tm.BASE,
-        "Why read it?": "The paper connects its structural result to a concrete algorithm, with a clear explanation of which assumptions matter. The key example made the distinction useful to me.",
-        "What have you read or checked?": "I read the central argument and checked its worked example against the assumptions stated in Section 2.",
-        "Caveat or limitation": "The result depends on an assumption that the paper does not establish for arbitrary datasets.",
+        tm.REASON_FIELD: "The paper connects its structural result to a concrete algorithm, with a clear explanation of which assumptions matter. The key example made the distinction useful to me.",
     }
 
 
@@ -111,13 +110,28 @@ class CanonicalPaperTests(unittest.TestCase):
 
 
 class IntakeTests(unittest.TestCase):
-    def test_independent_strong_plus_second_reader_qualifies(self):
-        result = snapshot([issue(strong=True)], {1: [comment()]})["papers"][0]
-        self.assertEqual((result["supporters"], result["strong"], result["score"], result["eligible"]), (2, 1, 3, True))
+    def test_exactly_four_strong_endorsements_qualify(self):
+        result = snapshot([issue(strong=True)], {1: [comment(f"reader-{n}", strong=True, ident=100+n) for n in range(3)]})["papers"][0]
+        self.assertEqual((result["supporters"], result["strong"], result["score"], result["eligible"]), (4, 4, 20, True))
+
+    def test_exactly_twenty_ordinary_recommendations_qualify(self):
+        result = snapshot(comments={1: [comment(f"reader-{n}", ident=100+n) for n in range(19)]})["papers"][0]
+        self.assertEqual((result["supporters"], result["strong"], result["score"], result["eligible"]), (20, 0, 20, True))
+
+    def test_nineteen_points_do_not_qualify(self):
+        result = snapshot(comments={1: [comment(f"reader-{n}", ident=100+n) for n in range(18)]})["papers"][0]
+        self.assertEqual(result["score"], 19)
+        self.assertFalse(result["eligible"])
+
+    def test_mixture_reaching_twenty_qualifies(self):
+        comments = [comment(f"strong-{n}", strong=True, ident=100+n) for n in range(3)]
+        comments += [comment(f"base-{n}", ident=200+n) for n in range(4)]
+        result = snapshot(comments={1: comments})["papers"][0]
+        self.assertEqual((result["supporters"], result["strong"], result["score"], result["eligible"]), (8, 3, 20, True))
 
     def test_single_reader_does_not_qualify(self):
         result = snapshot([issue(strong=True)])["papers"][0]
-        self.assertEqual(result["score"], 2)
+        self.assertEqual(result["score"], 5)
         self.assertFalse(result["eligible"])
 
     def test_two_base_votes_do_not_qualify(self):
@@ -128,27 +142,38 @@ class IntakeTests(unittest.TestCase):
         comments = [comment("author", fields=review_fields(True, "Author / coauthor")),
                     comment("collaborator", ident=101, fields=review_fields(True, "Other conflict of interest"))]
         result = snapshot([issue(strong=True)], {1: comments})["papers"][0]
-        self.assertEqual((result["supporters"], result["strong"], result["score"]), (3, 1, 4))
+        self.assertEqual((result["supporters"], result["strong"], result["score"]), (3, 1, 7))
         self.assertFalse(result["eligible"])
         self.assertTrue(all(row["recommendation"] == tm.BASE for row in result["endorsements"] if row["login"] != "alice"))
 
-    def test_incomplete_strong_review_downgrades(self):
-        fields = review_fields(True)
-        fields["Caveat or limitation"] = "Needs more data."
-        result = snapshot(comments={1: [comment(fields=fields)]})["papers"][0]
-        self.assertEqual((result["strong"], result["score"]), (0, 2))
+    def test_twenty_conflicted_base_votes_have_no_extra_independence_gate(self):
+        fields = review_fields(True, "Author / coauthor")
+        comments = [comment(f"author-{n}", ident=100+n, fields=fields) for n in range(20)]
+        nomination = issue()
+        nomination["body"] = nomination["body"].replace("Recommend (+1)", "No recommendation")
+        result = snapshot([nomination], {1: comments})["papers"][0]
+        self.assertEqual((result["strong"], result["score"], result["eligible"]), (0, 20, True))
 
     def test_base_vote_needs_only_reason(self):
-        fields = {"Relationship": "Independent reader", "Recommendation": tm.BASE, "Why read it?": "The worked example clarified the central claim."}
+        fields = {"Relationship": "Independent reader", "Recommendation": tm.BASE, tm.REASON_FIELD: "The worked example clarified the central claim."}
         result = snapshot(comments={1: [comment(fields=fields)]})["papers"][0]
         self.assertEqual(result["supporters"], 2)
 
-    def test_missing_or_placeholder_reason_is_not_a_vote(self):
-        for empty in ("", "_No response_", "N/A"):
+    def test_missing_short_placeholder_or_space_padded_reason_is_not_a_vote(self):
+        for strong in (False, True):
+            for invalid in ("", "_No response_", "N/A", "Great paper!", "                   ", "good" + " " * 50, "good\n\n\t\t paper"):
+                fields = review_fields(strong)
+                fields[tm.REASON_FIELD] = invalid
+                with self.subTest(strong=strong, invalid=invalid):
+                    self.assertEqual(snapshot(comments={1: [comment(fields=fields)]})["papers"][0]["supporters"], 1)
+
+    def test_minimum_counts_unicode_characters_not_bytes_or_utf16_units(self):
+        for count, expected_supporters in ((19, 1), (20, 2)):
             fields = review_fields(True)
-            fields["Why read it?"] = empty
-            with self.subTest(empty=empty):
-                self.assertEqual(snapshot(comments={1: [comment(fields=fields)]})["papers"][0]["supporters"], 1)
+            fields[tm.REASON_FIELD] = "💡" * count
+            with self.subTest(count=count):
+                result = snapshot(comments={1: [comment(fields=fields)]})["papers"][0]
+                self.assertEqual(result["supporters"], expected_supporters)
 
     def test_latest_valid_vote_per_login_across_duplicate_issues(self):
         old = issue(strong=True)
@@ -156,7 +181,7 @@ class IntakeTests(unittest.TestCase):
         recent = comment("alice", strong=True, created_at="2026-10-03T00:00:00Z")
         result = snapshot([old, duplicate], {2: [recent]})["papers"]
         self.assertEqual(len(result), 1)
-        self.assertEqual((result[0]["supporters"], result[0]["strong"], result[0]["score"]), (1, 1, 2))
+        self.assertEqual((result[0]["supporters"], result[0]["strong"], result[0]["score"]), (1, 1, 5))
         self.assertEqual(result[0]["issueUrl"], old["html_url"])
 
     def test_arxiv_and_its_doi_alias_do_not_double_count_one_reader(self):
@@ -169,7 +194,7 @@ class IntakeTests(unittest.TestCase):
     def test_new_invalid_vote_does_not_erase_previous_valid_vote(self):
         malformed = comment("alice", fields={"Relationship": "Independent reader", "Recommendation": "Amazing"})
         result = snapshot([issue(strong=True)], {1: [malformed]})["papers"][0]
-        self.assertEqual(result["score"], 2)
+        self.assertEqual(result["score"], 5)
 
     def test_unmarked_conversation_is_not_counted(self):
         result = snapshot(comments={1: [comment(body=body(review_fields(True)))]})["papers"][0]
@@ -202,7 +227,8 @@ class IntakeTests(unittest.TestCase):
         final = comment("final", strong=True, created_at="2026-10-02T23:59:59Z")
         result = snapshot(comments={1: [early, late, final]}, config=config)["papers"][0]
         self.assertEqual({row["login"] for row in result["endorsements"]}, {"alice", "final"})
-        self.assertTrue(result["eligible"])
+        self.assertEqual(result["score"], 6)
+        self.assertFalse(result["eligible"])
 
     def test_closing_issue_after_deadline_does_not_erase_its_vote(self):
         config = deepcopy(CONFIG)
@@ -219,18 +245,16 @@ class IntakeTests(unittest.TestCase):
 
     def test_review_prose_can_contain_unrelated_markdown_headings(self):
         fields = review_fields(True)
-        fields["Why read it?"] += "\n\n### A useful example\n\nThis part of the argument is particularly clear."
+        fields[tm.REASON_FIELD] += "\n\n### A useful example\n\nThis part of the argument is particularly clear."
         parsed = tm.parse_fields(body(fields))
-        self.assertEqual(parsed["Why read it?"], fields["Why read it?"])
+        self.assertEqual(parsed[tm.REASON_FIELD], fields[tm.REASON_FIELD])
 
     def test_consent_preamble_is_never_part_of_a_review_or_its_weight(self):
         fields = review_fields(True)
-        fields["Caveat or limitation"] = "_No response_"
+        fields[tm.REASON_FIELD] = "_No response_"
         generated = tm.MARKER + "\n\nI understand this contribution is public and may be quoted by FLaNN with attribution.\n\n" + body(fields)
         result = snapshot(comments={1: [comment(body=generated)]})["papers"][0]
-        review = next(row for row in result["endorsements"] if row["login"] == "bob")
-        self.assertEqual(review["caveat"], "")
-        self.assertEqual(review["recommendation"], tm.BASE)
+        self.assertEqual(result["supporters"], 1)
         self.assertEqual(result["strong"], 0)
 
     def test_missing_and_numeric_fields_do_not_create_votes(self):
@@ -246,7 +270,7 @@ class IntakeTests(unittest.TestCase):
 
 class ValidationTests(unittest.TestCase):
     def test_empty_and_populated_snapshots_validate(self):
-        tm.validate_snapshot(CONFIG, {"updatedAt": None, "edition": "pilot", "papers": []})
+        tm.validate_snapshot(CONFIG, {"updatedAt": None, "edition": "pilot", "scoring": dict(CONFIG["scoring"]), "papers": []})
         tm.validate_snapshot(CONFIG, snapshot([issue(strong=True)], {1: [comment()]}))
 
     def test_inflated_score_is_rejected(self):
@@ -273,9 +297,51 @@ class ValidationTests(unittest.TestCase):
             with self.subTest(published=published), self.assertRaises(tm.ValidationError):
                 tm.published_date(published)
 
-    def test_optional_review_fields_can_be_blank(self):
-        fields = {"Relationship": "Independent reader", "Recommendation": tm.BASE, "Why read it?": "Useful evidence for the claim."}
-        tm.validate_snapshot(CONFIG, snapshot(comments={1: [comment(fields=fields)]}))
+    def test_only_single_freeform_comment_is_required_and_stored(self):
+        fields = {"Relationship": "Independent reader", "Recommendation": tm.STRONG, tm.REASON_FIELD: "Useful evidence for the claim."}
+        data = snapshot(comments={1: [comment(fields=fields)]})
+        tm.validate_snapshot(CONFIG, data)
+        review = next(row for row in data["papers"][0]["endorsements"] if row["login"] == "bob")
+        self.assertEqual(set(review), {"login", "relationship", "recommendation", "reason", "url"})
+        self.assertEqual(review["recommendation"], tm.STRONG)
+
+    def test_snapshot_records_exact_scoring_rules(self):
+        data = snapshot()
+        self.assertEqual(data["scoring"], CONFIG["scoring"])
+        self.assertIsNot(data["scoring"], CONFIG["scoring"])
+        data["scoring"]["threshold"] = 21
+        with self.assertRaisesRegex(tm.ValidationError, "Snapshot scoring must match"):
+            tm.validate_snapshot(CONFIG, data)
+
+    def test_config_rejects_invalid_scoring_values(self):
+        changes = ({"recommendation": 2}, {"threshold": 0}, {"endorsement": True}, {"endorsement": 1},
+                   {"threshold": "20"}, {"minCommentLength": 20.0})
+        for change in changes:
+            config = deepcopy(CONFIG)
+            config["scoring"].update(change)
+            with self.subTest(change=change), self.assertRaises(tm.ValidationError):
+                tm.validate_config(config)
+
+    def test_target_is_not_a_paper_cap(self):
+        config = deepcopy(CONFIG)
+        config["targetPapers"] = 8
+        tm.validate_config(config)
+
+    def test_future_rules_drive_weights_threshold_and_comment_minimum(self):
+        config = deepcopy(CONFIG)
+        config["scoring"].update(endorsement=7, threshold=14, minCommentLength=30)
+        nomination = issue(strong=True)
+        nomination["body"] = nomination["body"].replace(tm.STRONG, "Strongly recommend (+7)")
+        fields = review_fields(True)
+        fields["Recommendation"] = "Strongly recommend (+7)"
+        data = snapshot([nomination], {1: [comment(fields=fields)]}, config=config)
+        self.assertEqual(data["papers"][0]["score"], 14)
+        self.assertTrue(data["papers"][0]["eligible"])
+        tm.validate_snapshot(config, data)
+        fields[tm.REASON_FIELD] = "A comment of 29 characters!!!"
+        self.assertLess(len(fields[tm.REASON_FIELD]), 30)
+        data = snapshot([nomination], {1: [comment(fields=fields)]}, config=config)
+        self.assertEqual(data["papers"][0]["supporters"], 1)
 
     def test_invalid_or_missing_round_dates_are_rejected(self):
         for dates in ({"opens": "2026-10-03", "closes": "2026-10-02"}, {"opens": "bad", "closes": None}):
@@ -333,6 +399,33 @@ class GitHubTests(unittest.TestCase):
         self.assertIn("Published editions are frozen", error_output.getvalue())
         self.assertIn("reviewed correction", error_output.getvalue())
         self.assertIn("'review'", error_output.getvalue())
+
+    def test_sync_refuses_rule_changes_in_an_already_recorded_edition(self):
+        prior = snapshot()
+        config = deepcopy(CONFIG)
+        config["scoring"]["threshold"] = 25
+        error_output = io.StringIO()
+        with patch.object(tm.sys, "argv", ["tasting_menu.py", "sync"]), \
+             patch.object(tm, "read_json", side_effect=[config, prior]), \
+             patch.object(tm.GitHub, "collect") as collect, patch.object(tm, "write_snapshot") as write, \
+             patch.object(tm.sys, "stderr", error_output):
+            self.assertEqual(tm.main(), 1)
+        collect.assert_not_called()
+        write.assert_not_called()
+        self.assertIn("Use a new edition ID", error_output.getvalue())
+
+    def test_new_edition_can_record_changed_rules(self):
+        prior = snapshot()
+        config = deepcopy(CONFIG)
+        config["edition"]["id"] = "next-edition"
+        config["scoring"]["threshold"] = 25
+        with patch.object(tm.sys, "argv", ["tasting_menu.py", "sync"]), \
+             patch.object(tm, "read_json", side_effect=[config, prior]), \
+             patch.object(tm.GitHub, "collect", return_value=([], {})), \
+             patch.object(tm, "write_snapshot") as write, patch.object(tm.sys, "stdout", io.StringIO()):
+            self.assertEqual(tm.main(), 0)
+        self.assertEqual(write.call_args.args[0]["edition"], "next-edition")
+        self.assertEqual(write.call_args.args[0]["scoring"]["threshold"], 25)
 
 
 if __name__ == "__main__":

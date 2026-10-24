@@ -1,6 +1,8 @@
-"""Regression tests for publication boundaries, using isolated site copies."""
+"""Publication-boundary regressions using isolated, realistic edition fixtures."""
 import copy
+from contextlib import redirect_stdout
 import importlib.util
+import io
 import json
 from pathlib import Path
 import sys
@@ -8,23 +10,27 @@ import tempfile
 import unittest
 
 
-SCRIPTS = Path(__file__).resolve().parents[1] / 'scripts'
-sys.path.insert(0, str(SCRIPTS))
-spec = importlib.util.spec_from_file_location('build_tasting_menu', SCRIPTS / 'build_tasting_menu.py')
+SITE = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(SITE / 'scripts'))
+spec = importlib.util.spec_from_file_location('build_tasting_menu', SITE / 'scripts/build_tasting_menu.py')
 builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
-
+REPOSITORY = 'flannseminars/flannseminars.github.io'
+SOURCE = f'https://github.com/{REPOSITORY}/issues/123#issuecomment-456'
+SCORING = {'recommendation': 1, 'endorsement': 5, 'threshold': 20, 'minCommentLength': 20}
 TEMPLATE = '''<!doctype html><html><body>
 <div class="tm-preview" id="preview-notice">Preview</div>
-<span id="edition-label">Preview</span>
+<span id="edition-label">Edition</span>
 <!-- highlights:start --><!-- highlights:end -->
+<span id="threshold-value">20</span><p id="score-examples">Example combinations</p>
+<span data-score="recommendation">1</span><span data-score="endorsement">5</span>
 <span id="snapshot-date">Not open</span>
 <div id="nominations" aria-live="polite"><div>Preview nominations</div></div>
 <noscript>Read GitHub</noscript>
 <span id="form-mode">Preview</span>
 <p class="tm-note" id="form-explanation">Preview</p>
 <button type="submit" id="draft-button" disabled>Preview</button>
-<div id="edition-archive">Archive</div>
+<!-- archive:start --><!-- archive:end -->
 </body></html>'''
 
 
@@ -36,150 +42,294 @@ class BuildTastingMenuTests(unittest.TestCase):
         (self.root / 'data').mkdir()
         (self.root / 'tasting-menu.html').write_text(TEMPLATE)
         self.config = {
-            'repository': 'flannseminars/flannseminars.github.io', 'preview': True,
+            'repository': REPOSITORY, 'preview': True, 'targetPapers': 5,
+            'scoring': copy.deepcopy(SCORING),
             'edition': {'id': 'pilot', 'title': 'Pilot edition', 'status': 'planning',
                         'opens': None, 'closes': None, 'paperWindow': 'Previous cycle'},
-            'maxPapers': 5,
         }
-        self.example = {
-            'id': 'example-paper', 'example': True, 'edition': 'preview',
-            'title': 'A useful paper', 'authors': 'A. Author', 'published': '2026',
-            'topic': 'Theory', 'url': 'https://arxiv.org/abs/2601.01234',
-            'standfirst': 'An editorial introduction.', 'summary': ['A short summary.'],
-            'whyRead': 'An interesting construction.', 'readingGuide': ['Start with the construction.'],
-            'caveat': 'The construction has assumptions.', 'video': None,
-            'discussionUrl': None, 'selectionReason': None, 'endorsements': [],
-        }
-        self.papers = [copy.deepcopy(self.example)]
+        self.editions = [self.edition('preview', example=True)]
+        self.papers = [self.paper('example-paper', 'preview', example=True)]
 
-    def save(self):
-        (self.root / 'data/tasting-menu.json').write_text(json.dumps(self.config))
-        (self.root / 'data/tasting-menu-editorial.json').write_text(json.dumps({'papers': self.papers}))
+    @staticmethod
+    def edition(slug, example=False, scoring=None):
+        return {
+            'id': slug, 'title': f'{slug.title()} edition', 'label': slug.title(),
+            'published': '2026-10-01', 'example': example,
+            'description': 'A small collection of reader recommendations.',
+            'scoring': copy.deepcopy(scoring or SCORING),
+            'resultsUrl': None if example else f'https://github.com/{REPOSITORY}/issues/123',
+            'validationNote': 'Duplicate submissions and declared relationships were checked.',
+        }
+
+    @staticmethod
+    def paper(slug, edition='pilot', example=False):
+        return {
+            'id': slug, 'edition': edition, 'example': example,
+            'title': 'An interesting construction', 'authors': 'A. Author', 'published': '2026',
+            'topic': 'Theory', 'url': 'https://arxiv.org/abs/2610.12345',
+            'standfirst': 'Readers recommend spending time with this construction.',
+            'endorsements': [{
+                'example': example, 'name': 'Example reader A' if example else 'Test reader',
+                'relationship': 'Independent reader', 'weight': 5,
+                'text': 'I think this is a good paper because its construction suggests new possibilities.',
+                'url': None if example else SOURCE,
+            }],
+            'support': {'recommendations': 0, 'endorsements': 4, 'score': 20},
+            'hostNote': 'The public tally was checked against the announced rules.',
+            'discussionUrl': None if example else f'https://github.com/{REPOSITORY}/issues/123',
+        }
+
+    def live(self):
+        self.config['preview'] = False
+        self.config['edition']['status'] = 'published'
+        self.editions = [self.edition('pilot')]
+        self.papers = [self.paper('real-paper')]
 
     def render(self, check=False):
-        self.save()
-        builder.render(check=check, root=self.root)
+        (self.root / 'data/tasting-menu.json').write_text(json.dumps(self.config))
+        (self.root / 'data/tasting-menu-editorial.json').write_text(json.dumps({
+            'editions': self.editions, 'papers': self.papers,
+        }))
+        with redirect_stdout(io.StringIO()):
+            builder.render(check=check, root=self.root)
 
-    def real_paper(self, slug, edition='pilot'):
-        paper = copy.deepcopy(self.example)
-        paper.update(id=slug, edition=edition, example=False,
-                     selectionReason='Specific independent support and relevance.',
-                     discussionUrl='https://github.com/flannseminars/flannseminars.github.io/issues/1')
-        return paper
+    def read(self, relative='tasting-menu.html'):
+        return (self.root / relative).read_text()
 
-    def test_preview_off_removes_example_pages_and_check_is_read_only(self):
+    def test_preview_off_removes_sample_posts_editions_and_quotes(self):
         self.render()
-        example_path = self.root / 'tasting-menu/papers/example-paper.html'
-        self.assertTrue(example_path.exists())
+        sample_paths = [self.root / 'tasting-menu/papers/example-paper.html',
+                        self.root / 'tasting-menu/editions/preview.html']
+        self.assertTrue(all(path.exists() for path in sample_paths))
         self.config['preview'] = False
         with self.assertRaisesRegex(ValueError, 'remove'):
             self.render(check=True)
-        self.assertTrue(example_path.exists(), '--check must not delete files')
+        self.assertTrue(all(path.exists() for path in sample_paths), '--check must not mutate files')
         self.render()
-        self.assertFalse(example_path.exists())
-        index = (self.root / 'tasting-menu.html').read_text()
-        self.assertNotIn('example-paper.html', index)
-        self.assertNotIn('No community nominations have been collected for this preview', index)
+        self.assertFalse(any(path.exists() for path in sample_paths))
+        for relative in ('tasting-menu.html', 'tasting-menu/archive.html'):
+            content = self.read(relative)
+            self.assertNotIn('Example reader A', content)
+            self.assertNotIn('example-paper.html', content)
         self.render(check=True)
-
-    def test_preview_can_be_enabled_again(self):
-        self.config['preview'] = False
-        self.render()
         self.config['preview'] = True
         self.render()
-        index = (self.root / 'tasting-menu.html').read_text()
-        self.assertIn('id="preview-notice"><strong>Design preview', index)
-        self.assertIn('example-paper.html', index)
+        self.assertIn('id="preview-notice"><strong>Design preview', self.read())
+        self.assertTrue(all(path.exists() for path in sample_paths))
 
-    def test_removing_editorial_entry_cleans_generated_file_only(self):
+    def test_removed_generated_entries_leave_unrelated_files_alone(self):
         self.render()
-        unrelated = self.root / 'tasting-menu/papers/handwritten.html'
-        unrelated.write_text('<p>Unrelated page</p>')
-        self.papers = []
+        handwritten = self.root / 'tasting-menu/papers/handwritten.html'
+        handwritten.write_text('<p>An unrelated page</p>')
+        self.editions, self.papers = [], []
         self.render()
+        self.assertTrue(handwritten.exists())
         self.assertFalse((self.root / 'tasting-menu/papers/example-paper.html').exists())
-        self.assertTrue(unrelated.exists())
+        self.assertFalse((self.root / 'tasting-menu/editions/preview.html').exists())
 
-    def test_static_status_uses_configured_dates_without_claiming_open_now(self):
-        self.config['preview'] = False
-        self.config['edition'].update(status='open', opens='2027-01-01T00:00:00Z', closes='2027-01-15T23:59:59Z')
-        self.render()
-        index = (self.root / 'tasting-menu.html').read_text()
-        self.assertIn('Nomination window: 2027-01-01T00:00:00Z', index)
-        self.assertIn('2027-01-15T23:59:59Z', index)
-        self.assertNotIn('Pilot round · not open yet', index)
-        self.assertNotIn('Preview the submission flow', index)
-        self.assertIn('id="draft-button" disabled', index)
+    def test_real_quotes_and_results_require_this_repositorys_sources(self):
+        for field in ('quote', 'results', 'discussion'):
+            for url in (None, 'https://example.com/comment',
+                        'https://github.com/another/project/issues/1',
+                        f'https://github.com/{REPOSITORY}/issues-not-a-thread/1'):
+                with self.subTest(field=field, url=url):
+                    self.live()
+                    if field == 'quote':
+                        self.papers[0]['endorsements'][0]['url'] = url
+                    elif field == 'results':
+                        self.editions[0]['resultsUrl'] = url
+                    else:
+                        self.papers[0]['discussionUrl'] = url
+                    with self.assertRaises(ValueError):
+                        self.render()
 
-    def test_static_published_round_does_not_claim_first_edition_is_ahead(self):
-        self.config['preview'] = False
-        self.config['edition']['status'] = 'published'
-        self.papers = [self.real_paper('published-paper')]
-        self.render()
-        index = (self.root / 'tasting-menu.html').read_text()
-        self.assertIn('Edition published', index)
-        self.assertNotIn('The first edition is still ahead of us', index)
-
-    def test_limit_applies_per_edition_including_archived_editions(self):
-        self.papers = [self.real_paper(f'paper-{number}', 'past') for number in range(6)]
-        with self.assertRaisesRegex(ValueError, 'paper limit'):
-            self.render()
-        self.papers = [self.real_paper(f'paper-{number}', 'past' if number < 3 else 'pilot') for number in range(6)]
-        self.render()
-        self.config['maxPapers'] = 6
-        with self.assertRaisesRegex(ValueError, '1 to 5'):
-            self.render()
-
-    def test_invalid_editorial_is_rejected_before_writing(self):
-        invalid = [
-            ('summary', 'Not an array'), ('readingGuide', []), ('example', 'false'),
-            ('title', None), ('video', 'javascript:alert(1)'),
-            ('endorsements', [{'text': 'Praise', 'name': 'Reader', 'url': 'https://github.com/reader'}]),
-        ]
-        for field, value in invalid:
-            with self.subTest(field=field):
-                self.papers = [self.real_paper('valid'), self.real_paper('invalid')]
-                self.papers[1][field] = value
+    def test_examples_cannot_impersonate_real_readers_or_source_links(self):
+        for key, value in [('name', 'A real researcher'), ('url', SOURCE), ('example', False)]:
+            with self.subTest(field=key):
+                self.papers = [self.paper('example-paper', 'preview', example=True)]
+                self.papers[0]['endorsements'][0][key] = value
                 with self.assertRaises(ValueError):
                     self.render()
-                self.assertEqual((self.root / 'tasting-menu.html').read_text(), TEMPLATE)
+        self.papers = [self.paper('example-paper', 'preview', example=True)]
+        self.render()
+        self.assertIn('Illustrative quote · fictional attribution', self.read('tasting-menu/papers/example-paper.html'))
+
+    def test_more_than_five_qualifying_papers_are_all_published(self):
+        self.live()
+        self.papers = [self.paper(f'paper-{number}') for number in range(7)]
+        self.render()
+        self.assertEqual(len(list((self.root / 'tasting-menu/papers').glob('*.html'))), 7)
+        for paper in self.papers:
+            self.assertIn(f'papers/{paper["id"]}.html', self.read())
+        self.assertIn('7 papers', self.read('tasting-menu/archive.html'))
+
+    def test_twenty_ordinary_recommendations_qualify_without_extra_quorum(self):
+        self.live()
+        self.papers[0]['support'] = {'recommendations': 20, 'endorsements': 0, 'score': 20}
+        self.papers[0]['endorsements'][0].update(weight=1, relationship='Author / coauthor')
+        self.render()
+        page = self.read('tasting-menu/papers/real-paper.html')
+        self.assertIn('20 × +1 recommendations', page)
+        self.assertIn('0 × +5 endorsements', page)
+        self.assertIn('Author / coauthor', page)
+
+    def test_invalid_or_below_threshold_scores_are_rejected_before_writing(self):
+        invalid = [
+            {'recommendations': 0, 'endorsements': 4, 'score': 21},
+            {'recommendations': 4, 'endorsements': 3, 'score': 19},
+            {'recommendations': -1, 'endorsements': 5, 'score': 24},
+            {'recommendations': True, 'endorsements': 4, 'score': 21},
+        ]
+        for support in invalid:
+            with self.subTest(support=support):
+                self.live()
+                self.papers = [self.paper('valid'), self.paper('invalid')]
+                self.papers[1]['support'] = support
+                with self.assertRaises(ValueError):
+                    self.render()
+                self.assertEqual(self.read(), TEMPLATE)
                 self.assertFalse((self.root / 'tasting-menu/papers/valid.html').exists())
 
-    def test_duplicate_or_unsafe_ids_are_rejected(self):
-        for slug in ('example-paper', '../escape'):
-            with self.subTest(slug=slug):
-                self.papers = [copy.deepcopy(self.example), self.real_paper(slug)]
-                with self.assertRaisesRegex(ValueError, 'Paper IDs'):
-                    self.render()
-
-    def test_real_highlight_requires_selection_and_source_discussion(self):
-        for field in ('selectionReason', 'discussionUrl'):
-            with self.subTest(field=field):
-                self.papers = [self.real_paper('real-paper')]
-                self.papers[0][field] = None
-                with self.assertRaisesRegex(ValueError, field):
-                    self.render()
-
-    def test_text_is_escaped_and_unsafe_quote_url_is_rejected(self):
-        self.papers = [self.real_paper('real-paper')]
-        self.papers[0]['title'] = '<script>alert("title")</script>'
-        self.papers[0]['endorsements'] = [{
-            'text': '<img src=x onerror=alert(1)>', 'name': 'A <reader>',
-            'relationship': 'Independent reader', 'url': 'https://github.com/reader',
-        }]
+    def test_optional_author_guide_is_omitted_and_real_guide_has_no_placeholder(self):
+        self.live()
         self.render()
-        page = (self.root / 'tasting-menu/papers/real-paper.html').read_text()
-        self.assertIn('&lt;script&gt;', page)
-        self.assertIn('&lt;img', page)
-        self.assertNotIn('<script>', page)
-        self.papers[0]['endorsements'][0]['url'] = 'https://localhost/private'
+        page = self.read('tasting-menu/papers/real-paper.html')
+        self.assertNotIn('id="author-guide"', page)
+        self.assertNotIn('No companion video', page)
+        self.assertNotIn('Placeholder', page)
+        self.papers[0]['authorGuide'] = {
+            'example': False, 'by': 'The authors', 'title': 'A way into the paper',
+            'paragraphs': ['Start with the construction.'], 'videoUrl': None,
+        }
+        self.render()
+        page = self.read('tasting-menu/papers/real-paper.html')
+        self.assertIn('id="author-guide"', page)
+        self.assertIn('By The authors', page)
+        self.assertNotIn('Placeholder', page)
+
+    def test_sample_author_guide_is_explicitly_a_placeholder(self):
+        self.papers[0]['authorGuide'] = {
+            'example': True, 'by': 'Example authors', 'title': 'An illustrative guide',
+            'paragraphs': ['Sample guide copy, not supplied by the actual paper authors.'], 'videoUrl': None,
+        }
+        self.render()
+        page = self.read('tasting-menu/papers/example-paper.html')
+        self.assertIn('Optional author contribution · placeholder', page)
+        self.assertIn('no video has been supplied', page)
+
+    def test_archives_keep_permanent_navigation_and_their_original_scoring(self):
+        self.live()
+        old_rules = dict(SCORING, endorsement=3, threshold=30)
+        self.editions.append(self.edition('past', scoring=old_rules))
+        old_paper = self.paper('older-paper', 'past')
+        old_paper['support'] = {'recommendations': 0, 'endorsements': 10, 'score': 30}
+        old_paper['endorsements'][0]['weight'] = 3
+        self.papers.append(old_paper)
+        self.render()
+        self.assertIn('href="tasting-menu/editions/past.html"', self.read())
+        self.assertIn('href="../tasting-menu/editions/past.html"', self.read('tasting-menu/archive.html'))
+        edition_page = self.read('tasting-menu/editions/past.html')
+        self.assertIn('href="../../tasting-menu/papers/older-paper.html"', edition_page)
+        self.assertIn('+3 endorsement · 30-point threshold', edition_page)
+        old_page = self.read('tasting-menu/papers/older-paper.html')
+        self.assertIn('href="../editions/past.html"', old_page)
+        self.assertIn('href="../archive.html"', old_page)
+        self.assertIn('30-point threshold', old_page)
+        self.assertIn('20-point threshold', self.read('tasting-menu/papers/real-paper.html'))
+        self.assertIn('id="threshold-value">20</span>', self.read())
+        self.render(check=True)
+
+    def test_active_edition_rules_cannot_disagree_with_the_current_call(self):
+        self.live()
+        self.editions[0]['scoring']['threshold'] = 25
+        self.papers[0]['support'] = {'recommendations': 0, 'endorsements': 5, 'score': 25}
         with self.assertRaises(ValueError):
             self.render()
 
-    def test_missing_template_region_fails_instead_of_silently_skipping(self):
-        (self.root / 'tasting-menu.html').write_text(TEMPLATE.replace('<!-- highlights:end -->', ''))
-        with self.assertRaisesRegex(ValueError, 'highlights region'):
+    def test_no_javascript_status_is_truthful_for_every_round_state(self):
+        self.config['preview'] = False
+        self.editions, self.papers = [], []
+        expected = {'planning': 'Nominations have not opened', 'review': 'Host checks in progress',
+                    'closed': 'Nominations closed', 'published': 'Edition published'}
+        for status, label in expected.items():
+            with self.subTest(status=status):
+                self.config['edition']['status'] = status
+                self.render()
+                self.assertIn(label, self.read())
+                self.assertNotIn('No real nominations have been collected', self.read())
+        self.config['edition'].update(status='open', opens='2027-01-01T00:00:00Z', closes='2027-01-15T23:59:59Z')
+        self.render()
+        self.assertIn('Nomination window: 2027-01-01T00:00:00Z', self.read())
+        self.assertIn('2027-01-15T23:59:59Z', self.read())
+        self.assertIn('id="draft-button" disabled', self.read())
+
+    def test_unknown_edition_duplicate_ids_and_example_mismatches_are_rejected(self):
+        mutations = [
+            lambda: self.papers[0].update(edition='unknown'),
+            lambda: self.papers.append(copy.deepcopy(self.papers[0])),
+            lambda: self.editions.append(copy.deepcopy(self.editions[0])),
+            lambda: self.papers[0].update(example=True),
+            lambda: self.papers[0].update(id='../unsafe'),
+            lambda: self.editions[0].update(validationNote=''),
+        ]
+        for index, mutate in enumerate(mutations):
+            with self.subTest(case=index):
+                self.live()
+                mutate()
+                with self.assertRaises(ValueError):
+                    self.render()
+
+    def test_conflicted_quotes_cannot_claim_five_points(self):
+        for relationship in ('Author / coauthor', 'Other conflict of interest'):
+            with self.subTest(relationship=relationship):
+                self.live()
+                self.papers[0]['endorsements'][0]['relationship'] = relationship
+                with self.assertRaisesRegex(ValueError, 'Conflicted'):
+                    self.render()
+
+    def test_displayed_recommendations_cannot_duplicate_readers_or_exceed_tally(self):
+        self.live()
+        self.papers[0]['endorsements'].append(copy.deepcopy(self.papers[0]['endorsements'][0]))
+        with self.assertRaises(ValueError):
             self.render()
+        self.live()
+        self.papers[0]['support'] = {'recommendations': 20, 'endorsements': 0, 'score': 20}
+        # The retained +5 excerpt cannot be part of a tally containing no +5 votes.
+        with self.assertRaises(ValueError):
+            self.render()
+
+    def test_unsafe_links_are_rejected_and_reader_text_is_escaped(self):
+        self.live()
+        self.papers[0]['title'] = '<script>alert("title")</script>'
+        self.papers[0]['endorsements'][0].update(text='<img src=x onerror=alert(1)>', name='Reader <name>')
+        self.render()
+        page = self.read('tasting-menu/papers/real-paper.html')
+        self.assertIn('&lt;script&gt;', page)
+        self.assertIn('&lt;img', page)
+        self.assertIn('Reader &lt;name&gt;', page)
+        self.assertNotIn('<script>', page)
+        for url in ('javascript:alert(1)', 'https://localhost/private', 'https://127.0.0.1/private'):
+            with self.subTest(url=url):
+                self.live()
+                self.papers[0]['url'] = url
+                with self.assertRaises(ValueError):
+                    self.render()
+
+    def test_missing_generated_regions_fail_instead_of_silently_skipping(self):
+        for marker in ('<!-- highlights:end -->', '<!-- archive:end -->', 'id="threshold-value"'):
+            with self.subTest(marker=marker):
+                (self.root / 'tasting-menu.html').write_text(TEMPLATE.replace(marker, ''))
+                with self.assertRaises(ValueError):
+                    self.render()
+
+    def test_actual_site_template_build_is_repeatable_without_mutating_source(self):
+        source = (SITE / 'tasting-menu.html').read_text()
+        (self.root / 'tasting-menu.html').write_text(source)
+        self.render()
+        self.render(check=True)
+        self.assertEqual((SITE / 'tasting-menu.html').read_text(), source)
+        self.assertTrue((self.root / 'tasting-menu/archive.html').exists())
+        self.assertTrue((self.root / 'tasting-menu/editions/preview.html').exists())
 
 
 if __name__ == '__main__':

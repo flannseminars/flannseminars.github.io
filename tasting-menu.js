@@ -9,8 +9,16 @@
   let draft = '';
   const repositoryPattern = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
   const relationships = ['Independent reader', 'Author / coauthor', 'Other conflict of interest'];
-  const base = 'Recommend (+1)';
-  const strong = 'Strongly recommend (+2)';
+  const conflicted = 'Recommend (+1)';
+  const scoringKeys = ['recommendation', 'endorsement', 'threshold', 'minCommentLength'];
+  let base;
+  let strong;
+
+  function validScoring(scoring) {
+    return scoring && typeof scoring === 'object' && !Array.isArray(scoring) && Object.keys(scoring).length === scoringKeys.length && scoring.recommendation === 1 && scoring.endorsement > 1 && scoringKeys.every(key => Number.isSafeInteger(scoring[key]) && scoring[key] > 0);
+  }
+
+  function commentLength(value) { return Array.from(value.trim().replace(/\s+/gu, ' ')).length; }
 
   function element(tag, text, className) {
     const node = document.createElement(tag);
@@ -83,8 +91,14 @@
       title.append(paperURL ? externalLink(paperURL, paper.title) : element('span', paper.title));
       article.append(title, element('p', `${paper.authors} · ${paper.topic}`, 'tm-note'));
       const stats = element('div', undefined, 'tm-stats');
-      stats.append(element('span', `${paper.supporters} ${paper.supporters === 1 ? 'reader' : 'readers'}`), element('span', `${paper.strong} strong ${paper.strong === 1 ? 'recommendation' : 'recommendations'}`), element('span', `${paper.score} ${paper.score === 1 ? 'point' : 'points'}`), element('span', paper.eligible ? 'Ready for editorial review' : 'Gathering independent support'));
+      const qualifiedLabel = config.edition.status === 'published' ? 'Threshold reached · see the final public results' : 'Threshold reached · host checks pending';
+      stats.append(element('span', `${paper.supporters} ${paper.supporters === 1 ? 'reader' : 'readers'}`), element('span', `${paper.strong} strong ${paper.strong === 1 ? 'endorsement' : 'endorsements'}`), element('span', `${paper.score} / ${config.scoring.threshold} points`), element('span', paper.eligible ? qualifiedLabel : `${config.scoring.threshold - paper.score} more ${config.scoring.threshold - paper.score === 1 ? 'point' : 'points'} to reach the threshold`));
       article.append(stats);
+      const progress = element('progress', `${paper.score} / ${config.scoring.threshold} points`, 'tm-progress');
+      progress.max = config.scoring.threshold;
+      progress.value = Math.min(paper.score, config.scoring.threshold);
+      progress.setAttribute('aria-label', `${paper.score} of ${config.scoring.threshold} points toward the highlight threshold`);
+      article.append(progress);
       const details = element('details');
       details.append(element('summary', 'Read the recommendations'));
       const quotes = element('div', undefined, 'tm-quotes');
@@ -95,8 +109,6 @@
         const original = discussionURL(endorsement.url);
         if (original) cite.append(document.createTextNode(' · '), externalLink(original, 'Original'));
         quote.append(cite);
-        if (endorsement.checked) quote.append(element('p', `Read or checked: ${endorsement.checked}`, 'tm-note'));
-        if (endorsement.caveat) quote.append(element('p', `Caveat: ${endorsement.caveat}`, 'tm-note'));
         quotes.append(quote);
       }
       details.append(quotes);
@@ -137,16 +149,16 @@
   }
 
   function updateWeight() {
+    if (!config) return;
     const independent = $('relationship').value === relationships[0];
+    $('recommendation').options[0].value = independent ? base : conflicted;
+    $('recommendation').options[0].textContent = `${independent ? base : conflicted} — worth reading`;
     $('recommendation').options[1].disabled = !independent;
-    if (!independent) $('recommendation').value = base;
+    if (!independent) $('recommendation').value = conflicted;
     const isStrong = independent && $('recommendation').value === strong;
-    $('reason').minLength = isStrong ? 120 : 1;
-    $('checked').required = isStrong;
-    $('checked').minLength = isStrong ? 60 : 0;
-    $('caveat').required = isStrong;
-    $('caveat').minLength = isStrong ? 40 : 0;
-    $('weight-note').textContent = !independent ? 'Authors, coauthors, and other conflicts count as +1 at most and cannot satisfy independent-support requirements.' : isStrong ? 'For +2: at least 120 characters on why, 60 on what you checked, and 40 on a caveat.' : 'A +1 needs a reason. A strong +2 needs all three notes below.';
+    $('reason').minLength = config.scoring.minCommentLength;
+    $('reason').placeholder = 'What excites you about it? What could it change, enable, or help people see differently? Write in your own voice.';
+    $('weight-note').textContent = !independent ? `Authors, coauthors, and other declared conflicts count as +1 at most. Add your own comment of at least ${config.scoring.minCommentLength} characters.` : `${isStrong ? `A strong endorsement adds ${config.scoring.endorsement} points in total` : `A recommendation adds ${config.scoring.recommendation} ${config.scoring.recommendation === 1 ? 'point' : 'points'}`}. Explain why you believe this is a good paper in your own words (at least ${config.scoring.minCommentLength} characters). The highlight threshold is ${config.scoring.threshold} points.`;
     $('draft-panel').hidden = true;
   }
 
@@ -168,16 +180,21 @@
       $('paper-url').focus();
       return;
     }
-    // Whitespace and placeholders are checked again by the importer.
-    if (!values.reason.trim() || (values.recommendation === strong && [Array.from(values.reason.trim()).length < 120, Array.from(values.checked.trim()).length < 60, Array.from(values.caveat.trim()).length < 40].some(Boolean))) {
-      $('form-status').textContent = 'Please complete the recommendation notes. A strong recommendation needs 120 / 60 / 40 characters in the three fields.';
+    const allowedRecommendations = values.relationship === relationships[0] ? [base, strong] : [conflicted, base, strong];
+    if (!relationships.includes(values.relationship) || !allowedRecommendations.includes(values.recommendation)) {
+      $('form-status').textContent = 'Please choose your relationship to the paper and a recommendation level.';
+      return;
+    }
+    if (commentLength(values.reason) < config.scoring.minCommentLength) {
+      $('form-status').textContent = `Please add a comment of at least ${config.scoring.minCommentLength} characters explaining why you believe this is a good paper. Repeated spaces count as one character.`;
+      $('reason').focus();
       return;
     }
     draft = '<!-- flann-tasting-menu -->\n\nI understand this contribution is public and may be quoted by FLaNN with attribution.\n\n';
     if (!supporting) {
       draft += section('Edition', config.edition.id) + section('Paper title', values.title) + section('Paper URL', values.url) + section('Authors', values.authors) + section('Published', values.published) + section('Topic', values.topic);
     }
-    draft += section('Relationship', values.relationship) + section('Recommendation', values.recommendation) + section('Why read it?', values.reason) + section('What have you read or checked?', values.checked) + section('Caveat or limitation', values.caveat);
+    draft += section('Relationship', values.relationship) + section('Recommendation', values.relationship === relationships[0] ? values.recommendation : conflicted) + section('Why do you believe this is a good paper?', values.reason);
     $('draft-text').value = draft;
     $('draft-panel').hidden = false;
     $('submit-github').hidden = true;
@@ -233,8 +250,20 @@
   async function init() {
     $('draft-button').disabled = true;
     try {
-      config = await readJSON('data/tasting-menu.json');
-      if (!repositoryPattern.test(config.repository) || typeof config.preview !== 'boolean' || !config.edition) throw new Error('Invalid round configuration');
+      const loadedConfig = await readJSON('data/tasting-menu.json');
+      if (!loadedConfig || !repositoryPattern.test(loadedConfig.repository) || typeof loadedConfig.preview !== 'boolean' || !loadedConfig.edition || !validScoring(loadedConfig.scoring)) throw new Error('Invalid round configuration');
+      config = loadedConfig;
+      base = `Recommend (+${config.scoring.recommendation})`;
+      strong = `Strongly recommend (+${config.scoring.endorsement})`;
+      $('recommendation').options[0].value = base;
+      $('recommendation').options[0].textContent = `${base} — worth reading`;
+      $('recommendation').options[1].value = strong;
+      $('recommendation').options[1].textContent = `${strong} — I strongly believe in this paper`;
+      if ($('threshold-value')) $('threshold-value').textContent = config.scoring.threshold;
+      if ($('score-examples')) $('score-examples').textContent = `${Math.ceil(config.scoring.threshold / config.scoring.recommendation)} recommendations · ${Math.ceil(config.scoring.threshold / config.scoring.endorsement)} strong endorsements · or a mix`;
+      document.querySelectorAll('[data-score]').forEach(node => {
+        if (scoringKeys.includes(node.dataset.score)) node.textContent = config.scoring[node.dataset.score];
+      });
       if (!config.preview) {
         $('preview-notice').hidden = true;
         $('edition-label').textContent = config.edition.title;
@@ -244,11 +273,16 @@
       $('draft-button').disabled = !config.preview && !roundOpen();
       updateWeight();
       const snapshot = await readJSON('data/tasting-menu-nominations.json');
-      if (snapshot.edition !== config.edition.id || !Array.isArray(snapshot.papers)) throw new Error('Nomination snapshot is for a different edition');
+      if (!snapshot || snapshot.edition !== config.edition.id || !Array.isArray(snapshot.papers)) throw new Error('Nomination snapshot is for a different edition');
+      if (!validScoring(snapshot.scoring) || !scoringKeys.every(key => snapshot.scoring[key] === config.scoring[key])) throw new Error('Nomination snapshot uses different scoring rules');
+      if (!snapshot.papers.every(paper => paper && ['score', 'supporters', 'strong'].every(key => Number.isSafeInteger(paper[key]) && paper[key] >= 0) && paper.eligible === (paper.score >= config.scoring.threshold) && Array.isArray(paper.endorsements))) throw new Error('Invalid nomination snapshot');
       papers = snapshot.papers;
       $('snapshot-date').textContent = snapshot.updatedAt ? `Snapshot: ${dateLabel(snapshot.updatedAt)} · ${config.edition.title}` : config.preview ? 'Pilot round · not open yet' : `${config.edition.title} · awaiting first snapshot`;
       renderBoard();
     } catch (error) {
+      papers = [];
+      $('nomination-tools').hidden = true;
+      $('snapshot-date').textContent = 'Current nomination counts unavailable';
       const board = $('nominations');
       board.replaceChildren();
       const empty = element('div', undefined, 'tm-empty');

@@ -1,79 +1,221 @@
 {
+  "editions": [
+    {
+      "id": "preview",
+      "title": "The first serving",
+      "label": "Sample edition 01",
+      "published": "Date to be announced",
+      "example": true,
+      "description": "A look at how the first community menu could read. Every score and reader comment in this edition is illustrative.",
+      "scoring": {
+        "recommendation": 1,
+        "endorsement": 5,
+        "threshold": 20,
+        "minCommentLength": 20
+      },
+      "resultsUrl": null,
+      "validationNote": "Placeholder host note: after voting closes, hosts check duplicate votes, declared relationships, and any reported irregularities. No real checks or author contact have happened for these examples."
+    },
+    {
+      "id": "preview-previous",
+      "title": "From the reading shelf",
+      "label": "Sample previous edition",
+      "published": "Illustrative archive · no real publication date",
+      "example": true,
+      "description": "An archive demonstration. This is not a previously published FLaNN edition.",
+      "scoring": {
+        "recommendation": 1,
+        "endorsement": 5,
+        "threshold": 20,
+        "minCommentLength": 20
+      },
+      "resultsUrl": null,
+      "validationNote": "Placeholder archive record. A real edition keeps its final public tally, voting rules, and host verification note here."
+    }
+  ],
   "papers": [
     {
       "id": "transformer-cookbook",
-      "example": true,
       "edition": "preview",
+      "example": true,
       "title": "The Transformer Cookbook",
       "authors": "Andy Yang, Christopher Watson, Anton Xue, Satwik Bhattamishra, Jose Llarena, William Merrill, Emile Dos Santos Ferreira, Anej Svete, and David Chiang",
       "published": "2025",
       "topic": "Constructions & algorithms",
       "url": "https://arxiv.org/abs/2510.00368",
       "standfirst": "A collection of recipes for turning algorithms into transformer weights.",
-      "summary": [
-        "This paper brings together techniques for explicitly constructing transformers that carry out algorithms. Its recipes cover arithmetic in feed-forward layers and routing information through attention.",
-        "The collection offers a shared reference for constructions scattered across the literature. It is a useful place to begin when you want to understand how a computation can be represented inside the architecture."
+      "intro": [
+        "This example post shows how a highlight can grow out of its recommendations. The sample readers below are drawn to the prospect of sharing constructions and helping more people start working with them.",
+        "Their comments are the main story here. An author-written guide or short video can sit alongside them if the authors choose to contribute."
       ],
-      "whyRead": "For the moment when you want to build a transformer construction, and need a place to start.",
-      "readingGuide": [
-        "Choose one operation you already understand and follow how the paper encodes it.",
-        "Keep track of the architectural assumptions each recipe needs before combining constructions."
+      "endorsements": [
+        {
+          "example": true,
+          "name": "Example reader A",
+          "handle": "example-reader-a",
+          "relationship": "Independent reader",
+          "weight": 5,
+          "text": "What excites me is the possibility of making constructive arguments much easier to share. I can imagine using this as a common reference in a reading group, so we spend less time reconstructing the machinery and more time asking new questions.",
+          "url": null
+        },
+        {
+          "example": true,
+          "name": "Example reader B",
+          "handle": "example-reader-b",
+          "relationship": "Independent reader",
+          "weight": 5,
+          "text": "I would recommend this to someone who wants to move from understanding a transformer argument to trying a construction of their own. That change in confidence is why I think it deserves attention.",
+          "url": null
+        },
+        {
+          "example": true,
+          "name": "Example reader C",
+          "handle": "example-reader-c",
+          "relationship": "Independent reader",
+          "weight": 1,
+          "text": "This feels like the kind of resource I would keep returning to when starting a new project.",
+          "url": null
+        }
       ],
-      "caveat": "An explicit construction describes what chosen parameters can compute. Whether training discovers those parameters is a separate question.",
-      "video": null,
-      "discussionUrl": null,
-      "selectionReason": null,
-      "endorsements": []
+      "authorGuide": {
+        "example": true,
+        "by": "Example author attribution",
+        "title": "A short route into the paper",
+        "paragraphs": [
+          "Placeholder for an optional author-written guide. The authors could suggest where to begin, who the paper is for, or what they hope readers take away.",
+          "This space can also hold a link to an author video. No guide has been requested or contributed for this example."
+        ],
+        "videoUrl": null
+      },
+      "support": {
+        "recommendations": 4,
+        "endorsements": 4,
+        "score": 24
+      },
+      "hostNote": "Placeholder host note: the score shown is fictional. A real post will link the final public results and describe any corrections after the hosts’ checks."
     },
     {
       "id": "formal-languages-survey",
-      "example": true,
       "edition": "preview",
+      "example": true,
       "title": "What Formal Languages Can Transformers Express? A Survey",
       "authors": "Lena Strobl, William Merrill, Gail Weiss, David Chiang, and Dana Angluin",
       "published": "2024",
       "topic": "Expressivity & formal languages",
       "url": "https://arxiv.org/abs/2311.00208",
       "standfirst": "A map of expressivity results—and the assumptions that make them fit together.",
-      "summary": [
-        "The survey organizes theoretical work on which formal languages transformers can recognize. It documents the assumptions behind different results and provides a framework for comparing findings that can initially seem contradictory.",
-        "For a reader moving between papers, this is an entry point into the vocabulary of the area: what a result says depends on which transformer model it studies."
+      "intro": [
+        "This example brings together two imagined reasons for recommending a survey: connecting results and making the area easier to enter. A real post would quote the actual public recommendations."
       ],
-      "whyRead": "For reading two apparently contradictory results and figuring out which assumptions changed.",
-      "readingGuide": [
-        "Start with the definitions of the computational models before comparing their language classes.",
-        "Use the references to follow one expressivity question into its original proofs."
+      "endorsements": [
+        {
+          "example": true,
+          "name": "Example reader A",
+          "handle": "example-reader-a",
+          "relationship": "Independent reader",
+          "weight": 1,
+          "text": "The implication I care about is a more productive conversation across results. Having a shared map could help us notice when we disagree about assumptions rather than about what a model can do.",
+          "url": null
+        },
+        {
+          "example": true,
+          "name": "Example reader B",
+          "handle": "example-reader-b",
+          "relationship": "Independent reader",
+          "weight": 1,
+          "text": "I would put this on a reading-group list because it could give newcomers a way to join discussions that otherwise assume a lot of background.",
+          "url": null
+        }
       ],
-      "caveat": "A survey is a map of the literature at its publication date. Check the original paper for the exact statement and assumptions of any theorem you plan to use.",
-      "video": null,
-      "discussionUrl": null,
-      "selectionReason": null,
-      "endorsements": []
+      "authorGuide": null,
+      "support": {
+        "recommendations": 20,
+        "endorsements": 0,
+        "score": 20
+      },
+      "hostNote": "Placeholder host note: the score shown is fictional. A real post will link the final public results and describe any corrections after the hosts’ checks."
     },
     {
       "id": "thinking-like-transformers",
-      "example": true,
       "edition": "preview",
+      "example": true,
       "title": "Thinking Like Transformers",
       "authors": "Gail Weiss, Yoav Goldberg, and Eran Yahav",
       "published": "2021",
       "topic": "Programming & interpretation",
       "url": "https://arxiv.org/abs/2106.06981",
       "standfirst": "A programming language for reasoning about transformer computation.",
-      "summary": [
-        "The paper introduces RASP, the Restricted Access Sequence Processing language. It turns elements of transformer-encoder computation into primitives that can be composed into understandable programs.",
-        "Examples include histograms, sorting, and Dyck languages. The abstraction lets readers connect a task's program to the attention heads and layers needed to express it."
+      "intro": [
+        "The example comments below focus on what a programming perspective could make possible. A highlight can stay this concise when the recommendations already convey why readers are enthusiastic."
       ],
-      "whyRead": "For thinking through a transformer algorithm as a program you can inspect, one step at a time.",
-      "readingGuide": [
-        "Work through a small RASP program with a short input sequence before moving to a larger example.",
-        "Notice which operations are sequence-wise computations and which select information from other positions."
+      "endorsements": [
+        {
+          "example": true,
+          "name": "Example reader A",
+          "handle": "example-reader-a",
+          "relationship": "Independent reader",
+          "weight": 5,
+          "text": "This changes the kind of questions I want to ask about a model. A small program gives me something concrete to reason about, and I find that a compelling starting point for new work.",
+          "url": null
+        },
+        {
+          "example": true,
+          "name": "Example reader B",
+          "handle": "example-reader-b",
+          "relationship": "Independent reader",
+          "weight": 5,
+          "text": "I like the prospect of using this vocabulary to talk across theory and interpretability. It gives a conversation somewhere precise to begin.",
+          "url": null
+        }
       ],
-      "caveat": "A hand-written program is an abstraction of a possible computation, not evidence that every trained transformer uses that program.",
-      "video": null,
-      "discussionUrl": null,
-      "selectionReason": null,
-      "endorsements": []
+      "authorGuide": null,
+      "support": {
+        "recommendations": 2,
+        "endorsements": 4,
+        "score": 22
+      },
+      "hostNote": "Placeholder host note: the score shown is fictional. A real post will link the final public results and describe any corrections after the hosts’ checks."
+    },
+    {
+      "id": "formal-languages-survey-archive-example",
+      "edition": "preview-previous",
+      "example": true,
+      "title": "What Formal Languages Can Transformers Express? A Survey",
+      "authors": "Lena Strobl, William Merrill, Gail Weiss, David Chiang, and Dana Angluin",
+      "published": "2024",
+      "topic": "Expressivity & formal languages",
+      "url": "https://arxiv.org/abs/2311.00208",
+      "standfirst": "A map of expressivity results—and the assumptions that make them fit together.",
+      "intro": [
+        "This is an illustrative archived post. In a real previous edition, the original recommendations, final tally, and any author contribution would remain accessible here."
+      ],
+      "endorsements": [
+        {
+          "example": true,
+          "name": "Example reader A",
+          "handle": "example-reader-a",
+          "relationship": "Independent reader",
+          "weight": 1,
+          "text": "The implication I care about is a more productive conversation across results. Having a shared map could help us notice when we disagree about assumptions rather than about what a model can do.",
+          "url": null
+        },
+        {
+          "example": true,
+          "name": "Example reader B",
+          "handle": "example-reader-b",
+          "relationship": "Independent reader",
+          "weight": 1,
+          "text": "I would put this on a reading-group list because it could give newcomers a way to join discussions that otherwise assume a lot of background.",
+          "url": null
+        }
+      ],
+      "authorGuide": null,
+      "support": {
+        "recommendations": 20,
+        "endorsements": 0,
+        "score": 20
+      },
+      "hostNote": "Placeholder host note: the score shown is fictional. A real post will link the final public results and describe any corrections after the hosts’ checks."
     }
   ]
 }

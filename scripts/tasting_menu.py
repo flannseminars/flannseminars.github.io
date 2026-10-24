@@ -30,16 +30,16 @@ SNAPSHOT = ROOT / "data/tasting-menu-nominations.json"
 MARKER = "<!-- flann-tasting-menu -->"
 RELATIONSHIPS = {"Independent reader", "Author / coauthor", "Other conflict of interest"}
 BASE = "Recommend (+1)"
-STRONG = "Strongly recommend (+2)"
-STRONG_MINIMUMS = {"Why read it?": 120, "What have you read or checked?": 60, "Caveat or limitation": 40}
+STRONG = "Strongly recommend (+5)"
+REASON_FIELD = "Why do you believe this is a good paper?"
+SCORING_KEYS = {"recommendation", "endorsement", "threshold", "minCommentLength"}
 EXCLUDED_LABELS = {
     "rejected", "withdrawn", "spam", "tasting-menu-rejected",
     "tasting-menu-withdrawn", "tasting-menu-spam",
 }
 EMPTY_VALUES = {"", "_no response_", "no response", "n/a", "na", "none", "tbd", "-"}
 FIELD_NAMES = {"Edition", "Paper title", "Paper URL", "Authors", "Published", "Topic",
-               "Relationship", "Recommendation", "Why read it?",
-               "What have you read or checked?", "Caveat or limitation"}
+               "Relationship", "Recommendation", REASON_FIELD}
 
 
 class ValidationError(ValueError):
@@ -77,8 +77,9 @@ def validate_config(config: dict) -> None:
         raise ValidationError("repository must be owner/repository")
     if not isinstance(config.get("preview"), bool):
         raise ValidationError("preview must be true or false")
-    if type(config.get("maxPapers")) is not int or not 1 <= config["maxPapers"] <= 5:
-        raise ValidationError("maxPapers must be an integer from 1 to 5")
+    if type(config.get("targetPapers")) is not int or config["targetPapers"] < 1:
+        raise ValidationError("targetPapers must be a positive integer; it is a planning target, not a cap")
+    validate_scoring(config.get("scoring"))
     edition = config.get("edition")
     if not isinstance(edition, dict):
         raise ValidationError("edition must be an object")
@@ -98,6 +99,29 @@ def validate_config(config: dict) -> None:
         raise ValidationError("The round must close after it opens")
     if not config["preview"] and edition["status"] == "open" and not (opens and closes):
         raise ValidationError("A live open round needs opening and closing dates")
+
+
+def validate_scoring(scoring: dict) -> None:
+    if not isinstance(scoring, dict) or set(scoring) != SCORING_KEYS:
+        raise ValidationError("scoring must contain recommendation, endorsement, threshold and minCommentLength")
+    for key in SCORING_KEYS:
+        if type(scoring[key]) is not int or scoring[key] < 1:
+            raise ValidationError(f"scoring.{key} must be a positive integer")
+    if scoring["recommendation"] != 1:
+        raise ValidationError("The basic recommendation weight is fixed at 1, including author and conflicted recommendations")
+    if scoring["endorsement"] <= scoring["recommendation"]:
+        raise ValidationError("The endorsement weight must be greater than the recommendation weight")
+
+
+def recommendation_labels(scoring: dict) -> tuple[str, str]:
+    return f"Recommend (+{scoring['recommendation']})", f"Strongly recommend (+{scoring['endorsement']})"
+
+
+def valid_reason(value: str, scoring: dict) -> bool:
+    if not isinstance(value, str):
+        return False
+    normalized = re.sub(r"\s+", " ", value).strip()
+    return normalized.lower() not in EMPTY_VALUES and len(normalized) >= scoring["minCommentLength"]
 
 
 def safe_url(value: str) -> str:
@@ -199,34 +223,37 @@ def contribution_date(item: dict, config: dict, now: datetime) -> datetime | Non
     return created
 
 
-def endorsement(item: dict, fields: dict[str, str]) -> dict | None:
+def endorsement(item: dict, fields: dict[str, str], scoring: dict) -> dict | None:
     if not is_person(item) or fields.get("Relationship") not in RELATIONSHIPS:
         return None
     requested = fields.get("Recommendation")
-    if requested not in {BASE, STRONG} or not fields.get("Why read it?"):
+    base, strong_label = recommendation_labels(scoring)
+    independent = fields["Relationship"] == "Independent reader"
+    valid_labels = {base, strong_label} if independent else {BASE, base, strong_label}
+    if requested not in valid_labels or not valid_reason(fields.get(REASON_FIELD), scoring):
         return None
     try:
         url = safe_url(item.get("html_url", ""))
     except ValidationError:
         return None
-    strong = (requested == STRONG and fields["Relationship"] == "Independent reader"
-              and all(len(fields.get(key, "").strip()) >= minimum for key, minimum in STRONG_MINIMUMS.items()))
+    recommendation = requested if independent else BASE
     return {
         "login": item["user"]["login"],
         "relationship": fields["Relationship"],
-        "recommendation": STRONG if strong else BASE,
-        "reason": fields["Why read it?"],
-        "checked": fields.get("What have you read or checked?", ""),
-        "caveat": fields.get("Caveat or limitation", ""),
+        "recommendation": recommendation,
+        "reason": fields[REASON_FIELD],
         "url": url,
     }
 
 
-def summarize(endorsements: list[dict]) -> dict:
-    independent = [item for item in endorsements if item["relationship"] == "Independent reader"]
-    strong = sum(item["recommendation"] == STRONG for item in independent)
+def summarize(endorsements: list[dict], scoring: dict) -> dict:
+    _, strong_label = recommendation_labels(scoring)
+    strong = sum(item["relationship"] == "Independent reader" and item["recommendation"] == strong_label for item in endorsements)
+    score = sum(1 if item["relationship"] != "Independent reader" else
+                scoring["endorsement"] if item["recommendation"] == strong_label else scoring["recommendation"]
+                for item in endorsements)
     return {"supporters": len(endorsements), "strong": strong,
-            "score": len(endorsements) + strong, "eligible": len(independent) >= 2 and strong >= 1}
+            "score": score, "eligible": score >= scoring["threshold"]}
 
 
 def build_snapshot(config: dict, issues: list[dict], comments: dict[int, list[dict]],
@@ -266,7 +293,7 @@ def build_snapshot(config: dict, issues: list[dict], comments: dict[int, list[di
                 contributions.append((comment, parse_fields(comment.get("body"))))
         for item, review_fields in contributions:
             created = contribution_date(item, config, now)
-            review = endorsement(item, review_fields)
+            review = endorsement(item, review_fields, config["scoring"])
             if created is None or review is None:
                 continue
             login = review["login"].lower()
@@ -276,11 +303,12 @@ def build_snapshot(config: dict, issues: list[dict], comments: dict[int, list[di
                 votes[paper_id][login] = (order, review)
     for paper_id, paper in papers.items():
         reviews = [row[1] for _, row in sorted(votes[paper_id].items())]
-        paper.update(summarize(reviews))
+        paper.update(summarize(reviews, config["scoring"]))
         paper["endorsements"] = reviews
     return {
         "updatedAt": now.isoformat(timespec="seconds").replace("+00:00", "Z"),
         "edition": config["edition"]["id"],
+        "scoring": dict(config["scoring"]),
         "papers": sorted(papers.values(), key=lambda paper: (-paper["score"], paper["id"])),
     }
 
@@ -331,6 +359,9 @@ class GitHub:
 def validate_snapshot(config: dict, snapshot: dict) -> None:
     if not isinstance(snapshot, dict) or snapshot.get("edition") != config["edition"]["id"]:
         raise ValidationError("Snapshot must match the configured edition")
+    validate_scoring(snapshot.get("scoring"))
+    if snapshot["scoring"] != config["scoring"]:
+        raise ValidationError("Snapshot scoring must match the edition configuration; use a new edition ID to change established rules")
     if snapshot.get("updatedAt") is not None:
         timestamp(snapshot["updatedAt"])
     if not isinstance(snapshot.get("papers"), list):
@@ -361,18 +392,14 @@ def validate_snapshot(config: dict, snapshot: dict) -> None:
             if not is_person({"user": {"login": login}}) or login.lower() in people:
                 raise ValidationError("Endorsements require unique human logins")
             people.add(login.lower())
-            if review.get("relationship") not in RELATIONSHIPS or review.get("recommendation") not in {BASE, STRONG}:
+            base, strong_label = recommendation_labels(config["scoring"])
+            valid_labels = {base, strong_label} if review.get("relationship") == "Independent reader" else {BASE}
+            if review.get("relationship") not in RELATIONSHIPS or review.get("recommendation") not in valid_labels:
                 raise ValidationError("Unknown relationship or recommendation")
-            if not isinstance(review.get("reason"), str) or not review["reason"].strip():
-                raise ValidationError("Endorsements need a reason")
-            for key in ("checked", "caveat"):
-                if not isinstance(review.get(key), str):
-                    raise ValidationError(f"Endorsement {key} must be text")
+            if not valid_reason(review.get("reason"), config["scoring"]):
+                raise ValidationError("Recommendations need a comment meeting the edition's minimum length")
             safe_url(review.get("url", ""))
-            if review["recommendation"] == STRONG:
-                if review["relationship"] != "Independent reader" or len(review["reason"]) < 120 or len(review["checked"]) < 60 or len(review["caveat"]) < 40:
-                    raise ValidationError("Strong endorsements must meet independence and completeness rules")
-        for key, expected in summarize(reviews).items():
+        for key, expected in summarize(reviews, config["scoring"]).items():
             if type(paper.get(key)) is not type(expected) or paper.get(key) != expected:
                 raise ValidationError(f"Snapshot {key} disagrees with its endorsements")
 
@@ -409,11 +436,14 @@ def main() -> int:
         if args.command == "sync":
             if config["edition"]["status"] == "published":
                 raise ValidationError("Published editions are frozen. For an explicit reviewed correction, change edition.status to 'review', review the new snapshot in a pull request, then restore 'published'.")
+            previous = read_json(SNAPSHOT)
+            if previous.get("edition") == config["edition"]["id"] and previous.get("updatedAt") is not None and previous.get("scoring") != config["scoring"]:
+                raise ValidationError("This edition's scoring rules are frozen after its first snapshot. Use a new edition ID for changed rules.")
             issues, comments = GitHub(config["repository"], os.environ.get("GITHUB_TOKEN")).collect()
             snapshot = build_snapshot(config, issues, comments)
             validate_snapshot(config, snapshot)
             write_snapshot(snapshot)
-            print(f"Saved {len(snapshot['papers'])} nominations for editorial review. No GitHub changes or publication performed.")
+            print(f"Saved {len(snapshot['papers'])} nominations for host validation. No GitHub changes or publication performed.")
         else:
             validate_snapshot(config, read_json(SNAPSHOT))
             print("Tasting Menu configuration and nomination snapshot are valid.")

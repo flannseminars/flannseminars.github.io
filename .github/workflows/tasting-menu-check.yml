@@ -22,6 +22,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Test browser submission and scoring behavior
+        run: node --test tests/test_tasting_menu_ui.mjs
       - name: Test intake rules
         run: python3 -m unittest discover -s tests -v
       - name: Validate published data
@@ -36,7 +41,7 @@ jobs:
       - name: Validate fetched snapshot
         if: github.event_name == 'workflow_dispatch' && inputs.sync
         run: python3 scripts/tasting_menu.py check
-      - name: Upload snapshot for editorial review
+      - name: Upload snapshot for host validation
         if: github.event_name == 'workflow_dispatch' && inputs.sync
         uses: actions/upload-artifact@v4
         with:

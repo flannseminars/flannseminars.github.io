@@ -1,5 +1,11 @@
 {
   "updatedAt": null,
   "edition": "pilot",
+  "scoring": {
+    "recommendation": 1,
+    "endorsement": 5,
+    "threshold": 20,
+    "minCommentLength": 20
+  },
   "papers": []
 }
