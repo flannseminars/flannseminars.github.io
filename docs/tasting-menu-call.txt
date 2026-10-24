@@ -1,0 +1,27 @@
+Subject: What should the FLaNN community read? Help build our first Tasting Menu
+
+There are more papers than any of us can read carefully. We want to make it easier to find a few that are worth spending time with.
+
+We are trying a FLaNN Tasting Menu: three small editions a year, each highlighting up to five papers recommended by the community. Each highlight will include an accessible introduction, a paper link, an optional video, and attributed comments explaining what readers found valuable.
+
+For this pilot, suggest papers from [PAPER WINDOW / CONFERENCE CYCLE] by [CLOSING DATE, TIME, AND TIME ZONE]. The call opens on [OPENING DATE, TIME, AND TIME ZONE].
+
+Explore the menu and rules: [TASTING MENU URL]
+Nominate a paper or recommend an existing nomination: [PUBLIC NOMINATION URL]
+
+Please recommend something you have spent time with and would personally encourage another FLaNN reader to explore. Tell us what stood out, which result or idea deserves attention, and who might benefit from reading it. If you feel especially strongly, add a specific short endorsement and explain an important limitation or boundary.
+
+Everything happens openly in GitHub issues and comments, with public attribution. A GitHub account is needed for this pilot. Reactions are welcome, but counted recommendations use the structured comment format linked in each nomination.
+
+A recommendation carries one advisory point; a specific strong endorsement by someone who has read or checked the work carries two. You can nominate or recommend your own paper, but please declare that relationship: an author's or other conflicted endorsement carries at most one point and does not count as independent support. One person has one counted position per paper.
+
+We will review the full nomination window before choosing the menu. To be considered for a highlight, a paper needs at least two independent readers' support, including one independent strong endorsement. The tally helps us find promising candidates; editors also consider the substance of the recommendations, relevance to FLaNN, and the mix of the edition. We will publish selection reasons and keep the complete nomination list available. Being left out is not a negative judgment about a paper.
+
+Editors for this pilot: [EDITOR NAMES]
+Planned publication: [PUBLICATION TARGET]
+
+Your GitHub name, recommendation, and relationship to the paper are public. By contributing through the nomination or recommendation flow, you agree that FLaNN may quote your recommendation with attribution and a link to the original.
+
+What have you read recently that you want other people to discover?
+
+The FLaNN organizers

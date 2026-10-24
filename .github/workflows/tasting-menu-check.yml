@@ -1,0 +1,45 @@
+name: Tasting Menu checks and preview snapshot
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      sync:
+        description: Fetch public nominations and upload a reviewable snapshot artifact
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test intake rules
+        run: python3 -m unittest discover -s tests -v
+      - name: Validate published data
+        run: python3 scripts/tasting_menu.py check
+      - name: Validate editorial content and generated pages
+        run: python3 scripts/build_tasting_menu.py --check
+      - name: Fetch preview snapshot
+        if: github.event_name == 'workflow_dispatch' && inputs.sync
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/tasting_menu.py sync
+      - name: Validate fetched snapshot
+        if: github.event_name == 'workflow_dispatch' && inputs.sync
+        run: python3 scripts/tasting_menu.py check
+      - name: Upload snapshot for editorial review
+        if: github.event_name == 'workflow_dispatch' && inputs.sync
+        uses: actions/upload-artifact@v4
+        with:
+          name: tasting-menu-nominations
+          path: data/tasting-menu-nominations.json
+          retention-days: 30

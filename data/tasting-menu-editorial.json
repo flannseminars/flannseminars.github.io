@@ -1,0 +1,79 @@
+{
+  "papers": [
+    {
+      "id": "transformer-cookbook",
+      "example": true,
+      "edition": "preview",
+      "title": "The Transformer Cookbook",
+      "authors": "Andy Yang, Christopher Watson, Anton Xue, Satwik Bhattamishra, Jose Llarena, William Merrill, Emile Dos Santos Ferreira, Anej Svete, and David Chiang",
+      "published": "2025",
+      "topic": "Constructions & algorithms",
+      "url": "https://arxiv.org/abs/2510.00368",
+      "standfirst": "A collection of recipes for turning algorithms into transformer weights.",
+      "summary": [
+        "This paper brings together techniques for explicitly constructing transformers that carry out algorithms. Its recipes cover arithmetic in feed-forward layers and routing information through attention.",
+        "The collection offers a shared reference for constructions scattered across the literature. It is a useful place to begin when you want to understand how a computation can be represented inside the architecture."
+      ],
+      "whyRead": "For the moment when you want to build a transformer construction, and need a place to start.",
+      "readingGuide": [
+        "Choose one operation you already understand and follow how the paper encodes it.",
+        "Keep track of the architectural assumptions each recipe needs before combining constructions."
+      ],
+      "caveat": "An explicit construction describes what chosen parameters can compute. Whether training discovers those parameters is a separate question.",
+      "video": null,
+      "discussionUrl": null,
+      "selectionReason": null,
+      "endorsements": []
+    },
+    {
+      "id": "formal-languages-survey",
+      "example": true,
+      "edition": "preview",
+      "title": "What Formal Languages Can Transformers Express? A Survey",
+      "authors": "Lena Strobl, William Merrill, Gail Weiss, David Chiang, and Dana Angluin",
+      "published": "2024",
+      "topic": "Expressivity & formal languages",
+      "url": "https://arxiv.org/abs/2311.00208",
+      "standfirst": "A map of expressivity results—and the assumptions that make them fit together.",
+      "summary": [
+        "The survey organizes theoretical work on which formal languages transformers can recognize. It documents the assumptions behind different results and provides a framework for comparing findings that can initially seem contradictory.",
+        "For a reader moving between papers, this is an entry point into the vocabulary of the area: what a result says depends on which transformer model it studies."
+      ],
+      "whyRead": "For reading two apparently contradictory results and figuring out which assumptions changed.",
+      "readingGuide": [
+        "Start with the definitions of the computational models before comparing their language classes.",
+        "Use the references to follow one expressivity question into its original proofs."
+      ],
+      "caveat": "A survey is a map of the literature at its publication date. Check the original paper for the exact statement and assumptions of any theorem you plan to use.",
+      "video": null,
+      "discussionUrl": null,
+      "selectionReason": null,
+      "endorsements": []
+    },
+    {
+      "id": "thinking-like-transformers",
+      "example": true,
+      "edition": "preview",
+      "title": "Thinking Like Transformers",
+      "authors": "Gail Weiss, Yoav Goldberg, and Eran Yahav",
+      "published": "2021",
+      "topic": "Programming & interpretation",
+      "url": "https://arxiv.org/abs/2106.06981",
+      "standfirst": "A programming language for reasoning about transformer computation.",
+      "summary": [
+        "The paper introduces RASP, the Restricted Access Sequence Processing language. It turns elements of transformer-encoder computation into primitives that can be composed into understandable programs.",
+        "Examples include histograms, sorting, and Dyck languages. The abstraction lets readers connect a task's program to the attention heads and layers needed to express it."
+      ],
+      "whyRead": "For thinking through a transformer algorithm as a program you can inspect, one step at a time.",
+      "readingGuide": [
+        "Work through a small RASP program with a short input sequence before moving to a larger example.",
+        "Notice which operations are sequence-wise computations and which select information from other positions."
+      ],
+      "caveat": "A hand-written program is an abstraction of a possible computation, not evidence that every trained transformer uses that program.",
+      "video": null,
+      "discussionUrl": null,
+      "selectionReason": null,
+      "endorsements": []
+    }
+  ]
+}

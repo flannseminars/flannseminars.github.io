@@ -1,0 +1,94 @@
+name: Tasting Menu — nominate a paper
+description: Propose a paper for a configured FLaNN Tasting Menu round.
+title: "[Tasting Menu] "
+labels: ["tasting-menu"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This form is the proposed public intake for FLaNN's Tasting Menu. Its presence does not mean a round is open. Check the website's current round and dates before submitting.
+
+        Search existing nominations first. To endorse an existing paper, use the recommendation comment template in `docs/TASTING_MENU.md` instead of opening another issue.
+
+        **Public data notice:** your GitHub username, paper details, recommendation and review text will be public on this issue and may be reproduced on FLaNN's website with attribution and a link. Do not include private information. Submitting this form agrees to that use. FLaNN moderators make the final selection; scores are advisory.
+  - type: input
+    id: edition
+    attributes:
+      label: Edition
+      description: Use the exact edition ID advertised by the open call. The draft pilot ID is “pilot”.
+      placeholder: pilot
+    validations:
+      required: true
+  - type: input
+    id: paper-title
+    attributes:
+      label: Paper title
+    validations:
+      required: true
+  - type: input
+    id: paper-url
+    attributes:
+      label: Paper URL
+      description: Use an HTTPS arXiv abstract or DOI link where possible, so endorsements merge correctly.
+      placeholder: https://arxiv.org/abs/2401.01234
+    validations:
+      required: true
+  - type: input
+    id: authors
+    attributes:
+      label: Authors
+    validations:
+      required: true
+  - type: input
+    id: published
+    attributes:
+      label: Published
+      description: Publication or first public preprint date, in YYYY-MM-DD format. Moderators verify cycle eligibility.
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+  - type: input
+    id: topic
+    attributes:
+      label: Topic
+      description: A short topic or area, in your own words.
+    validations:
+      required: true
+  - type: dropdown
+    id: relationship
+    attributes:
+      label: Relationship
+      description: Disclose authorship, collaboration or other interests. Author and conflicted endorsements count at most +1 and do not meet the independent-reader threshold.
+      options:
+        - Independent reader
+        - Author / coauthor
+        - Other conflict of interest
+    validations:
+      required: true
+  - type: dropdown
+    id: recommendation
+    attributes:
+      label: Recommendation
+      description: A strong recommendation needs at least 120 characters of rationale, 60 about what you checked, and 40 about a caveat. Shorter complete reviews count +1. Use enthusiasm with specifics; superlatives alone add no weight.
+      options:
+        - Recommend (+1)
+        - Strongly recommend (+2)
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why read it?
+      description: What specific idea, result or insight made this paper worth other readers' attention?
+    validations:
+      required: true
+  - type: textarea
+    id: checked
+    attributes:
+      label: What have you read or checked?
+      description: Needed for +2; optional for +1. Be precise about the sections, arguments, experiments or code you examined. Do not imply verification you have not done.
+  - type: textarea
+    id: caveat
+    attributes:
+      label: Caveat or limitation
+      description: Needed for +2; optional for +1. Give a concrete limitation, uncertainty, boundary of applicability or open question.

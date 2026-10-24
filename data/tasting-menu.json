@@ -1,0 +1,13 @@
+{
+  "repository": "flannseminars/flannseminars.github.io",
+  "preview": true,
+  "edition": {
+    "id": "pilot",
+    "title": "Pilot edition",
+    "status": "planning",
+    "opens": null,
+    "closes": null,
+    "paperWindow": "Previous research cycle"
+  },
+  "maxPapers": 5
+}
