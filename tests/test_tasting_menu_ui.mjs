@@ -41,8 +41,7 @@ async function mount({ preview = true, status = 'open', rules = scoring, snapsho
     'paper-title', 'paper-url', 'paper-authors', 'paper-published', 'paper-topic', 'form-mode',
     'draft-button', 'draft-panel', 'form-status', 'nominate', 'relationship', 'recommendation',
     'reason', 'weight-note', 'draft-text', 'submit-github', 'open-thread', 'reset-mode', 'draft-help',
-    'copy-draft', 'preview-notice', 'edition-label', 'form-explanation', 'snapshot-date',
-    'threshold-value', 'score-examples'];
+    'copy-draft', 'form-explanation', 'snapshot-date'];
   const nodes = Object.fromEntries(ids.map(id => [id, new Node()]));
   nodes['paper-filter'].value = 'all';
   nodes.relationship.value = 'Independent reader';
@@ -112,7 +111,6 @@ test('conflicted recommendations cap at one when the endorsement weight changes'
   assert.equal(app.nodes.recommendation.options[1].disabled, true);
   assert.equal(app.nodes.recommendation.value, 'Recommend (+1)');
   assert.match(app.nodes['draft-text'].value, /### Recommendation\n\nRecommend \(\+1\)/);
-  assert.equal(app.nodes['threshold-value'].textContent, '28');
 });
 
 test('live GitHub handoff preserves the draft and avoids privileged label parameters', async () => {
@@ -140,14 +138,15 @@ test('a snapshot from different scoring rules shows no counts', async () => {
   assert.equal(app.nodes['snapshot-date'].textContent, 'Current nomination counts unavailable');
 });
 
-test('threshold cards show progress and host validation without extra review fields', async () => {
-  const endorsements = Array.from({ length: 4 }, (_, index) => ({ login: `reader-${index}`, relationship: 'Independent reader', recommendation: 'Strongly recommend (+5)', reason: 'A useful new way of thinking about this problem.', url: `https://github.com/flannseminars/flannseminars.github.io/issues/1#issuecomment-${index + 10}` }));
-  const paper = { title: 'A nominated paper', authors: 'A. Researcher', topic: 'Theory', url: 'https://arxiv.org/abs/2401.01234', issueUrl: 'https://github.com/flannseminars/flannseminars.github.io/issues/1', score: 20, supporters: 4, strong: 4, eligible: true,
-    endorsements };
-  const app = await mount({ papers: [paper] });
-  assert.match(app.nodes.nominations.textContent, /20 \/ 20 points/);
-  assert.match(app.nodes.nominations.textContent, /Threshold reached · host checks pending/);
-  const progress = app.nodes.nominations.children[0].children.find(node => node.tag === 'progress');
-  assert.equal(progress.max, 20);
-  assert.equal(progress.value, 20);
+test('poll cards count endorsements independently of their weight and validate qualification', async () => {
+  for (const rules of [scoring, { ...scoring, endorsement: 7, threshold: 28 }]) {
+    const endorsements = Array.from({ length: 4 }, (_, index) => ({ login: `reader-${index}`, relationship: 'Independent reader', recommendation: `Strongly recommend (+${rules.endorsement})`, reason: 'A useful new way of thinking about this problem.', url: `https://github.com/flannseminars/flannseminars.github.io/issues/1#issuecomment-${index + 10}` }));
+    const paper = { title: 'A nominated paper', authors: 'A. Researcher', topic: 'Theory', url: 'https://arxiv.org/abs/2401.01234', issueUrl: 'https://github.com/flannseminars/flannseminars.github.io/issues/1', score: rules.threshold, supporters: 4, strong: 4, eligible: true, endorsements };
+    const app = await mount({ rules, papers: [paper] });
+    assert.match(app.nodes.nominations.textContent, /4 strong endorsements/);
+    assert.match(app.nodes.nominations.textContent, /Host checks pending/);
+    const inconsistent = await mount({ rules, papers: [{ ...paper, score: rules.threshold - 1 }] });
+    assert.match(inconsistent.nodes.nominations.textContent, /could not be loaded/);
+    assert.equal(inconsistent.nodes['nomination-tools'].hidden, true);
+  }
 });

@@ -1,0 +1,13 @@
+Hey everyone! There are more papers each cycle than any of us can read carefully, and it’s easy to miss something that someone else found exciting.
+
+We’re putting together a **FLaNN Tasting Menu**: three editions a year highlighting papers that people in this community want others to discover. The idea is to make those recommendations public, along with what makes the work worth reading.
+
+Here’s how it would work:
+
+- Suggest a paper you’ve spent time with, or support an existing nomination on GitHub.
+- Give it a **+1 recommendation** or a **+5 enthusiastic endorsement**, with at least a line about why you believe it’s good. Write freely: what excites you, or what could its implications be?
+- Papers reaching **20 points** qualify after hosts check the public results for eligibility, conflicts, and foul play. Four enthusiastic readers, twenty recommendations, or a mixture can get a paper there.
+
+Self-nominations are welcome and count as +1. Recommendations are public, and highlights will feature readers’ comments with attribution. We’ll also invite authors to contribute an optional written or video guide.
+
+We’ll share the first round’s dates, paper window, and submission link soon. In the meantime, start thinking about a paper you’d love more people to read!

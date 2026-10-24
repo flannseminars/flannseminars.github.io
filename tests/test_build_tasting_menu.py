@@ -19,17 +19,14 @@ REPOSITORY = 'flannseminars/flannseminars.github.io'
 SOURCE = f'https://github.com/{REPOSITORY}/issues/123#issuecomment-456'
 SCORING = {'recommendation': 1, 'endorsement': 5, 'threshold': 20, 'minCommentLength': 20}
 TEMPLATE = '''<!doctype html><html><body>
-<div class="tm-preview" id="preview-notice">Preview</div>
-<span id="edition-label">Edition</span>
 <!-- highlights:start --><!-- highlights:end -->
-<span id="threshold-value">20</span><p id="score-examples">Example combinations</p>
 <span data-score="recommendation">1</span><span data-score="endorsement">5</span>
 <span id="snapshot-date">Not open</span>
-<div id="nominations" aria-live="polite"><div>Preview nominations</div></div>
+<div id="nominations" aria-live="polite"><div>No nominations yet</div></div>
 <noscript>Read GitHub</noscript>
-<span id="form-mode">Preview</span>
-<p class="tm-note" id="form-explanation">Preview</p>
-<button type="submit" id="draft-button" disabled>Preview</button>
+<span id="form-mode">Next edition</span>
+<p class="tm-note" id="form-explanation">Prepare a recommendation for the next round.</p>
+<button type="submit" id="draft-button" disabled>Prepare draft →</button>
 <!-- archive:start --><!-- archive:end -->
 </body></html>'''
 
@@ -114,7 +111,6 @@ class BuildTastingMenuTests(unittest.TestCase):
         self.render(check=True)
         self.config['preview'] = True
         self.render()
-        self.assertIn('id="preview-notice"><strong>Design preview', self.read())
         self.assertTrue(all(path.exists() for path in sample_paths))
 
     def test_removed_generated_entries_leave_unrelated_files_alone(self):
@@ -152,7 +148,9 @@ class BuildTastingMenuTests(unittest.TestCase):
                     self.render()
         self.papers = [self.paper('example-paper', 'preview', example=True)]
         self.render()
-        self.assertIn('Illustrative quote · fictional attribution', self.read('tasting-menu/papers/example-paper.html'))
+        page = self.read('tasting-menu/papers/example-paper.html')
+        self.assertNotIn('Example reader A', page)
+        self.assertNotIn(self.papers[0]['endorsements'][0]['text'], page)
 
     def test_more_than_five_qualifying_papers_are_all_published(self):
         self.live()
@@ -169,9 +167,18 @@ class BuildTastingMenuTests(unittest.TestCase):
         self.papers[0]['endorsements'][0].update(weight=1, relationship='Author / coauthor')
         self.render()
         page = self.read('tasting-menu/papers/real-paper.html')
-        self.assertIn('20 × +1 recommendations', page)
-        self.assertIn('0 × +5 endorsements', page)
+        self.assertIn('20 recommendations', page)
+        self.assertIn('20 <span>endorsements</span>', page)
+        self.assertIn('0 strong endorsements', page)
         self.assertIn('Author / coauthor', page)
+        self.assertIn('20<small>endorsements</small>', self.read())
+
+    def test_menu_counts_people_instead_of_weighted_points(self):
+        self.live()
+        self.papers[0]['support'] = {'recommendations': 1, 'endorsements': 4, 'score': 21}
+        self.render()
+        self.assertIn('5<small>endorsements</small>', self.read())
+        self.assertNotIn('21<small>endorsements</small>', self.read())
 
     def test_invalid_or_below_threshold_scores_are_rejected_before_writing(self):
         invalid = [
@@ -207,15 +214,16 @@ class BuildTastingMenuTests(unittest.TestCase):
         self.assertIn('By The authors', page)
         self.assertNotIn('Placeholder', page)
 
-    def test_sample_author_guide_is_explicitly_a_placeholder(self):
+    def test_sample_author_guide_is_not_displayed_as_an_author_contribution(self):
         self.papers[0]['authorGuide'] = {
             'example': True, 'by': 'Example authors', 'title': 'An illustrative guide',
             'paragraphs': ['Sample guide copy, not supplied by the actual paper authors.'], 'videoUrl': None,
         }
         self.render()
         page = self.read('tasting-menu/papers/example-paper.html')
-        self.assertIn('Optional author contribution · placeholder', page)
-        self.assertIn('no video has been supplied', page)
+        self.assertNotIn('id="author-guide"', page)
+        self.assertNotIn('Example authors', page)
+        self.assertNotIn('Sample guide copy', page)
 
     def test_archives_keep_permanent_navigation_and_their_original_scoring(self):
         self.live()
@@ -234,9 +242,7 @@ class BuildTastingMenuTests(unittest.TestCase):
         old_page = self.read('tasting-menu/papers/older-paper.html')
         self.assertIn('href="../editions/past.html"', old_page)
         self.assertIn('href="../archive.html"', old_page)
-        self.assertIn('30-point threshold', old_page)
-        self.assertIn('20-point threshold', self.read('tasting-menu/papers/real-paper.html'))
-        self.assertIn('id="threshold-value">20</span>', self.read())
+        self.assertIn('20-point threshold', self.read('tasting-menu/editions/pilot.html'))
         self.render(check=True)
 
     def test_active_edition_rules_cannot_disagree_with_the_current_call(self):
@@ -316,7 +322,7 @@ class BuildTastingMenuTests(unittest.TestCase):
                     self.render()
 
     def test_missing_generated_regions_fail_instead_of_silently_skipping(self):
-        for marker in ('<!-- highlights:end -->', '<!-- archive:end -->', 'id="threshold-value"'):
+        for marker in ('<!-- highlights:end -->', '<!-- archive:end -->', 'id="snapshot-date"'):
             with self.subTest(marker=marker):
                 (self.root / 'tasting-menu.html').write_text(TEMPLATE.replace(marker, ''))
                 with self.assertRaises(ValueError):

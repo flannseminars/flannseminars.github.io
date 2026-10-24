@@ -2,11 +2,11 @@
   "editions": [
     {
       "id": "preview",
-      "title": "The first serving",
-      "label": "Sample edition 01",
+      "title": "Edition 01",
+      "label": "Edition 01",
       "published": "Date to be announced",
       "example": true,
-      "description": "A look at how the first community menu could read. Every score and reader comment in this edition is illustrative.",
+      "description": "Papers from the FLaNN Tasting Menu, edition 01.",
       "scoring": {
         "recommendation": 1,
         "endorsement": 5,
@@ -18,11 +18,11 @@
     },
     {
       "id": "preview-previous",
-      "title": "From the reading shelf",
-      "label": "Sample previous edition",
+      "title": "Edition 00",
+      "label": "Edition 00",
       "published": "Illustrative archive · no real publication date",
       "example": true,
-      "description": "An archive demonstration. This is not a previously published FLaNN edition.",
+      "description": "Papers from the FLaNN Tasting Menu, edition 00.",
       "scoring": {
         "recommendation": 1,
         "endorsement": 5,

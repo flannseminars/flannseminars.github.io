@@ -3,7 +3,6 @@
 import argparse
 import html
 import json
-import math
 import re
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -158,13 +157,11 @@ def shell(title, description, content, prefix='../../'):
 '''
 
 
-def preview_notice(label='Layout preview'):
-    return f'<div class="tm-preview"><strong>{label}</strong><span>Sample copy, names, scores, and contributions. No real endorsements, author contributions, or published edition are implied.</span></div>'
-
-
 def quote_markup(review, index):
+    if review['example']:
+        return ''
     label = 'Enthusiastic endorsement' if review['weight'] > 1 else 'Recommendation'
-    source = '<span class="tm-sample-label">Illustrative quote · fictional attribution</span>' if review['example'] else link(review['url'], 'Original public comment ↗', 'tm-quote-source')
+    source = link(review['url'], 'Original public comment ↗', 'tm-quote-source')
     name = escape(review['name'])
     handle = '<span>@' + escape(review['handle']) + '</span>' if review.get('handle') else ''
     return f'''<figure class="tm-reader-quote"><div class="tm-quote-level">{escape(label)} <b>+{review['weight']}</b></div><blockquote>“{escape(review['text'])}”</blockquote><figcaption><span class="tm-reader-initial" aria-hidden="true">{escape(review['name'].split()[-1][:1])}</span><span><strong>{name}</strong>{handle}<small>{escape(review['relationship'])}</small></span></figcaption>{source}</figure>'''
@@ -172,67 +169,66 @@ def quote_markup(review, index):
 
 def support_note(paper, edition):
     counts = paper['support']
-    sample = 'Illustrative tally' if paper['example'] else 'Final public tally'
-    return f'''<aside class="tm-post-tally"><div class="tm-kicker">{sample}</div><div class="tm-post-score">{counts['score']} <span>points</span></div><p>{counts['endorsements']} × +{edition['scoring']['endorsement']} endorsements<br>{counts['recommendations']} × +{edition['scoring']['recommendation']} recommendations</p><div class="tm-tally-cut">{edition['scoring']['threshold']}-point threshold</div></aside>'''
+    total = counts['recommendations'] + counts['endorsements']
+    return f'''<aside class="tm-post-tally"><div class="tm-post-score">{total} <span>{'endorsement' if total == 1 else 'endorsements'}</span></div><p>{counts['recommendations']} {'recommendation' if counts['recommendations'] == 1 else 'recommendations'} · {counts['endorsements']} strong {'endorsement' if counts['endorsements'] == 1 else 'endorsements'}</p></aside>'''
 
 
 def paper_page(paper, edition):
     example = paper['example']
-    notice = preview_notice('Example blog post') if example else ''
-    intro = ''.join('<p>' + escape(p) + '</p>' for p in paper.get('intro', []))
-    sources = '<p class="tm-note">These sample comments demonstrate the presentation. They were not submitted by real readers. A real post links each excerpt to its public GitHub source.</p>' if example else '<p class="tm-note">Excerpts from public recommendations, with attribution. Follow the source links for each reader’s full comment.</p>'
+    intro = '' if example else ''.join('<p>' + escape(p) + '</p>' for p in paper.get('intro', []))
     quotes = ''.join(quote_markup(review, index) for index, review in enumerate(paper['endorsements']))
+    intro_section = '<div class="tm-prose tm-editor-note">' + intro + '</div>' if intro else ''
+    comments = '<div class="tm-community-voices">' + quotes + '</div>' if quotes else '<p class="tm-note">Reader comments will appear here.</p>'
     guide_html = ''
     guide = paper.get('authorGuide')
-    if guide:
-        placeholder = '<span class="tm-sample-label">Optional author contribution · placeholder</span>' if guide['example'] else '<div class="tm-kicker">From the authors</div>'
+    if guide and not guide['example']:
         content = ''.join('<p>' + escape(p) + '</p>' for p in guide.get('paragraphs', []))
         video = link(guide['videoUrl'], 'Watch the authors’ video guide ↗', 'tm-button secondary') if guide.get('videoUrl') else ''
-        if guide['example'] and not guide.get('videoUrl'):
-            video = '<div class="tm-video-demo"><span aria-hidden="true">▷</span><div><strong>Author video guide</strong><p>Placeholder layout · no video has been supplied</p></div></div>'
-        guide_html = f'<section class="tm-author-guide" id="author-guide">{placeholder}<h2>{escape(guide["title"])}</h2><p class="tm-guide-byline">By {escape(guide["by"])}</p>{content}{video}</section>'
-    result = '<span class="tm-note">No public results exist for this example.</span>' if example else link(paper['discussionUrl'], 'All recommendations & public results ↗', 'tm-text-link')
-    guide_link = '<a href="#author-guide">Author guide ↓</a>' if guide else ''
-    content = f'''{notice}<nav class="tm-breadcrumb" aria-label="Within the tasting menu"><a href="../../tasting-menu.html">Tasting Menu</a><span>/</span><a href="../editions/{edition['id']}.html">{escape(edition['label'])}</a><span>/</span><a href="../archive.html">All editions</a></nav>
+        guide_html = f'<section class="tm-author-guide" id="author-guide"><div class="tm-kicker">From the authors</div><h2>{escape(guide["title"])}</h2><p class="tm-guide-byline">By {escape(guide["by"])}</p>{content}{video}</section>'
+    host_note = ''
+    if not example:
+        result = link(paper['discussionUrl'], 'Public recommendations ↗', 'tm-text-link')
+        host_note = f'<section class="tm-host-note"><div class="tm-kicker">After the public vote</div><p>{escape(paper["hostNote"])}</p>{result}</section>'
+    guide_link = '<a href="#author-guide">Author guide ↓</a>' if guide_html else ''
+    content = f'''<nav class="tm-breadcrumb" aria-label="Within the tasting menu"><a href="../../tasting-menu.html">Tasting Menu</a><span>/</span><a href="../editions/{edition['id']}.html">{escape(edition['label'])}</a><span>/</span><a href="../archive.html">All editions</a></nav>
 <article class="tm-blog"><header class="tm-blog-head"><div class="tm-kicker">{escape(paper['topic'])} · {escape(paper['published'])}</div><h1>{escape(paper['title'])}</h1><p class="tm-authors">{escape(paper['authors'])}</p><p class="tm-standfirst">{escape(paper['standfirst'])}</p><div class="tm-actions">{link(paper['url'], 'Read the paper ↗', 'tm-button')}{guide_link}<a href="#reader-comments">Readers’ comments ↓</a></div></header>
-<div class="tm-post-layout"><div class="tm-post-main"><div class="tm-prose tm-editor-note">{intro}</div><section id="reader-comments"><div class="tm-heading"><h2>Why our readers are excited</h2></div>{sources}<div class="tm-community-voices">{quotes}</div></section>{guide_html}<section class="tm-host-note"><div class="tm-kicker">{'Placeholder host note' if example else 'After the public vote'}</div><p>{escape(paper['hostNote'])}</p>{result}</section></div>{support_note(paper,edition)}</div></article>'''
+<div class="tm-post-layout"><div class="tm-post-main">{intro_section}<section id="reader-comments"><div class="tm-heading"><h2>Reader comments</h2></div>{comments}</section>{guide_html}{host_note}</div>{support_note(paper,edition)}</div></article>'''
     return shell(paper['title'], paper['standfirst'], content)
 
 
 def menu_markup(papers, edition, prefix='', heading='h2'):
-    sample = '<span class="tm-sample-label">Sample menu · all scores and quotes are illustrative</span>' if edition['example'] else ''
     rows = ''
     for number, paper in enumerate(papers, 1):
         authors = paper['authors'] if len(paper['authors']) < 100 else paper['authors'].split(',')[0] + ' et al.'
-        quotation = paper['endorsements'][0]
-        sample_quote = ' · illustrative quote' if paper['example'] else ''
-        menu_quote = re.split(r'(?<=[.!?])\s+', quotation['text'], maxsplit=1)[0]
-        rows += f'''<article class="tm-menu-entry"><div class="tm-course-number">{number:02d}</div><div class="tm-menu-body"><div class="tm-kicker">{escape(paper['topic'])}</div><div class="tm-dish-line"><h3><a href="{prefix}tasting-menu/papers/{paper['id']}.html">{escape(paper['title'])}</a></h3><span class="tm-dot-leader" aria-hidden="true"></span><div class="tm-menu-score">{paper['support']['score']}<small>{'example pts' if paper['example'] else 'points'}</small></div></div><p class="tm-menu-authors">{escape(authors)} · {escape(paper['published'])}</p><p class="tm-menu-excerpt">“{escape(menu_quote)}”</p><div class="tm-menu-bottom"><span>{escape(quotation['name'])}{sample_quote}</span><a href="{prefix}tasting-menu/papers/{paper['id']}.html">Read the conversation →</a></div></div></article>'''
+        count = paper['support']['recommendations'] + paper['support']['endorsements']
+        breakdown = f"{paper['support']['recommendations']} recommendations; {paper['support']['endorsements']} strong endorsements"
+        rows += f'''<article class="tm-menu-entry"><div class="tm-course-number">{number:02d}</div><div class="tm-menu-body"><div class="tm-dish-line"><h3><a href="{prefix}tasting-menu/papers/{paper['id']}.html">{escape(paper['title'])}</a></h3><div class="tm-menu-score" title="{escape(breakdown)}">{count}<small>{'endorsement' if count == 1 else 'endorsements'}</small></div></div><p class="tm-menu-authors">{escape(authors)}</p></div></article>'''
     if not rows:
         rows = '<p class="tm-note">The papers for this serving will appear after public voting and the hosts’ checks.</p>'
-    return f'''<div class="tm-menu-sheet"><header class="tm-menu-masthead"><div class="tm-kicker">FLaNN Seminars · {escape(edition['label'])}</div><{heading}>The tasting menu</{heading}><p>{escape(edition['title'])}</p>{sample}</header><div class="tm-menu-entries">{rows}</div><footer class="tm-menu-colophon"><span>Recommended by readers. Shared with everyone.</span><span>{edition['scoring']['threshold']} points to qualify</span></footer></div>'''
+    return f'''<div class="tm-menu-sheet"><header class="tm-menu-masthead"><{heading}>The tasting menu</{heading}><p>{escape(edition['label'])}</p></header><div class="tm-menu-entries">{rows}</div></div>'''
 
 
 def edition_cards(editions, papers, prefix=''):
     cards = []
     for edition in editions:
         count = sum(p['edition'] == edition['id'] for p in papers)
-        label = 'Illustrative archive' if edition['example'] else edition['published']
-        cards.append(f'''<a class="tm-edition-card" href="{prefix}tasting-menu/editions/{edition['id']}.html"><span class="tm-kicker">{escape(edition['label'])}</span><strong>{escape(edition['title'])}</strong><span>{count} {'papers' if count != 1 else 'paper'} · {escape(label)}</span><b>Open the menu →</b></a>''')
+        date = '' if edition['example'] else ' · ' + escape(edition['published'])
+        cards.append(f'''<a class="tm-edition-card" href="{prefix}tasting-menu/editions/{edition['id']}.html"><strong>{escape(edition['label'])}</strong><span>{count} {'papers' if count != 1 else 'paper'}{date}</span><b>View edition →</b></a>''')
     return '<div class="tm-edition-grid">' + ''.join(cards) + '</div>' if cards else '<p class="tm-note">No editions have been published yet. Each menu will have a permanent place here.</p>'
 
 
 def archive_page(editions, papers):
-    notice = preview_notice('Archive preview') if editions and all(e['example'] for e in editions) else ''
-    content = notice + '<nav class="tm-breadcrumb"><a href="../tasting-menu.html">← Current menu</a></nav><header class="tm-archive-head"><div class="tm-kicker">The FLaNN reading shelf</div><h1>Every serving.<br>Always on the menu.</h1><p>Return to a previous edition, its reader recommendations, and its public results.</p></header>' + edition_cards(editions, papers, '../')
+    content = '<nav class="tm-breadcrumb"><a href="../tasting-menu.html">← Current menu</a></nav><header class="tm-archive-head"><h1>All editions</h1></header>' + edition_cards(editions, papers, '../')
     return shell('All editions', 'Browse every FLaNN Tasting Menu edition and its original recommendations.', content, '../')
 
 
 def edition_page(edition, papers):
-    notice = preview_notice('Example edition') if edition['example'] else ''
-    results = '<p class="tm-note">No real vote or past publication is represented by this sample edition.</p>' if edition['example'] else link(edition['resultsUrl'], 'Final results on GitHub ↗', 'tm-button secondary')
-    rules = edition['scoring']
-    content = f'''{notice}<nav class="tm-breadcrumb"><a href="../../tasting-menu.html">Current menu</a><span>/</span><a href="../archive.html">All editions</a></nav><p class="tm-note">{escape(edition['description'])}</p>{menu_markup(papers,edition,'../../',heading='h1')}<section class="tm-edition-record"><h2>This edition’s public record</h2><p>{escape(edition['published'])} · +{rules['recommendation']} recommendation · +{rules['endorsement']} endorsement · {rules['threshold']}-point threshold</p><p>{escape(edition['validationNote'])}</p>{results}</section>'''
+    record = ''
+    if not edition['example']:
+        results = link(edition['resultsUrl'], 'Final results on GitHub ↗', 'tm-button secondary')
+        rules = edition['scoring']
+        record = f'''<section class="tm-edition-record"><h2>Public record</h2><p>{escape(edition['published'])} · +{rules['recommendation']} recommendation · +{rules['endorsement']} endorsement · {rules['threshold']}-point threshold</p><p>{escape(edition['validationNote'])}</p>{results}</section>'''
+    content = f'''<nav class="tm-breadcrumb"><a href="../../tasting-menu.html">Current menu</a><span>/</span><a href="../archive.html">All editions</a></nav>{menu_markup(papers,edition,'../../',heading='h1')}{record}'''
     return shell(edition['title'], edition['description'], content)
 
 
@@ -246,7 +242,7 @@ def replace_once(pattern, replacement, source, label):
 def static_round_text(config):
     edition = config['edition']
     if config['preview']:
-        return ('Pilot round · not open yet', 'Try a recommendation draft', 'Preview only. This form prepares a draft on your device. Nothing is sent or counted; public posting will be enabled when the pilot opens.')
+        return ('Nominations open soon', 'Next edition', 'Prepare a recommendation for the next round.')
     if edition['status'] == 'open':
         return (f"Nomination window: {edition['opens']} – {edition['closes']}", 'Prepare a public nomination', f"The announced window is {edition['opens']} to {edition['closes']}. Prepare a draft here, then review and post it on GitHub. JavaScript checks whether the window is currently open.")
     status = {'planning':'Nominations have not opened','review':'Host checks in progress','closed':'Nominations closed','published':'Edition published'}[edition['status']]
@@ -272,20 +268,16 @@ def render(check=False, root=None):
     index = index_path.read_text()
     for region, content in [('highlights',highlights),('archive',edition_cards([e for e in editions if not current or e['id'] != current['id']],papers))]:
         index = replace_once(r'<!-- '+region+r':start -->.*?<!-- '+region+r':end -->', lambda _: '<!-- '+region+':start -->\n'+content+'\n<!-- '+region+':end -->', index, region)
-    notice = '<div class="tm-preview" id="preview-notice"><strong>Design preview</strong><span>Sample menus, comments, names, and scores are marked throughout. No real votes or author contributions.</span></div>' if config['preview'] else '<div class="tm-preview" id="preview-notice" hidden></div>'
-    index = replace_once(r'<div class="tm-preview" id="preview-notice"(?: hidden)?>.*?</div>',lambda _:notice,index,'preview notice')
-    values = {'edition-label':current['label'] if current else config['edition']['title']}
+    values = {}
     values['snapshot-date'],values['form-mode'],values['form-explanation'] = static_round_text(config)
-    values['draft-button'] = 'Preview nomination →'
+    values['draft-button'] = 'Prepare draft →'
     rules=config['scoring']
-    values['threshold-value']=str(rules['threshold'])
-    values['score-examples']=f"{math.ceil(rules['threshold']/rules['recommendation'])} recommendations · {math.ceil(rules['threshold']/rules['endorsement'])} enthusiastic endorsements · or a mix"
     for element_id,value in values.items():
         pattern=r'(<(?P<tag>span|p|button)\b[^>]*\bid="'+re.escape(element_id)+r'"[^>]*>).*?(</(?P=tag)>)'
         index=replace_once(pattern,lambda m:m[1]+escape(value)+m[3],index,element_id)
     index=re.sub(r'(<span data-score="([A-Za-z]+)">).*?(</span>)',lambda m:m[1]+str(rules[m[2]])+m[3],index)
     if config['preview']:
-        fallback='<div class="tm-empty"><strong>The public table is still being set.</strong><p>No real nominations have been collected. The sample scores above are only a layout demonstration.</p><a href="#nominate" class="tm-text-link">Try a nomination draft →</a></div>'
+        fallback='<div class="tm-empty"><p>No nominations yet.</p><a href="#nominate" class="tm-text-link">Recommend a paper →</a></div>'
     else:
         url='https://github.com/'+config['repository']+'/issues?q=is%3Aissue+label%3Atasting-menu'
         fallback='<div class="tm-empty"><strong>Explore the public recommendations.</strong><p>JavaScript displays the latest published snapshot here.</p>'+link(url,'Read nominations on GitHub ↗','tm-text-link')+'</div>'
