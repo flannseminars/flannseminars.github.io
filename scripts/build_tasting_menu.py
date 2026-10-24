@@ -158,10 +158,8 @@ def shell(title, description, content, prefix='../../'):
 
 
 def quote_markup(review, index):
-    if review['example']:
-        return ''
     label = 'Enthusiastic endorsement' if review['weight'] > 1 else 'Recommendation'
-    source = link(review['url'], 'Original public comment ↗', 'tm-quote-source')
+    source = '' if review['example'] else link(review['url'], 'Original public comment ↗', 'tm-quote-source')
     name = escape(review['name'])
     handle = '<span>@' + escape(review['handle']) + '</span>' if review.get('handle') else ''
     return f'''<figure class="tm-reader-quote"><div class="tm-quote-level">{escape(label)} <b>+{review['weight']}</b></div><blockquote>“{escape(review['text'])}”</blockquote><figcaption><span class="tm-reader-initial" aria-hidden="true">{escape(review['name'].split()[-1][:1])}</span><span><strong>{name}</strong>{handle}<small>{escape(review['relationship'])}</small></span></figcaption>{source}</figure>'''
@@ -181,9 +179,11 @@ def paper_page(paper, edition):
     comments = '<div class="tm-community-voices">' + quotes + '</div>' if quotes else '<p class="tm-note">Reader comments will appear here.</p>'
     guide_html = ''
     guide = paper.get('authorGuide')
-    if guide and not guide['example']:
+    if guide:
         content = ''.join('<p>' + escape(p) + '</p>' for p in guide.get('paragraphs', []))
         video = link(guide['videoUrl'], 'Watch the authors’ video guide ↗', 'tm-button secondary') if guide.get('videoUrl') else ''
+        if guide['example'] and not guide.get('videoUrl'):
+            video = '<div class="tm-video-demo"><strong>Video guide</strong><span>Author walkthrough</span></div>'
         guide_html = f'<section class="tm-author-guide" id="author-guide"><div class="tm-kicker">From the authors</div><h2>{escape(guide["title"])}</h2><p class="tm-guide-byline">By {escape(guide["by"])}</p>{content}{video}</section>'
     host_note = ''
     if not example:
@@ -202,7 +202,7 @@ def menu_markup(papers, edition, prefix='', heading='h2'):
         authors = paper['authors'] if len(paper['authors']) < 100 else paper['authors'].split(',')[0] + ' et al.'
         count = paper['support']['recommendations'] + paper['support']['endorsements']
         breakdown = f"{paper['support']['recommendations']} recommendations; {paper['support']['endorsements']} strong endorsements"
-        rows += f'''<article class="tm-menu-entry"><div class="tm-course-number">{number:02d}</div><div class="tm-menu-body"><div class="tm-dish-line"><h3><a href="{prefix}tasting-menu/papers/{paper['id']}.html">{escape(paper['title'])}</a></h3><div class="tm-menu-score" title="{escape(breakdown)}">{count}<small>{'endorsement' if count == 1 else 'endorsements'}</small></div></div><p class="tm-menu-authors">{escape(authors)}</p></div></article>'''
+        rows += f'''<article class="tm-menu-entry"><div class="tm-course-number">{number:02d}</div><div class="tm-menu-body"><div class="tm-dish-line"><h3><a href="{prefix}tasting-menu/papers/{paper['id']}.html">{escape(paper['title'])}</a></h3><span class="tm-dot-leader" aria-hidden="true"></span><div class="tm-menu-score" title="{escape(breakdown)}">{count}<small>{'endorsement' if count == 1 else 'endorsements'}</small></div></div><p class="tm-menu-authors">{escape(authors)}</p></div></article>'''
     if not rows:
         rows = '<p class="tm-note">The papers for this serving will appear after public voting and the hosts’ checks.</p>'
     return f'''<div class="tm-menu-sheet"><header class="tm-menu-masthead"><{heading}>The tasting menu</{heading}><p>{escape(edition['label'])}</p></header><div class="tm-menu-entries">{rows}</div></div>'''

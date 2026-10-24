@@ -79,11 +79,11 @@
       ],
       "authorGuide": {
         "example": true,
-        "by": "Example author attribution",
+        "by": "Example author",
         "title": "A short route into the paper",
         "paragraphs": [
-          "Placeholder for an optional author-written guide. The authors could suggest where to begin, who the paper is for, or what they hope readers take away.",
-          "This space can also hold a link to an author video. No guide has been requested or contributed for this example."
+          "Start with one construction and follow it from the problem statement to the finished model. Work through a small example before moving on to the general recipe.",
+          "A useful reading-group exercise is to adapt the construction to a nearby problem, then compare which parts carry over."
         ],
         "videoUrl": null
       },

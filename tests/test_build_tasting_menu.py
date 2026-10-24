@@ -149,8 +149,11 @@ class BuildTastingMenuTests(unittest.TestCase):
         self.papers = [self.paper('example-paper', 'preview', example=True)]
         self.render()
         page = self.read('tasting-menu/papers/example-paper.html')
-        self.assertNotIn('Example reader A', page)
-        self.assertNotIn(self.papers[0]['endorsements'][0]['text'], page)
+        self.assertIn('Example reader A', page)
+        self.assertIn(self.papers[0]['endorsements'][0]['text'], page)
+        self.assertNotIn('Original public comment', page)
+        self.assertNotIn('Example reader A', self.read())
+        self.assertNotIn(self.papers[0]['endorsements'][0]['text'], self.read())
 
     def test_more_than_five_qualifying_papers_are_all_published(self):
         self.live()
@@ -214,16 +217,18 @@ class BuildTastingMenuTests(unittest.TestCase):
         self.assertIn('By The authors', page)
         self.assertNotIn('Placeholder', page)
 
-    def test_sample_author_guide_is_not_displayed_as_an_author_contribution(self):
+    def test_sample_author_guide_uses_example_attribution_without_fake_video_link(self):
         self.papers[0]['authorGuide'] = {
             'example': True, 'by': 'Example authors', 'title': 'An illustrative guide',
             'paragraphs': ['Sample guide copy, not supplied by the actual paper authors.'], 'videoUrl': None,
         }
         self.render()
         page = self.read('tasting-menu/papers/example-paper.html')
-        self.assertNotIn('id="author-guide"', page)
-        self.assertNotIn('Example authors', page)
-        self.assertNotIn('Sample guide copy', page)
+        self.assertIn('id="author-guide"', page)
+        self.assertIn('By Example authors', page)
+        self.assertIn('Sample guide copy', page)
+        self.assertIn('Video guide', page)
+        self.assertNotIn('Watch the authors’ video guide', page)
 
     def test_archives_keep_permanent_navigation_and_their_original_scoring(self):
         self.live()

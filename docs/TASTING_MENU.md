@@ -96,7 +96,7 @@ Keep discussion about the paper. Remove spam, abuse, and private information und
 
 Later recommendations do not silently change a published edition. A factual correction should show what changed and why. If a contributor withdraws permission for a website excerpt, remove it and keep the minimum correction record needed; the original GitHub content remains subject to GitHub's controls and the contributor's choices.
 
-The local design omits preview labels. Example menu records are design data, not community results; they remain flagged and are excluded from live publication. Invented reader comments, author guides, and host notes are not displayed. Published posts use real, sourced contributions.
+The local design omits preview labels. Example menu records are design data, not community results; they remain flagged and are excluded from live publication. Sample reader comments and an optional author guide appear on individual paper pages with Example reader/author names. They stay off the menu list. Host verification notes appear only for real editions. Published posts use real, sourced contributions.
 
 ## Pipeline and activation
 
@@ -179,4 +179,4 @@ When changing the threshold for a future edition, give it a new edition ID, rege
 
 The menu lists paper titles, authors, and the number of people endorsing each paper. The displayed endorsement count is the sum of ordinary recommendations and enthusiastic endorsements; weighted points are used only for qualification. Public poll and paper pages break the count down into recommendations and strong endorsements.
 
-The local design uses the example records without preview banners. Invented reader quotes, author guides, and host notes are not rendered. The example flags remain in the data so those records are excluded when preview mode is disabled for publication.
+The local design uses the example records without preview banners. Individual paper pages show sample comments and an optional author guide with Example reader/author attributions. The menu itself shows no quotes. The example flags remain in the data so those records are excluded when preview mode is disabled for publication.
