@@ -69,6 +69,9 @@ def main() -> None:
             if not row.get("Presenter", "").strip() or not row.get("Topic", "").strip():
                 continue  # empty placeholder weeks
             start = talk_start(row)
+            delta = start - now
+            if timedelta(0) < delta < timedelta(days=7):
+                print(f"Next: {row['Topic'][:40]!r} in {delta}")
             if start is None:
                 continue
             if WINDOW[0] < start - now <= WINDOW[1]:
