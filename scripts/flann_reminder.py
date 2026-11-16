@@ -61,27 +61,45 @@ def message(row: dict, start: datetime) -> str:
     return "\n".join(lines)
 
 
+def send(row: dict, start: datetime, dry_run: bool) -> None:
+    text = message(row, start)
+    if dry_run:
+        print(text)
+        return
+    r = requests.post(os.environ["DISCORD_WEBHOOK_URL"], json={"content": text})
+    r.raise_for_status()
+    print("Posted:", " ".join(row["Topic"].split()))
+
+
 def main() -> None:
     now = datetime.now(UTC)
     dry_run = "--dry-run" in sys.argv
+    force_next = "--force-next" in sys.argv or os.environ.get("FORCE_NEXT") == "true"
+
+    talks = []
     with open(CSV_PATH, newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             if not row.get("Presenter", "").strip() or not row.get("Topic", "").strip():
                 continue  # empty placeholder weeks
             start = talk_start(row)
-            delta = start - now
-            if timedelta(0) < delta < timedelta(days=7):
-                print(f"Next: {row['Topic'][:40]!r} in {delta}")
-            if start is None:
-                continue
-            if WINDOW[0] < start - now <= WINDOW[1]:
-                text = message(row, start)
-                if dry_run:
-                    print(text)
-                    continue
-                r = requests.post(os.environ["DISCORD_WEBHOOK_URL"], json={"content": text})
-                r.raise_for_status()
-                print("Posted:", row["Topic"])
+            if start is not None:
+                talks.append((start, row))
+
+    upcoming = sorted((s, r) for s, r in talks if s > now)
+    if upcoming:
+        s, r = upcoming[0]
+        print(f"Next: {' '.join(r['Topic'].split())[:50]!r} in {s - now}")
+
+    if force_next:
+        if not upcoming:
+            print("No upcoming talks found.")
+            return
+        send(upcoming[0][1], upcoming[0][0], dry_run)
+        return
+
+    for start, row in talks:
+        if WINDOW[0] < start - now <= WINDOW[1]:
+            send(row, start, dry_run)
 
 
 if __name__ == "__main__":
