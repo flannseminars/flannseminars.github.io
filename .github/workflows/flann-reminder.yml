@@ -1,0 +1,27 @@
+# Put this at .github/workflows/flann-reminder.yml in the flannseminars.github.io repo
+name: FLaNN talk reminder
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # hourly, on the hour (UTC)
+  workflow_dispatch:       # lets you trigger it by hand to test
+    inputs:
+      force_next:
+        description: "Post the reminder for the next upcoming talk right now"
+        type: boolean
+        default: false
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - run: python scripts/flann_reminder.py
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ZOOM_URL: ${{ secrets.ZOOM_URL }}
+          FORCE_NEXT: ${{ inputs.force_next }}
